@@ -1,0 +1,8 @@
+- DBID: 123
+  name: "+33298020000"
+  number: "+33298020000"
+  switchName: SIP_Switch
+- DBID: 161
+  name: TO SIP Group
+  number: "+332980255555"
+  switchName: SIP_Switch

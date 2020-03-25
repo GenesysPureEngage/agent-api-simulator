@@ -1,0 +1,68 @@
+Standard:
+  Established:
+  - release
+  - hold
+  - clear
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - send-dtmf
+  - initiate-conference
+  - initiate-transfer
+  - single-step-conference
+  - single-step-transfer
+  - start-recording
+  Dialing:
+  - release
+  - clear
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - send-dtmf
+  - start-recording
+  Ringing:
+  - answer
+  - clear
+  - redirect
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - start-recording
+  Released:
+  - complete
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - start-recording
+  Completed:
+  - complete
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - start-recording
+ConsultOrigin:
+  Dialing:
+  - release
+  - clear
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - complete-transfer
+  - complete-conference
+  - alternate
+  - send-dtmf
+  - start-recording
+  Established:
+  - release
+  - hold
+  - clear
+  - attach-user-data
+  - update-user-data
+  - delete-user-data-pair
+  - send-dtmf
+  - alternate
+  - reconnect
+  - merge
+  - complete-conference
+  - complete-transfer
+  - start-recording

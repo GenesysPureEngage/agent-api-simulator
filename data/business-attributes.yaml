@@ -1,0 +1,2986 @@
+- name: MediaType
+  displayName: Media Type
+  description: Media type identifier
+  id: 101
+  values:
+    - name: voice
+      id: 100
+      displayName: voice
+      description: Media Voice
+      default: false
+    - name: voip
+      id: 101
+      displayName: voip
+      description: Media Voice over IP
+      default: false
+    - name: email
+      id: 102
+      displayName: email
+      description: Media EMail
+      default: false
+    - name: vmail
+      id: 103
+      displayName: vmail
+      description: Media Voice Mail
+      default: false
+    - name: smail
+      id: 104
+      displayName: smail
+      description: Media Scanned Mail
+      default: false
+    - name: chat
+      id: 105
+      displayName: chat
+      description: Media Chat
+      default: false
+    - name: video
+      id: 106
+      displayName: video
+      description: Media Video
+      default: false
+    - name: cobrowsing
+      id: 107
+      displayName: cobrowsing
+      description: Media Cobrowsing
+      default: false
+    - name: whiteboard
+      id: 108
+      displayName: whiteboard
+      description: Media Whiteboard
+      default: false
+    - name: appsharing
+      id: 109
+      displayName: appsharing
+      description: Media Application Sharing
+      default: false
+    - name: webform
+      id: 110
+      displayName: webform
+      description: Media Web Form
+      default: false
+    - name: workitem
+      id: 111
+      displayName: workitem
+      description: Media Workitem
+      default: false
+    - name: callback
+      id: 112
+      displayName: callback
+      description: Media Callback
+      default: false
+    - name: fax
+      id: 113
+      displayName: fax
+      description: Media Fax
+      default: false
+    - name: imchat
+      id: 114
+      displayName: imchat
+      description: Media IMChat
+      default: false
+    - name: busevent
+      id: 115
+      displayName: busevent
+      description: Media Business Event
+      default: false
+    - name: alert
+      id: 116
+      displayName: alert
+      description: Media Alert
+      default: false
+    - name: sms
+      id: 117
+      displayName: sms
+      description: Media SMS
+      default: false
+    - name: any
+      id: 118
+      displayName: any
+      description: Media Any
+      default: true
+    - name: smssession
+      id: 122
+      displayName: smssession
+      description: Media SMS Session
+      default: false
+    - name: mms
+      id: 123
+      displayName: mms
+      description: Media MMS
+      default: false
+    - name: mmssession
+      id: 124
+      displayName: mmssession
+      description: Media MMS Session
+      default: false
+    - name: auxwork
+      id: 119
+      displayName: auxwork
+      description: Media AuxWork
+      default: false
+    - name: outboundpreview
+      id: 120
+      displayName: outbound preview
+      description: Media Outbound Preview
+      default: false
+    - name: trainingitem
+      id: 121
+      displayName: training item
+      description: Training Item
+      default: false
+    - name: facebooksession
+      id: 1033
+      displayName: facebooksession
+      description: Media facebook session
+      default: false
+    - name: twitter
+      id: 1031
+      displayName: twitter
+      description: Media type for use with twitter
+      default: false
+    - name: facebook
+      id: 1032
+      displayName: facebook
+      description: Media type for use with facebook
+      default: false
+    - name: webcallback
+      id: 1034
+      displayName: webcallback
+      description: Media Web Callback
+      default: false
+    - name: survey
+      id: 1035
+      displayName: survey
+      description: Media Survey
+      default: false
+- name: ServiceType
+  displayName: Service Type
+  description: Customer defined
+  id: 102
+  values:
+    - name: default
+      id: 200
+      displayName: default
+      description: Service Type Default
+      default: true
+- name: CustomerSegment
+  displayName: Customer Segment
+  description: Customer defined
+  id: 103
+  values:
+    - name: default
+      id: 300
+      displayName: default
+      description: Customer Segment Default
+      default: true
+    - name: Bronze
+      id: 1001
+      displayName: Bronze
+      default: false
+    - name: Silver
+      id: 1002
+      displayName: Silver
+      default: false
+    - name: Gold
+      id: 1003
+      displayName: Gold
+      default: false
+- name: IVR Text To Speech Used
+  displayName: IVR Text To Speech Used
+  description: Defines IVR Text To Speech Used
+  id: 104
+  values:
+    - name: unknown
+      id: 350
+      displayName: unknown
+      description: IVR Text To Speech Used Default
+      default: true
+- name: IVR Speech Recognition Used
+  displayName: IVR Speech Recognition Used
+  description: Defines IVR Speech Recognition Used
+  id: 105
+  values:
+    - name: unknown
+      id: 353
+      displayName: unknown
+      description: IVR Speech Recognition Used Default
+      default: true
+- name: IVR Application Name
+  displayName: IVR Application Name
+  description: Defines IVR Application Name
+  id: 106
+  values: []
+- name: IVR Technical Result
+  displayName: IVR Technical Result
+  description: Defines IVR Technical Result
+  id: 107
+  values: []
+- name: IVR Technical Result Reason
+  displayName: IVR Technical Result Reason
+  description: Defines IVR Technical Result Reason
+  id: 108
+  values: []
+- name: Case ID
+  displayName: Case ID
+  description: Defines Case ID
+  id: 109
+  values: []
+- name: Business Result
+  displayName: Business Result
+  description: Defines Business Result
+  id: 110
+  values: []
+- name: Root Interaction ID
+  displayName: Root Interaction ID
+  description: Defines Root Interaction ID
+  id: 111
+  values: []
+- name: InteractionType
+  displayName: Interaction Type
+  description: Predefined list of interaction types supported by contact center
+  id: 112
+  values:
+    - name: Inbound
+      id: 400
+      displayName: Inbound
+      description: Interactions received by contact center from outside clients
+      default: false
+    - name: Outbound
+      id: 401
+      displayName: Outbound
+      description: Interactions sent from contact center to external clients
+      default: false
+    - name: Internal
+      id: 402
+      displayName: Internal
+      description: Internal interactions between contact center correspondents
+      default: false
+- name: InteractionSubtype
+  displayName: Interaction Subtype
+  description: Predefined list of interaction subtypes supported by contact center
+  id: 113
+  values:
+    - name: InboundNew
+      id: 403
+      displayName: Inbound New
+      description: New incoming email. Starts a new thread.
+      default: false
+    - name: InboundCustomerReply
+      id: 404
+      displayName: Customer Reply
+      description: Reply from a customer.
+      default: false
+    - name: InboundCollaborationReply
+      id: 405
+      displayName: Inbound Collaboration Reply
+      description: Reply from an external resource.
+      default: false
+    - name: InboundNDR
+      id: 406
+      displayName: NDR
+      description: Error message sent back to the system by SMTP server chain.
+      default: false
+    - name: OutboundNew
+      id: 407
+      displayName: Outbound New
+      description: New message from Contact Center to a customer.
+      default: false
+    - name: OutboundReply
+      id: 408
+      displayName: Reply
+      description: Reply from Contact Center to a customer.
+      default: false
+    - name: OutboundAcknowledgement
+      id: 409
+      displayName: Acknowledgement
+      description: Ack message sent to customer by Contact Center.
+      default: false
+    - name: OutboundAutoResponse
+      id: 410
+      displayName: Auto Response
+      description: Automated reply from Contact Center to a customer.
+      default: false
+    - name: OutboundRedirect
+      id: 411
+      displayName: Redirect
+      description: Message redirect to an external resource. No reply expected.
+      default: false
+    - name: OutboundCollaborationInvite
+      id: 412
+      displayName: Outbound Collaboration Invite
+      description: New message to an external resource.
+      default: false
+    - name: InternalCollaborationInvite
+      id: 413
+      displayName: Internal Collaboration Invite
+      description: New message to an internal resource.
+      default: false
+    - name: InternalCollaborationReply
+      id: 414
+      displayName: Internal Collaboration Reply
+      description: Reply from an internal resource.
+      default: false
+    - name: OutboundNotification
+      id: 441
+      displayName: OutboundNotification
+      description: Notification from Contact center to the customer about reply stored in
+        contact history
+      default: false
+    - name: InboundReport
+      id: 442
+      displayName: Inbound Report
+      description: Interaction delivery progress notification
+      default: false
+    - name: InboundDisposition
+      id: 443
+      displayName: Inbound Disposition
+      description: Interaction Subtype Disposition
+      default: false
+    - name: InternalConferenceInvite
+      id: 1036
+      displayName: Internal Conference Invite
+      description: Invitation to an Internal Conference
+      default: false
+- name: CategoryStructure
+  displayName: Category Structure
+  description: Customer defined
+  id: 114
+  values:
+    - name: 00004aAXB5R40017
+      id: 1055
+      displayName: With special HTML characters
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "0"
+          - expiration-date: ""
+          - id: 00004aAXB5R40017
+          - outbound-email-usage-type: "0"
+          - start-date: 14.02.2005-09:57:34Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4000P: Misc
+    - name: 00004aAXB5R40014
+      id: 1056
+      displayName: Not closed field code
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "0"
+          - expiration-date: ""
+          - id: 00004aAXB5R40014
+          - outbound-email-usage-type: "0"
+          - start-date: 14.02.2005-09:55:24Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4000P: Misc
+    - name: 00004aAXB5R4000Y
+      id: 1057
+      displayName: This does not work
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "0"
+          - expiration-date: ""
+          - id: 00004aAXB5R4000Y
+          - outbound-email-usage-type: "0"
+          - start-date: 23.02.2004-23:00:00Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4000P: Misc
+    - name: 00004aAXB5R4000V
+      id: 1058
+      displayName: Carriage return test
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "0"
+          - expiration-date: ""
+          - id: 00004aAXB5R4000V
+          - outbound-email-usage-type: "0"
+          - start-date: 24.03.2005-10:09:06Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4000P: Misc
+    - name: 00004aAXB5R4000S
+      id: 1059
+      displayName: aaaaaaaaaaaaa - 3 lines
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "0"
+          - expiration-date: ""
+          - id: 00004aAXB5R4000S
+          - outbound-email-usage-type: "0"
+          - start-date: 19.01.2005-13:31:10Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4000P: Misc
+    - name: 00004aAXB5R4001F
+      id: 1060
+      displayName: Survey for inbound email
+      description: Standard response for survey email
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "1"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4001F
+          - outbound-email-usage-type: "0"
+          - start-date: 13.07.2009-23:16:30Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4001B: Survey for inbound email
+    - name: 00004aAXB5R4001M
+      id: 1061
+      displayName: Survey for Chat
+      description: Survey email for Chat interactions
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "1"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4001M
+          - outbound-email-usage-type: "0"
+          - start-date: 30.07.2010-07:00:00Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4001H: Survey for chats
+    - name: 00004aAXB5R4001U
+      id: 1062
+      displayName: System Down Autoresponse
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "1"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4001U
+          - outbound-email-usage-type: "0"
+          - start-date: 10.12.2004-05:26:54Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4001R: System Error
+    - name: 00004aAXB5R40020
+      id: 1063
+      displayName: Account Number Deleted
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "2"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40020
+          - outbound-email-usage-type: "0"
+          - start-date: 10.12.2004-05:30:43Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4001W: QA
+    - name: 00004aAXB5R40025
+      id: 1064
+      displayName: Standard Auto-Acknowledgement
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "2"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40025
+          - outbound-email-usage-type: "0"
+          - start-date: 10.12.2004-05:26:06Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40022: Standard Auto-Response
+    - name: 00004aAXB5R4002A
+      id: 1065
+      displayName: Chat Transcript
+      description: Chat Transcript
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "1"
+          - agent-desktop-usage-type: "0"
+          - auto-resp-usage-type: "1"
+          - expiration-date: ""
+          - id: 00004aAXB5R4002A
+          - outbound-email-usage-type: "0"
+          - start-date: 31.01.2005-02:34:02Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40027: Chat
+    - name: 00004aAXB5R4002R
+      id: 1066
+      displayName: 128-bit Encryption
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4002R
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:48:46Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4002M: Encryption
+    - name: 00004aAXB5R4002X
+      id: 1067
+      displayName: Access with AOL
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4002X
+          - outbound-email-usage-type: "0"
+          - start-date: 13.12.2004-01:21:26Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4002T: AOL Users
+    - name: 00004aAXB5R40034
+      id: 1068
+      displayName: Computer and Browser Requirements
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40034
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:49:27Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R40030: Hardware and Software Requirements
+    - name: 00004aAXB5R4003A
+      id: 1069
+      displayName: Forgot Login ID
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4003A
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:50:13Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R40036: Lost Login ID
+    - name: 00004aAXB5R4003G
+      id: 1070
+      displayName: Lost Password
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4003G
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:50:38Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4003C: Lost Password
+    - name: 00004aAXB5R4003Q
+      id: 1071
+      displayName: Online Account Security
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4003Q
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:44:58Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4003J: Account Security
+    - name: 00004aAXB5R4003W
+      id: 1072
+      displayName: Page Can Not Be Displayed Error
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4003W
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:51:42Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4003S: Page Display Error
+    - name: 00004aAXB5R40043
+      id: 1073
+      displayName: Unsupported Browser Error
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40043
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:47:29Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4003Y: Browser Support
+    - name: 00004aAXB5R40049
+      id: 1074
+      displayName: Logging into Account
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40049
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:52:37Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R40045: Where Do I Login
+    - name: 00004aAXB5R4004F
+      id: 1075
+      displayName: SSL Definition
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4004F
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:52:04Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4004B: What is SSL
+    - name: 00004aAXB5R4004N
+      id: 1076
+      displayName: Logging in from other locations
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4004N
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:49:49Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "2"
+        - Parent:
+          - 00004aAXB5R4004H: Remote Account Access
+    - name: 00004aAXB5R4004X
+      id: 1077
+      displayName: Check card versus ATM Card
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4004X
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:56:08Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4004T: Check Card or ATM
+    - name: 00004aAXB5R40053
+      id: 1078
+      displayName: Online Banking FAQ
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40053
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:03:00Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40050: Online Banking
+    - name: 00004aAXB5R40058
+      id: 1079
+      displayName: Requesting a Stop Payment
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40058
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:07:33Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40055: Stop Payments
+    - name: 00004aAXB5R4005D
+      id: 1080
+      displayName: Printing statements
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4005D
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:05:12Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4005A: Printing Statement
+    - name: 00004aAXB5R4005J
+      id: 1081
+      displayName: Ordering a check or statement copy
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4005J
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:03:24Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4005F: Orders
+    - name: 00004aAXB5R4005Q
+      id: 1082
+      displayName: Cash from Visa Card
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4005Q
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:55:14Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4005M: Cash Advance
+    - name: 00004aAXB5R4005V
+      id: 1083
+      displayName: Scheduling Transfers from Credit Card
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4005V
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:01:05Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4005S: Credit Card Transfers
+    - name: 00004aAXB5R40061
+      id: 1084
+      displayName: Bill Pay Fee
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40061
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:01:25Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4005X: Fees
+    - name: 00004aAXB5R40067
+      id: 1085
+      displayName: Online Banking Self Service
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40067
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:07:14Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40064: Self Service
+    - name: 00004aAXB5R4006C
+      id: 1086
+      displayName: Accounts Available Online
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4006C
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:07:53Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40069: Visible Accounts
+    - name: 00004aAXB5R4006H
+      id: 1087
+      displayName: Replacement Card
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4006H
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:06:48Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4006E: Replacement of Card
+    - name: 00004aAXB5R4006P
+      id: 1088
+      displayName: Check Card features
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4006P
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:56:48Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4006K: Check Card or Visa
+    - name: 00004aAXB5R4006U
+      id: 1089
+      displayName: Changing Contact Information Online
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4006U
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:55:41Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4006R: Change Contact Info
+    - name: 00004aAXB5R40070
+      id: 1090
+      displayName: Access to Personal and Business Accounts
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40070
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:54:33Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4006W: Business and Personal Accounts
+    - name: 00004aAXB5R40075
+      id: 1091
+      displayName: Adding Additional Accounts
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40075
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:53:20Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40072: Additional Accounts
+    - name: 00004aAXB5R4007B
+      id: 1092
+      displayName: What is Bill Pay
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4007B
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-21:53:56Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40077: Bill Pay
+    - name: 00004aAXB5R4007G
+      id: 1093
+      displayName: What is a pending interaction
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4007G
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:04:37Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4007D: Pending Interactions
+    - name: 00004aAXB5R4007N
+      id: 1094
+      displayName: Finding a specific check or deposit
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4007N
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:01:58Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4007J: Finding Transactions
+    - name: 00004aAXB5R4007T
+      id: 1095
+      displayName: Setting up Recurring Transfers
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "0"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "1"
+          - expiration-date: ""
+          - id: 00004aAXB5R4007T
+          - outbound-email-usage-type: "0"
+          - start-date: 05.12.2004-22:06:11Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4007Q: Recurring Transfers
+    - name: 00004aAXB5R40081
+      id: 1096
+      displayName: Address Change
+      description: bpr
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "2"
+          - agent-desktop-usage-type: "2"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40081
+          - outbound-email-usage-type: "0"
+          - start-date: 23.03.2009-17:09:26Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4007X: Address Change
+    - name: 00004aAXB5R40088
+      id: 1097
+      displayName: Visa Credit Card Application
+      description: bpr
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "2"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R40088
+          - outbound-email-usage-type: "0"
+          - start-date: 23.03.2009-17:13:16Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R40085: Credit Card Application
+    - name: 00004aAXB5R4008G
+      id: 1098
+      displayName: Credit Card Dispute
+      description: bpr
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+          - ack-usage-type: "2"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "2"
+          - expiration-date: ""
+          - id: 00004aAXB5R4008G
+          - outbound-email-usage-type: "0"
+          - start-date: 23.03.2009-17:12:17Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "0"
+        - Parent:
+          - 00004aAXB5R4008C: Credit Card Dispute
+    - name: 00004aAXB5R40099
+      id: 1099
+      displayName: Vacation Bronze 2
+      default: false
+      userProperties:
+        - Custom Field Codes:
+          - first_name: ""
+        - General:
+          - ack-usage-type: "1"
+          - agent-desktop-usage-type: "1"
+          - auto-resp-usage-type: "1"
+          - expiration-date: ""
+          - id: 00004aAXB5R40099
+          - outbound-email-usage-type: "0"
+          - start-date: 03.08.2007-23:12:07Z
+          - status: Approved
+          - voice-auto-resp-usage-type: "0"
+          - web-self-service-usage-type: "1"
+        - Parent:
+          - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R40096
+      id: 1100
+      displayName: Vacation Silver
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - first_name: ""
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R40096
+            - outbound-email-usage-type: "0"
+            - start-date: 02.08.2007-07:00:00Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "1"
+        - Parent:
+            - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R40093
+      id: 1101
+      displayName: Vacation Gold
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - first_name: ""
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R40093
+            - outbound-email-usage-type: "0"
+            - start-date: 02.08.2007-07:00:00Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "1"
+        - Parent:
+            - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R40090
+      id: 1102
+      displayName: Vacation Bronze
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - first_name: ""
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R40090
+            - outbound-email-usage-type: "0"
+            - start-date: 02.08.2007-07:00:00Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "1"
+        - Parent:
+            - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R4008W
+      id: 1103
+      displayName: Loan Confirmation
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - callback_date: ""
+            - callback_time: ""
+            - first_name: ""
+            - full_name: ""
+            - interestRate: ""
+            - loanAmount: ""
+            - loanNumber: ""
+            - loanType: ""
+            - pfsAccountNumber: ""
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R4008W
+            - outbound-email-usage-type: "0"
+            - start-date: 23.07.2007-19:16:08Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "2"
+        - Parent:
+            - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R4008T
+      id: 1104
+      displayName: Loan Application Email Survey
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - first_name: ""
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R4008T
+            - outbound-email-usage-type: "0"
+            - start-date: 23.07.2007-19:15:56Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "1"
+        - Parent:
+            - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R4008Q
+      id: 1105
+      displayName: Balance Alert
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - balance: ""
+            - firstName: ""
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R4008Q
+            - outbound-email-usage-type: "0"
+            - start-date: 23.07.2007-19:15:47Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "1"
+        - Parent:
+            - 00004aAXB5R4008M: Email Notification
+    - name: 00004aAXB5R4009H
+      id: 1106
+      displayName: Signature
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R4009H
+            - outbound-email-usage-type: "0"
+            - start-date: 25.05.2004-16:26:04Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009B: Politesse
+    - name: 00004aAXB5R4009E
+      id: 1107
+      displayName: Hello
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R4009E
+            - outbound-email-usage-type: "0"
+            - start-date: 25.01.2005-08:37:41Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009B: Politesse
+    - name: 00004aAXB5R400AJ
+      id: 1108
+      displayName: big attachment
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400AJ
+            - outbound-email-usage-type: "0"
+            - start-date: 10.12.2013-11:08:09Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009M: Attachment
+    - name: 00004aAXB5R400AD
+      id: 1109
+      displayName: 1 fichier eml
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400AD
+            - outbound-email-usage-type: "0"
+            - start-date: 26.01.2006-10:47:52Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009M: Attachment
+    - name: 00004aAXB5R400A6
+      id: 1110
+      displayName: 2 pi??ces attach??es
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400A6
+            - outbound-email-usage-type: "0"
+            - start-date: 02.12.2005-13:23:14Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009M: Attachment
+    - name: 00004aAXB5R400A1
+      id: 1111
+      displayName: 1 pi??ce attach??e
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400A1
+            - outbound-email-usage-type: "0"
+            - start-date: 02.12.2005-13:15:11Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009M: Attachment
+    - name: 00004aAXB5R4009Q
+      id: 1112
+      displayName: 2 grosses pi??ces attach??es
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R4009Q
+            - outbound-email-usage-type: "0"
+            - start-date: 02.12.2005-13:21:33Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R4009M: Attachment
+    - name: 00004aAXB5R400AY
+      id: 1113
+      displayName: E-mail acknowledgement receipt
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400AY
+            - outbound-email-usage-type: "0"
+            - start-date: 29.11.2013-10:35:45Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400AS: Auto Response
+    - name: 00004aAXB5R400AV
+      id: 1114
+      displayName: Customer support phone
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400AV
+            - outbound-email-usage-type: "0"
+            - start-date: 29.11.2013-10:35:30Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400AS: Auto Response
+    - name: 00004aAXB5R400B7
+      id: 1115
+      displayName: Emergency
+      description: Emergency
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - AgenLastName: ""
+            - AgentFirstName: ""
+            - Duration: ""
+            - Equipment: ""
+            - jobType: ""
+            - Schematics: ""
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400B7
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2006-23:48:50Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400B4: Emergency
+    - name: 00004aAXB5R400BC
+      id: 1116
+      displayName: NotReady_Notification
+      description: Notify agent about status change to NotReady
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - AgenLastName: ""
+            - AgentFirstName: ""
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400BC
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2006-23:41:10Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400B9: NotReady_Notification
+    - name: 00004aAXB5R400BH
+      id: 1117
+      displayName: Normal
+      description: Normal
+      default: false
+      userProperties:
+        - Custom Field Codes:
+            - AgenLastName: ""
+            - AgentFirstName: ""
+            - CustomerName: ""
+            - CustomerPhone: ""
+            - DestinationAddress: ""
+            - fromTime: ""
+            - jobID: ""
+            - NormalTask: ""
+            - ServiceOrderNumber: ""
+            - toTime: ""
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400BH
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2006-23:53:34Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400BE: Normal
+    - name: 00004aAXB5R400BP
+      id: 1118
+      displayName: Warranty related
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400BP
+            - outbound-email-usage-type: "0"
+            - start-date: 29.11.2013-10:41:23Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400BK: Forwarding
+    - name: 00004aAXB5R400C4
+      id: 1119
+      displayName: DateCreated
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400C4
+            - outbound-email-usage-type: "0"
+            - start-date: 18.03.2005-15:24:05Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400BT: Interaction
+    - name: 00004aAXB5R400C1
+      id: 1120
+      displayName: Subject
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400C1
+            - outbound-email-usage-type: "0"
+            - start-date: 25.01.2005-08:44:43Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400BT: Interaction
+    - name: 00004aAXB5R400BW
+      id: 1121
+      displayName: All
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400BW
+            - outbound-email-usage-type: "0"
+            - start-date: 22.02.2006-08:51:10Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400BT: Interaction
+    - name: 00004aAXB5R400C9
+      id: 1122
+      displayName: All
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400C9
+            - outbound-email-usage-type: "0"
+            - start-date: 23.03.2005-10:11:46Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400C6: Contact
+    - name: 00004aAXB5R400CR
+      id: 1123
+      displayName: Signature
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400CR
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2005-09:15:13Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400CC: Agent
+    - name: 00004aAXB5R400CN
+      id: 1124
+      displayName: Last Name
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400CN
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2005-09:14:59Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400CC: Agent
+    - name: 00004aAXB5R400CJ
+      id: 1125
+      displayName: Full Name
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400CJ
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2005-09:14:48Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400CC: Agent
+    - name: 00004aAXB5R400CF
+      id: 1126
+      displayName: Fisrt Name
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400CF
+            - outbound-email-usage-type: "0"
+            - start-date: 11.05.2005-09:14:36Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400CC: Agent
+    - name: 00004aAXB5R400D1
+      id: 1127
+      displayName: Basic autoresponse
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400D1
+            - outbound-email-usage-type: "0"
+            - start-date: 03.08.2005-11:45:23Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400CV: AutoResponse
+    - name: 00004aAXB5R400D7
+      id: 1128
+      displayName: Basic acknowledgement
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400D7
+            - outbound-email-usage-type: "0"
+            - start-date: 08.02.2006-17:58:44Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400D4: Acknowledge
+    - name: 00004aAXB5R400DM
+      id: 1129
+      displayName: Nevermind message
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: 30.09.2017-22:00:00Z
+            - id: 00004aAXB5R400DM
+            - outbound-email-usage-type: "0"
+            - start-date: 28.07.2005-13:59:22Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400DB: ExtResource
+    - name: 00004aAXB5R400DE
+      id: 1130
+      displayName: External Resource Instructions
+      description: With IW attached data field code
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400DE
+            - outbound-email-usage-type: "0"
+            - start-date: 10.11.2005-10:22:31Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400DB: ExtResource
+    - name: 00004aAXB5R400DS
+      id: 1131
+      displayName: Chat Transcript
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400DS
+            - outbound-email-usage-type: "0"
+            - start-date: 05.01.2005-15:33:10Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400DP: Chat
+    - name: 00004aAXB5R400DX
+      id: 1132
+      displayName: SMS
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400DX
+            - outbound-email-usage-type: "0"
+            - start-date: 06.01.2006-16:59:08Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400DU: SMS
+    - name: 00004aAXB5R400EB
+      id: 1133
+      displayName: Wrong amount
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400EB
+            - outbound-email-usage-type: "0"
+            - start-date: 22.04.2005-21:47:37Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400E2: Errors in transactions
+    - name: 00004aAXB5R400E7
+      id: 1134
+      displayName: First contact
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400E7
+            - outbound-email-usage-type: "0"
+            - start-date: 22.04.2005-21:39:43Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400E2: Errors in transactions
+    - name: 00004aAXB5R400EM
+      id: 1135
+      displayName: Alternative merchant name
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400EM
+            - outbound-email-usage-type: "0"
+            - start-date: 22.04.2005-21:47:24Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400ED: Unidentified transaction
+    - name: 00004aAXB5R400EH
+      id: 1136
+      displayName: First contact
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400EH
+            - outbound-email-usage-type: "0"
+            - start-date: 22.04.2005-21:47:29Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400ED: Unidentified transaction
+    - name: 00004aAXB5R400EY
+      id: 1137
+      displayName: CRMCaseOpened
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400EY
+            - outbound-email-usage-type: "0"
+            - start-date: 05.03.2010-01:11:07Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400EP: OES_Samples
+    - name: 00004aAXB5R400EV
+      id: 1138
+      displayName: CRMCaseClosed
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400EV
+            - outbound-email-usage-type: "0"
+            - start-date: 05.03.2010-01:10:52Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400EP: OES_Samples
+    - name: 00004aAXB5R400ES
+      id: 1139
+      displayName: EmailAbandonedApology
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400ES
+            - outbound-email-usage-type: "0"
+            - start-date: 05.03.2010-01:10:01Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400EP: OES_Samples
+    - name: 00004aAXB5R400F9
+      id: 1140
+      displayName: HealthCare appointment reminder
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "1"
+            - expiration-date: ""
+            - id: 00004aAXB5R400F9
+            - outbound-email-usage-type: "0"
+            - start-date: 27.07.2010-07:00:00Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400F6: Reminders
+    - name: 00004aAXB5R400F4
+      id: 1141
+      displayName: Appointment Reminder
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400F4
+            - outbound-email-usage-type: "0"
+            - start-date: 12.08.2010-05:53:18Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400F1: Reminder
+    - name: 00004aAXB5R400FF
+      id: 1142
+      displayName: Chat Transcript Email Header
+      description: The header of the email with chat transcript
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400FF
+            - outbound-email-usage-type: "0"
+            - start-date: 18.05.2004-21:16:33Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400FB: Chat Transcript
+    - name: 00004aAXB5R400FV
+      id: 1143
+      displayName: Some HTML again
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400FV
+            - outbound-email-usage-type: "0"
+            - start-date: 19.01.2006-14:26:28Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+    - name: 00004aAXB5R400FS
+      id: 1144
+      displayName: Some HTML and plain text
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400FS
+            - outbound-email-usage-type: "0"
+            - start-date: 10.06.2005-13:49:41Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+    - name: 00004aAXB5R400FP
+      id: 1145
+      displayName: Some HTML text
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400FP
+            - outbound-email-usage-type: "0"
+            - start-date: 21.06.2005-16:59:37Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+    - name: 00004aAXB5R400G6
+      id: 1146
+      displayName: Unsuccessful web callback
+      description: Unable to reach customer notification
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400G6
+            - outbound-email-usage-type: "0"
+            - start-date: 20.01.2010-20:27:12Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400G0: WebCallback notifications Tech Marketing
+    - name: 00004aAXB5R400G3
+      id: 1147
+      displayName: Incoming web callback
+      description: Send notification about new web callback
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400G3
+            - outbound-email-usage-type: "0"
+            - start-date: 20.01.2010-20:25:23Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400G0: WebCallback notifications Tech Marketing
+    - name: 00004aAXB5R400GE
+      id: 1148
+      displayName: Unsuccessful web callback
+      description: Unable to reach customer notification
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "1"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400GE
+            - outbound-email-usage-type: "0"
+            - start-date: 20.01.2010-20:27:12Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400G8: WebCallback notifications
+    - name: 00004aAXB5R400GB
+      id: 1149
+      displayName: Incoming web callback
+      description: Send notification about new web callback
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "0"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 00004aAXB5R400GB
+            - outbound-email-usage-type: "0"
+            - start-date: 20.01.2010-20:25:23Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400G8: WebCallback notifications
+    - name: 00004aAXB5R400GK
+      id: 1150
+      displayName: Invalid Email to BIB
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "2"
+            - agent-desktop-usage-type: "2"
+            - auto-resp-usage-type: "2"
+            - expiration-date: ""
+            - id: 00004aAXB5R400GK
+            - outbound-email-usage-type: "0"
+            - start-date: 22.11.2010-14:00:56Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400GG: BIB
+    - name: 0000FaCPBNTH00BQ
+      id: 1160
+      displayName: Some HTML 2
+      description: HTML 2 Desc
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 0000FaCPBNTH00BQ
+            - outbound-email-usage-type: "0"
+            - start-date: 17.07.2017-13:58:10Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+    - name: 0000GaCU05EA01K2
+      id: 1165
+      displayName: Simple and Complex Custom Field codes
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 0000GaCU05EA01K2
+            - outbound-email-usage-type: "0"
+            - start-date: 15.09.2011-12:40:20Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 0000GaCU05EA01JY: Fifth Third Bank
+    - name: 0000GaCU05EA01K8
+      id: 1166
+      displayName: ER 298822182 - Null contact attributes and Standard Responses
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 0000GaCU05EA01K8
+            - outbound-email-usage-type: "0"
+            - start-date: 29.04.2012-22:00:00Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 0000GaCU05EA01K5: Telstra Corporation Ltd
+    - name: 0000GaCU05EA01KD
+      id: 1167
+      displayName: Atom Signature
+      description: Signatures as HTML
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 0000GaCU05EA01KD
+            - outbound-email-usage-type: "0"
+            - start-date: 11.09.2017-10:28:58Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 0000GaCU05EA01KA: Atom Bank
+    - name: 0000RaDQ2QTM00MN
+      id: 1173
+      displayName: Some HTML 3
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - General:
+            - ack-usage-type: "0"
+            - agent-desktop-usage-type: "1"
+            - auto-resp-usage-type: "0"
+            - expiration-date: ""
+            - id: 0000RaDQ2QTM00MN
+            - outbound-email-usage-type: "0"
+            - start-date: 22.08.2018-10:27:35Z
+            - status: Approved
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+    - name: 0001WaE0VY8W007Q
+      id: 1180
+      displayName: Some HTML 4
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+        - General:
+            - auto-resp-usage-type: "0"
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+            - start-date: 18.12.2018-12:37:17Z
+            - id: 0001WaE0VY8W007Q
+            - agent-desktop-usage-type: "1"
+            - expiration-date: ""
+            - ack-usage-type: "0"
+            - outbound-email-usage-type: "0"
+            - status: Approved
+    - name: 0001WaE0VY8W0092
+      id: 1181
+      displayName: Some HTML 5
+      default: false
+      userProperties:
+        - Custom Field Codes: []
+        - Parent:
+            - 00004aAXB5R400FK: HTML
+        - General:
+            - auto-resp-usage-type: "0"
+            - voice-auto-resp-usage-type: "0"
+            - web-self-service-usage-type: "0"
+            - start-date: 18.12.2018-13:37:51Z
+            - id: 0001WaE0VY8W0092
+            - agent-desktop-usage-type: "1"
+            - expiration-date: ""
+            - ack-usage-type: "0"
+            - outbound-email-usage-type: "0"
+            - status: Approved
+- name: ScreeningRules
+  displayName: Screening Rules
+  description: Customer defined
+  id: 115
+  values: []
+- name: EmailAccounts
+  displayName: E-mail Accounts
+  description: Customer defined
+  id: 116
+  values:
+    - name: adummy@mail.dom
+      id: 1161
+      displayName: A Dummy
+      default: false
+    - name: CS <emailserver@mail.dom>
+      id: 1170
+      displayName: CS
+      default: true
+    - name: webmail2@mail.dom
+      id: 1177
+      displayName: Web Contact Center2
+      default: false
+      userProperties:
+        - General:
+            - address: Web Contact Center2 <webmai2l@mail.dom>
+- name: StopProcessingReason
+  displayName: StopProcessing Reason
+  description: Predefined, extended by customer
+  id: 117
+  values:
+    - name: Normal
+      id: 415
+      displayName: Normal
+      description: StopProcessing Reason Normal
+      default: false
+    - name: AutoResponded
+      id: 416
+      displayName: Auto Responded
+      description: StopProcessing Reason Auto Responded
+      default: false
+    - name: Terminated
+      id: 417
+      displayName: Terminated
+      description: StopProcessing Reason Terminated
+      default: false
+    - name: Sent
+      id: 418
+      displayName: Sent
+      description: StopProcessing Reason Sent
+      default: false
+    - name: Forwarded
+      id: 419
+      displayName: Forwarded
+      description: StopProcessing Reason Forwarded
+      default: false
+    - name: Re-directed
+      id: 420
+      displayName: Re-directed
+      description: StopProcessing Reason Re-directed
+      default: false
+- name: Language
+  displayName: Language
+  description: Extended by customer
+  id: 118
+  values:
+    - name: English
+      id: 421
+      displayName: English
+      description: Language English
+      default: false
+- name: DispositionCode
+  displayName: Disposition Code
+  description: Customer defined
+  id: 119
+  values:
+    - name: Accepted
+      id: 1020
+      displayName: Accepted
+      default: false
+    - name: DC_Rejected
+      id: 1021
+      displayName: Rejected
+      default: false
+    - name: DC_Transfered
+      id: 1028
+      displayName: Transfered
+      default: false
+  userProperties:
+    - htcc:
+        - contains: dispositions
+- name: ReasonCode
+  displayName: Reason Code
+  description: Customer defined
+  id: 120
+  values: []
+- name: InteractionAttributes
+  displayName: Interaction Attributes
+  description: List of predefined interaction attributes
+  id: 121
+  values:
+    - name: Priority
+      id: 422
+      displayName: Priority
+      description: Interaction Attributes Priority
+      default: false
+    - name: Category
+      id: 423
+      displayName: Category
+      description: Interaction Attributes Category
+      default: false
+    - name: ServiceType
+      id: 424
+      displayName: Service Type
+      description: Interaction Attributes Service Type
+      default: false
+    - name: MediaType
+      id: 425
+      displayName: Media Type
+      description: Interaction Attributes Media Type
+      default: false
+    - name: InteractionType
+      id: 426
+      displayName: Interaction Type
+      description: Interaction Attributes Interaction Type
+      default: false
+    - name: InteractionSubtype
+      id: 427
+      displayName: Interaction Subtype
+      description: Interaction Attributes Interaction Subtype
+      default: false
+    - name: Language
+      id: 428
+      displayName: Language
+      description: Interaction Attributes Language
+      default: false
+    - name: StopProcessingReason
+      id: 429
+      displayName: StopProcessing Reason
+      description: Interaction Attributes StopProcessing Reason
+      default: false
+    - name: DispositionCode
+      id: 430
+      displayName: Disposition Code
+      description: Interaction Attributes Disposition Code
+      default: false
+    - name: ReasonCode
+      id: 431
+      displayName: Reason Code
+      description: Interaction Attributes Reason Code
+      default: false
+- name: ContactAttributes
+  displayName: Contact Attributes
+  description: List of predefined contact attributes
+  id: 122
+  values:
+    - name: FirstName
+      id: 432
+      displayName: First Name
+      description: Contact Attributes First Name
+      default: false
+    - name: LastName
+      id: 433
+      displayName: Last Name
+      description: Contact Attributes Last Name
+      default: false
+    - name: Title
+      id: 434
+      displayName: Title
+      description: Contact Attributes Title
+      default: false
+    - name: EmailAddress
+      id: 435
+      displayName: E-mail Address
+      description: Contact Attributes E-mail Address
+      default: false
+    - name: PhoneNumber
+      id: 436
+      displayName: Phone Number
+      description: Contact Attributes Phone Number
+      default: false
+    - name: AccountNumber
+      id: 437
+      displayName: Account Number
+      description: Contact Attributes Account Number
+      default: false
+    - name: ContactId
+      id: 438
+      displayName: Contact ID
+      description: Contact Attributes Contact ID
+      default: false
+    - name: CustomerSegment
+      id: 439
+      displayName: Customer Segment
+      description: Contact Attributes Customer Segment
+      default: false
+    - name: PIN
+      id: 440
+      displayName: PIN
+      description: Contact Attributes PIN
+      default: false
+    - name: CompanyName
+      id: 1151
+      displayName: Company Name
+      description: Contact Attributes Company Name
+      default: false
+      userProperties:
+        - settings:
+            - " is-searchable": "true"
+            - is-sortable: "true"
+- name: PlaceInQueueReason
+  displayName: PlaceInQueue Reason
+  description: Customer defined
+  id: 123
+  values: []
+- name: CaseData
+  displayName: Case Data
+  id: 1001
+  values:
+    - name: CallType
+      id: 1004
+      displayName: Call Type
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+    - name: Comment
+      id: 1005
+      displayName: Comment
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+    - name: LoanDate
+      id: 1006
+      displayName: Date of the loan
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: date
+            - mandatory: "false"
+            - read-only: "false"
+    - name: InterestRate
+      id: 1007
+      displayName: Interest Rate
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: float
+            - float.max-value: "5.0"
+            - float.min-value: "-2.0"
+            - read-only: "false"
+    - name: PremiumCustomer
+      id: 1008
+      displayName: Is a Premium Customer
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - bool.false-value: No
+            - bool.true-value: Yes
+            - display-type: bool
+            - mandatory: "false"
+            - read-only: "false"
+    - name: Priority
+      id: 1009
+      displayName: Priority
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: int
+            - int.max-value: "20"
+            - int.min-value: "-2"
+            - read-only: "false"
+    - name: Reason
+      id: 1010
+      displayName: Reason
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+    - name: Segment
+      id: 1011
+      displayName: Segment
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: enum
+            - enum.business-attribute: CustomerSegment
+            - read-only: "false"
+    - name: _EmailQARequest
+      id: 1051
+      displayName: QA Request
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - bool.default-value: "true"
+            - bool.false-value: "false"
+            - bool.true-value: "true"
+            - display-type: string
+            - read-only: "false"
+    - name: AnotherString
+      id: 1154
+      displayName: Another String
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - mandatory: "false"
+            - read-only: "false"
+    - name: AnotherBool
+      id: 1156
+      displayName: Another Bool
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: bool
+            - mandatory: "false"
+            - read-only: "false"
+    - name: AnotherInt
+      id: 1157
+      displayName: Another Int
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: int
+            - mandatory: "false"
+            - read-only: "false"
+    - name: AnotherFloat
+      id: 1158
+      displayName: Another Float
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: float
+            - mandatory: "false"
+            - read-only: "false"
+    - name: AnotherEnum
+      id: 1159
+      displayName: Another Enum
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: enum
+            - enum.business-attribute: MediaType
+            - mandatory: "false"
+            - read-only: "false"
+    - name: AnotherDate
+      id: 1152
+      displayName: Another Date
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: date
+            - mandatory: "false"
+            - read-only: "false"
+    - name: QAReviewFlag
+      id: 1162
+      displayName: QAReviewFlag
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - mandatory: "false"
+            - read-only: "false"
+    - name: other1
+      id: 1168
+      displayName: Other 1
+      default: false
+  userProperties:
+    - interaction-workspace:
+        - interaction.case-data.order: Priority,Reason,Comment
+- name: ToastData
+  displayName: Toast Data
+  id: 1002
+  values:
+    - name: LoanDate
+      id: 1014
+      displayName: Date of the loan Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: date
+            - read-only: "false"
+    - name: Comment
+      id: 1013
+      displayName: Comment Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+    - name: CallType
+      id: 1012
+      displayName: Call Type Toast
+      default: false
+    - name: InterestRate
+      id: 1015
+      displayName: Interest Rate Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: float
+            - float.max-value: "5.0"
+            - float.min-value: "0.0"
+            - read-only: "false"
+    - name: PremiumCustomer
+      id: 1016
+      displayName: Is a Premium Customer Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - bool.false-value: No
+            - bool.true-value: Yes
+            - display-type: bool
+            - read-only: "false"
+    - name: Priority
+      id: 1017
+      displayName: Priority Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: int
+            - int.max-value: "20"
+            - int.min-value: "10"
+            - read-only: "false"
+    - name: Reason
+      id: 1018
+      displayName: Reason Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+    - name: Segment
+      id: 1019
+      displayName: Segment Toast
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: enum
+            - enum.default-value: Customer Segment
+            - read-only: "false"
+    - name: AnotherDate
+      id: 1153
+      displayName: Another Date
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: date
+            - mandatory: "true"
+            - read-only: "false"
+    - name: AnotherString
+      id: 1155
+      displayName: Another String
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - mandatory: "true"
+            - read-only: "false"
+    - name: other2
+      id: 1169
+      displayName: Other 2
+      default: false
+  userProperties:
+    - interaction-workspace:
+        - toast.case-data.order: Priority,Reason,Comment
+- name: DispositionCodeSpecific
+  displayName: Disposition Code Specific
+  id: 1003
+  values:
+    - name: DCS_Canceled
+      id: 1026
+      displayName: Canceled
+      default: false
+    - name: DCS_Postponed
+      id: 1027
+      displayName: Postponed
+      default: false
+  userProperties:
+    - htcc:
+        - contains: dispositions
+- name: InteractionCustomProperties
+  displayName: Interaction Custom Properties
+  id: 1004
+  values: []
+- name: DispositionCodeHierarchy
+  displayName: Disposition Code Hierarchy
+  id: 1005
+  values:
+    - name: CarInsuranceDispCode1
+      id: 1037
+      displayName: Car Insurance Disp Code 1
+      default: false
+    - name: CarInsuranceDispCode2
+      id: 1038
+      displayName: Car Insurance Disp Code 2
+      default: false
+    - name: CarInsuranceDispCode3
+      id: 1039
+      displayName: Car Insurance Disp Code 3
+      default: false
+    - name: HolidayHouseInsurance
+      id: 1040
+      displayName: Holiday House Insurance
+      default: false
+    - name: MainHouseInsurance
+      id: 1041
+      displayName: Main House Insurance
+      default: false
+    - name: Accepted
+      id: 1042
+      displayName: Accepted
+      default: false
+    - name: Rejected
+      id: 1043
+      displayName: Rejected
+      default: false
+    - name: Transferred
+      id: 1044
+      displayName: Transferred
+      default: false
+  userProperties:
+    - htcc:
+        - contains: dispositions
+- name: CaseData1
+  displayName: Case Data 1
+  id: 1006
+  values:
+    - name: Comment
+      id: 1045
+      displayName: Comment
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+    - name: Priority
+      id: 1046
+      displayName: Priority
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: int
+            - int.max-value: "20"
+            - int.min-value: "-2"
+            - read-only: "false"
+- name: CaseData2
+  displayName: Case Data 2
+  id: 1007
+  values:
+    - name: Priority
+      id: 1047
+      displayName: Priority
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: int
+            - int.max-value: "20"
+            - int.min-value: "-2"
+            - read-only: "false"
+    - name: Reason
+      id: 1048
+      displayName: Reason
+      default: false
+      userProperties:
+        - interaction-workspace:
+            - display-type: string
+            - read-only: "false"
+- name: QAReviewDispositions
+  displayName: QA Review Dispositions
+  id: 1008
+  values:
+    - name: Accept
+      id: 1049
+      displayName: Accept and send the email
+      default: false
+    - name: Rejected
+      id: 1050
+      displayName: Reject and return the email to sender
+      default: false
+- name: CallerIDs
+  displayName: CallerIDs
+  id: 1009
+  values:
+    - name: "+33298025025"
+      id: 1052
+      displayName: "+33298025025"
+      default: false
+    - name: "+33298025026"
+      id: 1053
+      displayName: "+33298025026"
+      default: false
+    - name: "+33298025027"
+      id: 1054
+      displayName: "+33298025027"
+      default: false
+- name: Emails
+  displayName: Emails
+  id: 1010
+  values:
+    - name: emailserver@mail.dom
+      id: 1163
+      displayName: Contact Center
+      default: false
+      userProperties:
+        - General:
+            - address: emailserver@mail.dom
+- name: Title
+  displayName: Title
+  id: 1011
+  values:
+    - name: Mr
+      id: 1171
+      displayName: Mr
+      default: false
+    - name: Mrs
+      id: 1172
+      displayName: Mrs
+      default: false
+- name: email_alt
+  displayName: email_alt
+  id: 1014
+  values:
+    - name: nowhere@nowhere.org
+      id: 1176
+      displayName: nowhere@nowhere.org
+      default: true

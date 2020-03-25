@@ -1,0 +1,6 @@
+- name: CaseDataColor
+  alias: CaseDataColor
+  userProperties:
+    - interaction-workspace:
+      - email.enable-toggle-format: "false"
+      - interaction.case-data.frame-color: "#FF008000"

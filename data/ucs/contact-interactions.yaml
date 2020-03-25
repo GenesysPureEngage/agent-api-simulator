@@ -1,0 +1,77 @@
+- id: 0001TaF1RNBUKD5K
+  state: Stopped
+  typeId: Outbound
+  contactId: 0000BaCJQQH30052
+  endDate: 2020-03-08T17:08:26.863Z
+  startDate: 2020-03-08T17:08:07.675Z
+  mediaType: Call
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: John_Smith
+  threadId: 00000wF6A9KP0001
+- id: 0001TaF1RNBUKD5J
+  state: Stopped
+  typeId: Outbound
+  contactId: 0000BaCJQQH30052
+  endDate: 2020-03-08T17:08:17.668Z
+  startDate: 2020-03-08T17:07:53.362Z
+  mediaType: Call
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: John_Smith
+  threadId: 00000wF6A9K70000
+- id: 0001TaF1RNBUKD5H
+  state: Pending
+  typeId: Outbound
+  contactId: 0000BaCJQQH30053
+  startDate: 2020-03-05T19:01:39.081Z
+  mediaType: Call
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: John_Smith
+- id: 0001TaF1RNBUKD5E
+  state: Stopped
+  typeId: Outbound
+  contactId: 0000BaCJQQH30054
+  endDate: 2020-03-05T19:00:58.904Z
+  startDate: 2020-03-05T19:00:53.548Z
+  mediaType: Call
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: John_Smith
+- id: 02DQ682X41WCE03E
+  state: Pending
+  typeId: Outbound
+  subject: Test Email Outbound
+  contactId: 0000BaCJQQH30055
+  startDate: 2020-02-17T11:16:27.091Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 102
+      firstName: Kate
+      lastName: London
+      userName: Kate_London
+  threadId: 0001TaF1RNBUGSY9
+  subtypeId: OutboundNew
+- id: 02DQ682X41WCE039
+  state: Pending
+  typeId: Outbound
+  subject: Test Email Outbound 2
+  contactId: 0000BaCJQQH30055
+  startDate: 2020-02-17T09:06:37.426Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 102
+      firstName: Kate
+      lastName: London
+      userName: Kate_London
+  threadId: 0001TaF1RNBUGRE
+  subtypeId: OutboundNew

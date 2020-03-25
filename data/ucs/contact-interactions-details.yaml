@@ -1,0 +1,202 @@
+- interactionId: 0001TaF1RNBUKD5K
+  interaction:
+    phoneNumber: +441234567
+    callDuration: 87
+    state: Stopped
+    id: 0001TaF1RNBUKD5K
+    typeId: Outbound
+    mediaType: Call
+    endDate: 2020-03-08T17:08:26.863Z
+    startDate: 2020-03-08T17:08:07.675Z
+    comment: This is a note added by the agent for this interaction
+    contactId: 0000BaCJQQH30052
+    threadId: 00000wF6A9KP0001
+    userData:
+      - key: Reason
+        type: str
+        value: Test Reason 1
+- interactionId: 0001TaF1RNBUKD5J
+  interaction:
+    phoneNumber: +441234567
+    callDuration: 87
+    state: Stopped
+    id: 0001TaF1RNBUKD5J
+    typeId: Outbound
+    mediaType: Call
+    endDate: 2020-03-08T17:08:17.668Z
+    startDate: 2020-03-08T17:07:53.362Z
+    comment: Note information for the interaction
+    contactId: 0000BaCJQQH30054
+    userData:
+      - key: Reason
+        type: str
+        value: Test Reason 2
+- interactionId: 0001TaF1RNBUKD5H
+  interaction:
+    phoneNumber: +3364788
+    callDuration: 87
+    state: Pending
+    id: 0001TaF1RNBUKD5H
+    typeId: Outbound
+    mediaType: Call
+    startDate: 2020-03-05T19:01:39.081Z
+    comment: This is a comment for this interaction
+    contactId: 0000BaCJQQH30054
+    userData:
+      - key: Reason
+        type: str
+        value: Test Reason 3
+- interactionId: 0001TaF1RNBUKD5E
+  interaction:
+    phoneNumber: +3364787
+    callDuration: 87
+    state: Stopped
+    id: 0001TaF1RNBUKD5E
+    typeId: Outbound
+    mediaType: Call
+    startDate: 2020-03-05T19:00:53.548Z
+    endDate: 2020-03-05T19:00:58.904Z
+    comment: TEST 1234
+    contactId: 0000BaCJQQH30054
+    userData:
+      - key: Reason
+        type: str
+        value: Test Reason 4
+- interactionId: 02DQ682X41WCE039
+  interaction:
+    capabilities: []
+    proxyClientId: 728
+    interactionType: Outbound
+    id: 02DQ682X41WCE039
+    assignedAt: 2020-03-09T17:22:10Z
+    receivedAt: 2020-02-17T11:22:13Z
+    isHeld: false
+    submittedBy: John_Smith
+    agentId: John_Smith
+    assignedTo: John_Smith
+    tenantId: 1
+    queue: email-draft-wb/PrivateQueue1
+    submitSeq: 160185793
+    deliveredAt: 2020-02-17T11:22:13Z
+    movedToQueueAt: 2020-02-17T11:22:22Z
+    workflowState: Queued
+    submittedAt: 2020-02-17T11:22:13Z
+    placedInQueueAt: 2020-03-09T17:23:56Z
+    userData:
+      - key: IW_CaseUid
+        type: str
+        value: f67824f3-1b7c-445c-9e7a-087e17a7b33f
+      - key: IW_BundleUid
+        type: str
+        value: de37ca6e-4e58-43b9-b3ff-a7ee66a1be98
+      - key: toAddresses
+        type: str
+        value: test@mail.dom
+      - key: ContactId
+        type: str
+        value: 0000BaCJQQH30055
+      - key: FromAddress
+        type: str
+        value: emailserver@mail.dom
+      - key: IW_ParentInteractionsUCSThreadId
+        type: str
+        value: 00000wF4MWU60000
+      - key: To
+        type: str
+        value: test.email@mail.dom
+      - key: Subject
+        type: str
+        value: Test Email Outbound 2
+      - key: Emotion
+        type: str
+        value: Happy
+      - key: Reason
+        type: str
+        value: Test Reason Email 1
+      - key: Priority
+        type: str
+        value: 12
+    interactionSubtype: OutboundNew
+    comment: This is a note for the email displayed in the history
+    isLocked: false
+    workbinTypeId: email-draft-wb
+    isOnline: false
+    email:
+      from: emailserver@mail.dom
+      to: [ test.email@mail.dom ]
+      bodyAsPlainText: Hello,\n\nAnother email test for the simulator.\n\nThanks,\n\nStephane\n
+      body: <div style=\"font-family:Roboto;font-size:9pt\"><p>Hello,<br /><br />Another email test for the simulator&nbsp;<br /><br />Thanks,<br /><br />Stephane</p></div>
+    subject: Test Email Outbound 2
+    isAlive: true
+    mediaType: email
+    state: InProcess
+    startDate: 2020-02-17T09:06:37.426Z
+- interactionId: 02DQ682X41WCE03E
+  interaction:
+    capabilities: []
+    proxyClientId: 728
+    interactionType: Outbound
+    id: 02DQ682X41WCE03E
+    assignedAt: 2020-03-09T17:22:10Z
+    receivedAt: 2020-02-17T11:22:13Z
+    isHeld: false
+    submittedBy: John_Smith
+    agentId: John_Smith
+    assignedTo: John_Smith
+    tenantId: 1
+    queue: email-draft-wb/PrivateQueue1
+    submitSeq: 160185793
+    deliveredAt: 2020-02-17T11:22:13Z
+    movedToQueueAt: 2020-02-17T11:22:22Z
+    workflowState: Queued
+    submittedAt: 2020-02-17T11:22:13Z
+    placedInQueueAt: 2020-03-09T17:23:56Z
+    comment: And, here is another note information, for another email from history
+    userData:
+      - key: IW_CaseUid
+        type: str
+        value: f67824f3-1b7c-445c-9e7a-087e17a7b33f
+      - key: IW_BundleUid
+        type: str
+        value: de37ca6e-4e58-43b9-b3ff-a7ee66a1be98
+      - key: toAddresses
+        type: str
+        value: test@mail.dom
+      - key: ContactId
+        type: str
+        value: 0000BaCJQQH30055
+      - key: FromAddress
+        type: str
+        value: emailserver@mail.dom
+      - key: IW_ParentInteractionsUCSThreadId
+        type: str
+        value: 00000wF4MWU60000
+      - key: To
+        type: str
+        value: test.email@mail.dom
+      - key: Subject
+        type: str
+        value: Test email Outbound
+      - key: Emotion
+        type: str
+        value: Happy
+      - key: Reason
+        type: str
+        value: Test Reason Email 2
+      - key: Priority
+        type: str
+        value: 2
+    interactionSubtype: OutboundNew
+    isLocked: false
+    workbinTypeId: email-draft-wb
+    isOnline: false
+    email:
+      from: emailserver@mail.dom
+      to: [ test.email@mail.dom ]
+      bodyAsPlainText: Hello,\n\nI am just trying to use this email \n\nThanks,\n\nStephane\n
+      body: <div style=\"font-family:Roboto;font-size:9pt\"><p>Hello,<br /><br />I am just trying to use this email&nbsp;<br /><br />Thanks,<br /><br />Stephane</p></div>
+    subject: Test email Outbound
+    isAlive: true
+    mediaType: email
+    state: InProcess
+    startDate: 2020-02-17T11:16:27.091Z

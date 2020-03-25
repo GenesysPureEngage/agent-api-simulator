@@ -1,0 +1,10 @@
+userData:
+  - key: Segment
+    type: str
+    value: Gold
+  - key: Priority
+    type: interger
+    value: 8
+  - key: CallType
+    type: str
+    value: Inbound

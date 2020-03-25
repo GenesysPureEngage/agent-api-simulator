@@ -1,0 +1,69 @@
+JohnSmith:
+  DBID: 101
+  firstName: John
+  lastName: Smith
+  userName: JohnSmith
+  employeeId: JohnSmith
+  userProperties: []
+  tenantDBID: 0
+  tenant: ""
+  password: JohnSmith
+  defaultPlace: Place_JohnSmith
+  agentLogin: "+33298025003"
+ThomasWatson:
+  DBID: 115
+  firstName: Thomas
+  lastName: Watson
+  userName: ThomasWatson
+  employeeId: ThomasWatson
+  userProperties: []
+  tenantDBID: 0
+  tenant: ""
+  password: ThomasWatson
+  defaultPlace: Place_ThomasWatson
+  agentLogin: "+33298025011"
+  voiceState: Ready
+KateLondon:
+  DBID: 102
+  firstName: Kate
+  lastName: London
+  userName: KateLondon
+  employeeId: KateLondon
+  userProperties:
+    - interaction-workspace:
+      - voice.floating-interaction-mode.auto-collapse: "true"
+      - views.NavigationBarRegion.ConnectRegion.order: MyChannelsView,MyCampaignsView,MyHistoryView,WorkbinsView,InteractionsSearchView,ContactDirectoryView
+      - views.NavigationBarRegion.ConnectRegion.activate-order: MyChannelsView,MyCampaignsView,MyHistoryView,WorkbinsView,InteractionsSearchView,ContactDirectoryView
+      - interaction.web-content: GenesysWikiSection
+      - views.SideBarRegion.order: TeamCommunicatorView,NotificationsView,VoiceMailView,PerformanceTrackerView
+    - GenesysWikiSection:
+      - label: Genesys
+      - url: https://en.wikipedia.org/wiki/Genesys_(company)
+  tenantDBID: 1
+  tenant: ""
+  password: KateLondon
+  defaultPlace: Place_5000
+  agentLogin: "+33298025000"
+JeanDupont:
+  DBID: 103
+  firstName: Jean
+  lastName: Dupont
+  userName: JeanDupont
+  employeeId: JeanDupont
+  userProperties: []
+  tenantDBID: 1
+  tenant: MyCompany
+  password: JeanDupont
+  defaultPlace: Place_5001
+  agentLogin: "+33298025001"
+FredericClaude:
+  DBID: 114
+  firstName: Frederic
+  lastName: Claude
+  userName: FredericClaude
+  employeeId: FredericClaude
+  tenantDBID: 1
+  tenant: MyCompany
+  password: FredericClaude
+  defaultPlace: Place_5102
+  agentLogin: "+33298025102"

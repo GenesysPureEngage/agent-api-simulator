@@ -1,0 +1,39 @@
+- name: 'Politesse'
+  categoryId: 00004aAXB5R4009B
+  status: 'Approved'
+  modifiedDate: '2015-09-01T12:46:57.948Z'
+  type: 1
+  description: ''
+  childrenStdResponses:
+    - id: 00004aAXB5R4009G
+      standardResponseId: 00004aAXB5R4009H
+      name: 'Signature'
+    - id: 00004aAXB5R4009D
+      standardResponseId: 00004aAXB5R4009E
+      name: 'Hello'
+- name: 'Lorem Ipsum'
+  categoryId: 00004aAXB5R400AS
+  status: 'Approved'
+  modifiedDate: '2015-09-03T12:22:56.234Z'
+  type: 1
+  description: ''
+  childrenStdResponses:
+    - id: 00004aAXAAAA0019
+      standardResponseId: 00004aAXAAAA0020
+      name: 'Lorem Ipsum 1'
+    - id: 00004aAXAAAA0021
+      standardResponseId: 00004aAXAAAA0022
+      name: 'Lorem Ipsum 2'
+- name: 'HTML'
+  categoryId: 00002aAHD78400ZZ
+  status: 'Approved'
+  modifiedDate: '2015-09-03T12:22:56.234Z'
+  type: 1
+  description: ''
+  childrenStdResponses:
+    - id: 00004aAXB5R400FR
+      standardResponseId: 00004aAXB5R400FS
+      name: 'HTML response 1'
+    - id: 00001aPLO1X399DE
+      standardResponseId: 001204bAxBCQ800FX
+      name: 'HTML response 2'

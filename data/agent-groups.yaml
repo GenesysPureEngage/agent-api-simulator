@@ -1,0 +1,25 @@
+- managerDBIDs:
+    - 114
+  agentDBIDs:
+    - 112
+    - 113
+    - 114
+    - 115
+    - 167
+  DBID: 105
+  tenantDBID: 1
+  name: Agent Group Email
+  settings:
+    TServer:
+      gvm_mailbox: '9999'
+- managerDBIDs:
+    - 101
+  agentDBIDs:
+    - 101
+    - 102
+  DBID: 106
+  tenantDBID: 1
+  name: Agent Group SIP
+  settings:
+    TServer:
+      gvm_mailbox: '8888'

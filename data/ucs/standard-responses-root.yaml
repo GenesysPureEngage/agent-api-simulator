@@ -1,0 +1,21 @@
+- categoryId: 00004aAXB5R4009B
+  name: 'Politesse'
+  language: 'English'
+  status: 'Approved'
+  description: ''
+  type: 1
+  modifiedDate: '2015-09-01T12:46:57.948Z'
+- categoryId: 00004aAXB5R400AS
+  name: 'Lorem Ipsum'
+  language: 'English'
+  status: 'Approved'
+  description: ''
+  type: 1
+  modifiedDate: '2019-09-01T12:47:31.605Z'
+- categoryId: 00002aAHD78400ZZ
+  name: 'HTML'
+  language: 'English'
+  status: 'Approved'
+  description: ''
+  type: 1
+  modifiedDate: '2020-09-01T12:08:00.543Z'

@@ -1,0 +1,35 @@
+- id: 0000BaCJQQH30052
+  title: 'Mr'
+  firstName: "John"
+  lastName: "Doe"
+  phoneNumbers: ["+33647001","+33647002"]
+  emailAddresses: ["john.doe@mail.dom", "john.doe2@mail.dom"]
+  CompanyName: "Genesys"
+- id: 0001TaF1RNBU79TX
+  title: 'Mr'
+  firstName: "Jack"
+  lastName: "Bishop"
+  phoneNumbers: ["+33649000"]
+  emailAddresses: ["jack.bishop@mail.dom", "jack.bishop@test.dom"]
+  CompanyName: "Genesys"
+- id: 0000BaCJQQH30053
+  title: 'Mrs'
+  firstName: "Elisabeth"
+  lastName: "Bloom"
+  phoneNumbers: ["+176023456","+14356453"]
+  emailAddresses: ["elisabeth.bloom@mail.dom"]
+  CompanyName: "Genesys"
+- id: 0000BaCJQQH30054
+  title: 'Mrs'
+  firstName: "Katie"
+  lastName: "Bishop"
+  phoneNumbers: ["+4464342"]
+  emailAddresses: ["katie.bishop@mail.dom", "katie.bishop@test.dom"]
+  CompanyName: "Genesys"
+- id: 0000BaCJQQH30055
+  title: 'Mr'
+  firstName: "Hector"
+  lastName: "Herrera"
+  phoneNumbers: ["+123456","+123457","+123458"]
+  emailAddresses: ["hector.herrera@mail.dom", "hector.herrera@outlook.dom", "hector.herrera@gmail.bl"]
+  CompanyName: "Genesys"

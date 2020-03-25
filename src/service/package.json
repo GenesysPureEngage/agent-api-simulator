@@ -1,0 +1,29 @@
+{
+  "name": "agent-api-simulator",
+  "version": "1.0.1",
+  "description": "Agent Api Simulator",
+  "author": "Genesys",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "1.19.0",
+    "cometd": "3.1.10",
+    "cometd-nodejs-server": "1.0.3",
+    "cookie-parser": "1.4.3",
+    "eslint": "6.8.0",
+    "express": "4.17.1",
+    "font-awesome": "4.7.0",
+    "fs-extra": "8.1.0",
+    "morgan": "^1.9.1",
+    "request": "2.88.0",
+    "underscore": "1.9.1",
+    "yaml": "1.6.0"
+  },
+  "devDependencies": {
+    "concurrently": "4.1.2",
+    "nodemon": "1.18.10"
+  },
+  "scripts": {
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
+    "start": "nodemon server.js"
+  }
+}

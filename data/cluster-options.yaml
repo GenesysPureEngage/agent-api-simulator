@@ -1,0 +1,603 @@
+CC-AverageWaitingTime:
+  object-id: "5001"
+  statistic-name: AverageWaitingTime
+CC-Current_In_Queue:
+  object-id: "5001"
+  statistic-name: Current_In_Queue
+CC-CurrMaxCallWaitingTime:
+  object-id: "5001"
+  statistic-name: CurrMaxCallWaitingTime
+CC-ServiceLevel:
+  object-id: "5001"
+  statistic-name: ServiceLevel
+CCStat-CurrentTargetState:
+  description: State of target agent
+  object: $Agent$
+  object-id: $Agent$
+  statistic-name: CurrentTargetState
+  statistic-type: DNStatus
+CC-Total_Abandoned:
+  statistic-name: Total_Abandoned
+CC-Total_Answered:
+  error-level-high: "15"
+  error-level-low: "2"
+  statistic-name: Total_Answered
+  warning-level-high: "10"
+  warning-level-low: "4"
+  worst-level-high: "20"
+  worst-level-low: "0"
+ClickToDial2:
+  label: Dial
+  url: http://esx36-ip21-174.gws.genesys.com/sample/sample.html
+CustomAPI:
+  label: API
+  url: https://localhost:3000/sample/service-client-api/sample.html
+fav1:
+  category: MAIL
+  id: MAIL_5200
+  type: Agent
+fav2:
+  category: SIP
+  id: SIP_5000
+  type: Agent
+fav3:
+  category: SIP
+  id: Agent Group SIP
+  type: AgentGroup
+Filter-Email-All:
+  category: Emails
+  condition: MediaType='email'
+  displayed-columns: FromAddress,Subject,To,Priority,AssignedTo
+  display-name: All Emails
+Filter-Email_inb_casedata_limited:
+  case-data.business-attribute: Priority
+  category: Emails
+  condition: MediaType='email'
+  displayed-columns: Subject,To,Priority,AssignedTo
+  display-name: All Inbound
+  queues: email-routing-queue-inbound,queue-for-inbound-email-postprocessing,queue-for-inbound-email-failure-analysis,queue-for-inbound-email-preprocessing,email-routing-queue-inbound-qa
+Filter-Email-No-Strategy:
+  category: Emails
+  condition: MediaType='email'
+  displayed-columns: FromAddress,Subject,To,Priority,AssignedTo
+  display-name: No Strategy
+  queues: queue-no-strategy,queue-without-destination
+Filter-Email_Recent_Inbound_Unassigned:
+  category: Emails
+  condition: MediaType='email' AND _age()<259200 AND _empty(AssignedTo)
+  displayed-columns: Subject,To,Priority
+  display-name: To assign (inbound, less than 3 days)
+  queues: email-routing-queue-inbound
+Filter-Others:
+  category: Others
+  condition: MediaType!='email' AND MediaType!='webcallback'
+  displayed-columns: MediaType,Subject,To,AssignedTo,Queue
+  display-name: Others (sms, fax, workitems)
+Filter-Wb_email_in_progress:
+  category: Workbins
+  condition: workbin='email-in-progress-wb'
+  displayed-columns: Subject,To,From
+  display-name: In_progress_wb
+Filter-Webcallback:
+  category: Webcallback
+  condition: MediaType='webcallback'
+  displayed-columns: Subject,To,AssignedTo
+  display-name: All WCB
+Filter-Webcallback_Ukraine:
+  category: Webcallback
+  condition: MediaType='webcallback' AND WCBCustomerNumber LIKE '00380%'
+  displayed-columns: Subject,To,AssignedTo
+  display-name: WCB, Ukraine
+interaction-workspace:
+  workspace-toolkit.enable: "true"
+  agent-status.enabled-actions-by-channel: Ready,NotReady,NotReadyReason,AfterCallWork,AfterCallWorkReason,Dnd,LogOff
+  agent-status.enabled-actions-global: Ready,NotReady,NotReadyReason,AfterCallWork,AfterCallWorkReason,Dnd,LogOff
+  alert.timeout: "60"
+  case-data.float-separator: .
+  interaction-bar.quick-access-modes: Floating,Pinned
+  voice.floating-interaction-mode.auto-collapse: "false"
+  contact.available-directory-page-sizes: 5,10,25,50
+  contact.default-directory-page-size: "10"
+  contact.directory-displayed-columns: LastName,FirstName,PhoneNumber,EmailAddress,CompanyName
+  contact.directory-search-attributes: LastName,FirstName,PhoneNumber,EmailAddress,CompanyName
+  contact.displayed-attributes: Title,FirstName,LastName,PhoneNumber,EmailAddress,CompanyName
+  contact.history.media-filters: ddd,$OtherMedia$
+  contact.lookup.email.enable: "true"
+  contact.lookup.email.enable-create-contact: "true"
+  contact.lookup.enable: "true"
+  contact.lookup.enable-create-contact: "true"
+  contact.lookup.voice-campaign.enable: "true"
+  contact.lookup.voice.enable: "true"
+  contact.mandatory-attributes: FirstName,LastName
+  contact.multiple-value-attributes: PhoneNumber,EmailAddress
+  contact.myhistory-displayed-columns: Status,Subject,StartDate,EndDate,OwnerId
+  contact.ucs-interaction.voice-campaign.enable-create: "true"
+  contact.ucs-interaction.voice.enable-create: "true"
+  editor.default-font: Tahoma
+  editor.default-font-size: "10"
+  email.auto-answer: "false"
+  email.enable-toggle-format: "true"
+  email.from-addresses: EmailAccounts
+  email.html-format: "true"
+  email.include-original-text-in-reply: "true"
+  email.inline-forward-header: $FullHeader$
+  email.max-attachment-size: "1"
+  email.max-attachments-size: "2"
+  email.outbound.editable-bcc-addresses: "true"
+  email.outbound.editable-cc-addresses: "true"
+  email.outbound.editable-to-addresses: "true"
+  email.prompt-for-done: "false"
+  email.qa-review-dispositions-business-attribute: QAReviewDispositions
+  email.quote-char: ">"
+  email.quote-header: "On <date>, <contact> wrote:"
+  email.reply-format: auto
+  email.reply-prefix: "Re:"
+  expression.phone-number.supported-characters: 0123456789+
+  interaction.case-data.content: History,CaseData
+  interaction.case-data.enable-hyperlink: "true"
+  interaction.case-data.format-business-attribute: CaseData
+  interaction.case-data.frame-color: "#FF008000"
+  interaction.disposition.is-mandatory: "false"
+  interaction.disposition.key-name: DispositionCode
+  interaction.disposition.value-business-attribute: DispositionCode
+  interaction-management.filters: Filter-Email-All,Filter-Email-No-Strategy
+  interaction-management.interactions-filter.displayed-columns: Status,Subject,StartDate,EndDate,OwnerId
+  interaction.override-option-key: IW_OverrideOptions
+  interaction.web-content: ""
+  intercommunication.voice.routing-based-actions: MakeCall,OneStepConference,InitConference,OneStepTransfer,InitTransfer
+  intercommunication.voice.routing-based-targets: ""
+  intercommunication.voice.routing-points: ""
+  intercommunication.voice.single-step-conference-enabled: Agent, AgentGroup, RoutingPoint, Contact, TypeDestination, Skill
+  kpi.displayed-kpis: KPI-InternalCalls,KPI-OutboundCalls,KPI-InboundCalls,KPI-AverageHandlingTime,KPI-HoldDuration,KPI-ReadyDuration,KPI-TalkDuration
+  login.list-available-locales: ""
+  login.prompt-place: "false"
+  login.voice.auto-not-ready-reason: ""
+  login.voice.is-auto-ready: "false"
+  login.voice.list-available-queues: ""
+  login.voice.prompt-dn-less-phone-number: "false"
+  login.voice.prompt-queue: "false"
+  privilege.workitem-channels.can-use: "true"
+  openmedia.workitem-channels: workitem
+  outbound.preview.max-simultaneous-preview-record: "2"
+  presence.evaluate-presence: "true"
+  privilege.contact.can-advanced-search-all-interactions: "true"
+  privilege.contact.can-advanced-search-contact-history: "true"
+  privilege.contact.can-filter-all-interactions: "true"
+  privilege.contact.can-filter-contact-history: "true"
+  privilege.contact.can-filter-my-history: "true"
+  privilege.contact.can-inline-forward.email.from-history: "true"
+  privilege.contact.can-mark-done.email.from-history: "true"
+  privilege.contact.can-open.email.from-history: "false"
+  privilege.contact.can-search-all-interactions: "true"
+  privilege.contact.can-search-contact-history: "true"
+  privilege.contact.can-search-my-history: "true"
+  privilege.contact.can-use: "true"
+  privilege.contact.can-use-assign-contact: "true"
+  privilege.contact.can-use-contact-myhistory: "true"
+  privilege.email.can-click-to-dial: "true"
+  privilege.email.can-delete: "true"
+  privilege.email.can-inline-forward: "true"
+  privilege.email.can-mark-done: "true"
+  privilege.email.can-reply: "true"
+  privilege.email.can-reply-all: "true"
+  privilege.email.can-save: "true"
+  privilege.email.can-send: "true"
+  privilege.email.can-use: "true"
+  privilege.interaction-management.can-move-to-queue: "true"
+  privilege.interaction-management.can-move-to-workbin: "true"
+  privilege.interaction-management.can-use: "false"
+  privilege.interaction-management.case-data.can-edit: "true"
+  privilege.myagents.can-use: "true"
+  privilege.mychannels.pending-state.can-use: "true"
+  privilege.my-team-workbins.can-use: "false"
+  privilege.outbound.can-reschedule: "false"
+  privilege.outbound.can-reschedule-before-call: "false"
+  privilege.outbound.can-use: "false"
+  privilege.screen-recording.can-use: "false"
+  privilege.SRL.can-quick-search: "true"
+  privilege.SRL.can-use: "true"
+  privilege.teamcommunicator.can-manage-favorites: "true"
+  privilege.teamcommunicator.can-view-favorites: "true"
+  privilege.teamlead.can-coach-voice: "true"
+  privilege.teamlead.can-monitor-current-voice: "true"
+  privilege.teamlead.can-monitor-voice: "true"
+  privilege.teamlead.can-use: "true"
+  privilege.voice.can-make-call: "true"
+  privilege.voice.can-one-step-conference: "true"
+  privilege.voice.can-one-step-transfer: "true"
+  privilege.voice.can-send-dtmf: "true"
+  privilege.voice.can-use: "true"
+  privilege.voice.consultation.can-use-caller-id: "false"
+  privilege.voicemail.can-use: "true"
+  privilege.voice.show-monitoring.can-use: "true"
+  privilege.voice.single-step-conference.can-use-caller-id: "false"
+  privilege.voice.single-step-transfer.can-use-caller-id: "false"
+  privilege.workbins.can-use: "true"
+  screen-recording.client.port: "8086"
+  screen-recording.client.server-url: https://gws-use.genesyscloud.com(https://gwa-use1.genesyscloud.com),https://gws-us.genesyscloud.com(https://gwa-usw1.genesyscloud.com)
+  service-client-api.accepted-web-content-origins: "*"
+  service-client-api.user-data.read-allowed: CallType,Priority,Segment,Comment,Reason
+  service-client-api.user-data.write-allowed: CallType,Priority,Segment,Comment,Reason
+  service-client-api.option.read-allowed-web-content-origin: "*"
+  statistics.agent-groups: Agent Group SIP, Agent Group Email
+  statistics.displayed-statistics: CC-AverageWaitingTime,CC-Current_In_Queue,CC-CurrMaxCallWaitingTime,CC-ServiceLevel,CC-Total_Abandoned,CC-Total_Answered
+  statistics.queue-groups: DNGroup1
+  statistics.routing-points: +332980255555,+33298020000
+  statistics.virtual-queues: "1234567"
+  system.cometd.timeout: "60000"
+  system.feedback: "true"
+  teamcommunicator.actions.display-mode: hover
+  teamcommunicator.always-clear-textbox-on-new-interaction: "true"
+  teamcommunicator.corporate-favorites: fav1,fav2,fav3,rp1,rp2,iq2
+  teamcommunicator.list-filter-showing: Agent,AgentGroup,Skill,RoutingPoint,Queue,Contact,InteractionQueue,CustomContact
+  teamcommunicator.max-size: "50"
+  teamcommunicator.max-suggestion-size: "10"
+  teamcommunicator.recent-max-records: "10"
+  teamcommunicator.request-start-timer: "500"
+  teamcommunicator.show-all-internal-targets: "false"
+  teamlead.monitoring-scope: call
+  teamlead.myagents.refresh-rate: "60"
+  teamlead.myagents.enabled-channels: voice,email
+  toast.case-data.content: History,CaseData
+  toast.case-data.format-business-attribute: ToastData
+  voice.auto-answer: "false"
+  voicemail.access-number: "9999"
+  voicemail.notification-types: personal,public
+  voicemail.request-timeout: "5"
+  voice.mark-done-on-release: "false"
+  voice.prompt-for-end: "true"
+  workbin.email.draft.displayed-columns: From,To,Subject,Submitted,ProcessedBy
+  workbin.email.in-progress.displayed-columns: From,To,Subject,Submitted,OwnerId
+  workbin.email.review.displayed-columns: From,To,Subject,Submitted,OwnerId
+  workspace.web-content: ""
+  email.default-queue: email-default-queue
+  email.outbound-queue: email-queue-for-qa-processing
+  workbin.email.draft: email-draft-wb
+  workbin.email.in-progress: email-in-progress-wb
+  workbin.email.review: email-personal-review
+  email.inline-forward-queue: queue-for-outbound-email-sending
+  privilege.contact.can-delete-contact: "true"
+  email.mandatory-subject: "false"
+  privilege.performance-tracker.can-use: "true"
+  workbin.workitem.draft: email-draft-wb
+  workbin.workitem.in-progress: email-in-progress-wb
+iq2:
+  id: email-routing-queue-inbound
+  type: InteractionQueue
+KPI-InboundCalls:
+  error-level-low: "2"
+  statistic-name: InboundCalls
+  warning-level-low: "4"
+  worst-level-low: "0"
+  description: Inbound Calls
+KPI-InternalCalls:
+  statistic-name: InternalCalls
+  error-level-high: "5"
+  error-level-low: "2"
+  warning-level-high: "4"
+  warning-level-low: "2"
+  worst-level-high: "6"
+  worst-level-low: "0"
+  description: Internal Calls
+KPI-OutboundCalls:
+  description: Outbound Calls
+  statistic-name: OutboundCalls
+  error-level-high: "15"
+  error-level-low: "2"
+  warning-level-high: "10"
+  warning-level-low: "4"
+  worst-level-high: "20"
+  worst-level-low: "0"
+MyWikiSection:
+  label: Wiki
+  url: http://internalwiki.us.int.genesyslab.com/dev_teams/index.php/Workspace_Web_Edition_-_Test_Strategy
+rp1:
+  attached-data.Comment: en
+  display-name: English
+  id: "+33298020000"
+  type: RoutingPoint
+rp2:
+  attached-data.Comment: es
+  display-name: Spanish
+  id: "+33298020000"
+  type: RoutingPoint
+statistics.definitions.AverageHandlingTime:
+  category: AverageTime
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  mainMask: CallUnknown,CallConsult,CallInternal,CallOutbound,CallInbound,AfterCallWork
+  name: AverageHandlingTime
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  relativeMask: CallUnknown,CallConsult,CallInternal,CallOutbound,CallInbound
+  subject: DNStatus
+statistics.definitions.AverageWaitingTime:
+  category: AverageTime
+  dynamicFilter: MediaType=voice
+  dynamicProfile: 0:00
+  intervalType: GrowingWindow
+  mainMask: CallWait
+  name: AverageWaitingTime
+  notificationMode: PERIODICAL
+  objectTypes: GroupAgents,Queue,GroupQueues
+  relativeMask: CallWait
+  subject: DNAction
+statistics.definitions.ConsultCalls:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  mainMask: CallConsult
+  name: ConsultCalls
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.CurrentAgentState:
+  category: CurrentState
+  mainMask: "*"
+  name: CurrentAgentState
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.Current_In_Queue:
+  category: CurrentNumber
+  dynamicFilter: MediaType=voice
+  mainMask: CallWait
+  name: Current_In_Queue
+  notificationFrequency: "10"
+  notificationMode: PERIODICAL
+  objectTypes: RoutePoint,GroupAgents,Queue
+  subject: DNAction
+statistics.definitions.CurrentNumberWaitingCalls:
+  category: CurrentNumber
+  insensitivity: "0"
+  mainMask: CallWait
+  name: CurrentNumberWaitingCalls
+  notificationMode: Immediate
+  objectTypes: RoutePoint, Queue
+  subject: DNStatus
+statistics.definitions.CurrentReadyAgents:
+  category: CurrentNumber
+  dynamicFilter: MediaType=voice
+  insensitivity: "0"
+  mainMask: WaitForNextCall
+  name: CurrentReadyAgents
+  notificationMode: Immediate
+  objectTypes: GroupAgents
+  subject: DNStatus
+statistics.definitions.HoldDuration:
+  category: TotalAdjustedTime
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  mainMask: CallOnHoldInbound,CallOnHoldOutbound,CallOnHoldInternal,CallOnHoldConsult,CallOnHoldUnknown
+  name: HoldDuration
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.InboundCalls:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallInbound
+  name: InboundCalls
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  subject: DNAction
+  objectTypes: Agent
+statistics.definitions.InteractionTransferred:
+  category: TotalNumber
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallTransferMade
+  name: InteractionTransferred
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  relativeMask: LoggedOut
+  subject: DNAction
+statistics.definitions.InternalCalls:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallInternal
+  name: InternalCalls
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.LoginDuration:
+  category: TotalTime
+  dynamicTimeProfile: 0:00
+  features: api-statistics-extended-set1
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: "'*,~LoggedOut,~NotMonitored'"
+  name: LoginDuration
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: AgentStatus
+statistics.definitions.MissedCalls:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 3600:10
+  intervalLength: "9999999"
+  intervalType: SlidingWindow
+  location: /DC
+  mainMask: CallForwarded
+  name: MissedCalls
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.NotReadyDuration:
+  category: TotalAdjustedTime
+  dynamicTimeProfile: 0:00
+  features: api-statistics-extended-set1
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: NotReadyForNextCall
+  name: NotReadyDuration
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: AgentStatus
+statistics.definitions.OutboundCalls:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallOutbound
+  name: OutboundCalls
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.Productivity:
+  category: AverageNumberPerRelativeHour
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallInbound,CallOutbound,CallInternal,CallConsult,CallUnknown
+  name: Productivity
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  relativeMask: "'*,~LoggedOut,~NotMonitored'"
+  subject: DNStatus
+statistics.definitions.ReadyDuration:
+  category: TotalAdjustedTime
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: WaitForNextCall
+  name: ReadyDuration
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNStatus
+statistics.definitions.RefusedCalls:
+  category: TotalNumber
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallAbandonedFromRinging
+  name: RefusedCalls
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.ServiceLevel:
+  category: ServiceFactor1
+  dynamicFilter: MediaType=voice
+  dynamicProfile: 3600:10
+  intervalLength: "9999999"
+  intervalType: SlidingWindow
+  location: /DC
+  name: ServiceLevel
+  notificationFrequency: "10"
+  notificationMode: PERIODICAL
+  objectTypes: RoutePoint,GroupAgents,Queue
+  subject: DNAction
+  timeRangeLeft: "0"
+  timeRangeLeft2: "0"
+  timeRangeRight: "120"
+  timeRangeRight2: "10"
+statistics.definitions.TalkDuration:
+  category: TotalAdjustedTime
+  dynamicFilter: MediaType=voice
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallUnknown,CallConsult,CallInternal,CallOutbound,CallInbound
+  name: TalkDuration
+  notificationFrequency: "10"
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNAction
+statistics.definitions.TimeInCurrentStateVoice:
+  category: CurrentTime
+  dynamicFilter: MediaType=voice
+  location: /DC
+  mainMask: "*"
+  name: TimeInCurrentStateVoice
+  notificationMode: Immediate
+  objectTypes: Agent
+  subject: DNStatus
+statistics.definitions.Total_Abandoned:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: CallAbandoned
+  name: Total_Abandoned
+  notificationFrequency: "10"
+  notificationMode: PERIODICAL
+  objectTypes: RoutePoint,GroupAgents,Queue
+  saveHistory: "true"
+  subject: DNAction
+statistics.definitions.Total_Answered:
+  category: TotalNumber
+  dynamicFilter: MediaType=voice
+  dynamicProfile: 0:00
+  intervalType: GrowingWindow
+  mainMask: CallAnswered
+  name: Total_Answered
+  notificationFrequency: "10"
+  notificationMode: PERIODICAL
+  objectTypes: RoutePoint,GroupAgents,Queue
+  subject: DNAction
+statistics.definitions.WrapDuration:
+  category: TotalAdjustedTime
+  dynamicTimeProfile: 0:00
+  intervalType: GrowingWindow
+  location: /DC
+  mainMask: AfterCallWork
+  name: WrapDuration
+  notificationFrequency: "10"
+  notificationMode: PERIODICAL
+  objectTypes: Agent
+  relativeMask: AfterCallWork
+  subject: AgentStatus
+KPI-AverageHandlingTime:
+  error-level-high: "60"
+  statistic-name: AverageHandlingTime
+  warning-level-high: "20"
+  worst-level-high: "90"
+  description: Average Handling Time
+  statistic-type: duration
+KPI-HoldDuration:
+  statistic-name: HoldDuration
+  error-level-high: "50"
+  warning-level-high: "30"
+  worst-level-high: "600"
+  description: Hold Duration
+KPI-Productivity:
+  statistic-name: Productivity
+  description: Productivity
+KPI-ReadyDuration:
+  error-level-high: "8000"
+  statistic-name: ReadyDuration
+  warning-level-high: "6000"
+  worst-level-high: "9000"
+  description: Ready Duration
+KPI-TalkDuration:
+  error-level-high: "800"
+  statistic-name: TalkDuration
+  warning-level-high: "600"
+  worst-level-high: "900"
+  description: Talk Duration

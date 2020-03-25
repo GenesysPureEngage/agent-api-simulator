@@ -1,0 +1,152 @@
+- id: '00004aAXB5R4009G'
+  standardResponseId: '00004aAXB5R4009H'
+  name: 'Signature'
+  lang: 'English'
+  ackUsageType: 'Not Used'
+  isActive: true
+  agentDesktopUsageType: 'Automatic'
+  autoRespUsageType: 'Not Used'
+  body: 'Best regards, Genesys Team.'
+  description: 'Signature description'
+  modifiedDate: '2014-02-06T17:16:39Z'
+  ownerId: 100
+  startDate: '2006-01-25T08:37:41Z'
+  status: 'Approved'
+  subject: ''
+  version: 0
+  tenantId: 1
+- id: '00004aAXB5R4009D'
+  standardResponseId: '00004aAXB5R4009E'
+  name: 'Hello'
+  lang: 'English'
+  ackUsageType: 'Not Used'
+  isActive: true
+  agentDesktopUsageType: 'Automatic'
+  autoRespUsageType: 'Not Used'
+  body: 'Dear <$ Contact.Title $> <$ Contact.FullName $>,'
+  description: 'Hello description'
+  modifiedDate: '2013-02-06T17:16:39Z'
+  ownerId: 100
+  startDate: '2005-01-25T08:37:41Z'
+  status: 'Approved'
+  subject: ''
+  version: 0
+  tenantId: 1
+- id: '00004aAXAAAA0019'
+  standardResponseId: '00004aAXAAAA0020'
+  name: 'Lorem Ipsum 1'
+  lang: 'English'
+  ackUsageType: 'Not Used'
+  isActive: true
+  agentDesktopUsageType: 'Automatic'
+  autoRespUsageType: 'Not Used'
+  body: >-
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  description: 'First lorem ipsum paragraph'
+  modifiedDate: '2013-02-06T17:16:39Z'
+  ownerId: 100
+  startDate: '2005-01-25T08:37:41Z'
+  status: 'Approved'
+  subject: ''
+  version: 0
+  tenantId: 1
+- id: '00004aAXAAAA0021'
+  standardResponseId: '00004aAXAAAA0022'
+  name: 'Lorem Ipsum 2'
+  lang: 'English'
+  ackUsageType: 'Not Used'
+  isActive: true
+  agentDesktopUsageType: 'Automatic'
+  autoRespUsageType: 'Not Used'
+  body: >-
+    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+    Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+    Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
+    quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+  description: 'Second lorem ipsum paragraph'
+  modifiedDate: '2013-02-06T17:16:39Z'
+  ownerId: 100
+  startDate: '2005-01-25T08:37:41Z'
+  status: 'Approved'
+  subject: ''
+  version: 0
+  tenantId: 1
+- id: '00004aAXB5R400FR'
+  standardResponseId: '00004aAXB5R400FS'
+  ackUsageType: 'Not Used'
+  isActive: true
+  agentDesktopUsageType: 'Manual'
+  autoRespUsageType: 'Not Used'
+  body: >-
+    This is some bold text created at <$Interaction.DateCreated$>.\r\n
+    \r\n
+    This text is italic style\r\n
+    \r\n
+    Go to http://www.genesys.com
+  structuredBody: >-
+    <html>
+    <body>
+    <b>This is some bold text created at <$Interaction.DateCreated$>.</b><br>
+    <br><i>This text is italic style</i><br>
+    <br>Go to <a href="http://www.genesys.com">http://www.genesys.com</a><br><br>
+    </body>
+    </html>
+  description: ''
+  lang: 'English'
+  modifiedDate: '2013-02-06T17:10:36Z'
+  name: 'HTML response 1'
+  ownerId: 100
+  startDate: '2005-06-10T13:49:41Z'
+  status: 'Approved'
+  subject: ''
+  version: 0
+  tenantId: 1
+- id: '00001aPLO1X399DE'
+  standardResponseId: '001204bAxBCQ800FX'
+  ackUsageType: 'Not Used'
+  isActive: true
+  agentDesktopUsageType: 'Manual'
+  autoRespUsageType: 'Not Used'
+  body: >-
+    This standard response contain some HTML code.\r\n
+    \r\n
+    You can easily create a new response with HTML language...\r\n
+    \r\n
+    - Value 1\r\n
+    - Value 2\r\n
+    - Value 3\r\n
+    \r\n
+    h1 title\r\n
+    h2 title\r\n
+    h3 title
+  structuredBody: >-
+    <html>
+    <body>
+    This <b>standard response</b> contains some HTML code.<br>
+    <br>
+    You can <font color="#2A60C8">easily</font> create a new response with <a href="https://www.w3.org/html/">HTML</a> language...<br>
+    <ul>
+      <li><i>Value 1</i></li>
+      <li><u>Value 2</u></li>
+      <li><font color="#FF4F1F">Value 3</font></li>
+    </ul>
+    <br>
+    <h1>h1 title</h1>
+    <h2>h2 title</h2>
+    <h3>h3 title</h3>
+    </body>
+    </html>
+  description: ''
+  lang: 'English'
+  modifiedDate: '2013-02-06T17:10:36Z'
+  name: 'HTML response 2'
+  ownerId: 100
+  startDate: '2005-06-10T13:49:41Z'
+  status: 'Approved'
+  subject: ''
+  version: 0
+  tenantId: 1

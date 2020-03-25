@@ -1,0 +1,10 @@
+- workbinName: 'email-draft-wb'
+  id: '2c678878-c54d-4660-b549-46c0d8cc9067'
+  displayName: 'My Draft E-mails'
+  interactions: []
+  type: 'Agent'
+- workbinName: 'email-in-progress-wb'
+  id: '642b698b-9be8-4aa2-9b6e-cb803824f951'
+  displayName: 'My Inbound E-mails in Progress'
+  interactions: []
+  type: 'Agent'

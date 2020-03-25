@@ -1,0 +1,40 @@
+statistics:
+  AverageWaitingTime:
+    defaultProfile:
+      delta: 2
+      min: 2
+      max: 30
+      type: range
+  Current_In_Queue:
+    defaultProfile:
+      delta: 3
+      min: 2
+      max: 8
+      type: range
+  CurrMaxCallWaitingTime:
+    defaultProfile:
+      delta: 1
+      min: 2
+      max: 50
+      type: max
+      interval: 120
+  ServiceLevel:
+    defaultProfile:
+      delta: 4
+      min: 50
+      max: 90
+      type: range
+  Total_Abandoned:
+    defaultProfile:
+      delta: 1
+      min: 0
+      max: 5
+      type: growing
+      interval: 120
+  Total_Answered:
+    defaultProfile:
+      delta: 2
+      min: 1
+      max: 3
+      type: growing
+      interval: 120

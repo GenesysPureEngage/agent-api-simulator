@@ -1,0 +1,6 @@
+connections:
+  - serverType: CFGTServer
+  - serverType: CFGConfigServer
+  - serverType: CFGInteractionServer
+  - serverType: CFGStatServer
+  - serverType: CFGContactServer

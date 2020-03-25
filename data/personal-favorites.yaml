@@ -1,0 +1,11 @@
+- type: custom-contact
+  id: 03470f34-b948-4bb3-4626-a2993508524a
+  firstName: Kate
+  lastName: London
+  phoneNumbers:
+    - +33298025000
+  emailAddresses:
+    - kate.london@somewhere.co.uk
+  favoriteDisplayName: Kate London
+  destination:
+  category: SIP

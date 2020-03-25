@@ -1,0 +1,37 @@
+{
+  "name": "agent-api-simulator",
+  "version": "1.0.1",
+  "description": "Agent Api Simulator",
+  "author": "Genesys",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://raw.git.scm.genesys.com/Genesys/gws-simulator"
+  },
+  "dependencies": {
+    "cli-progress": "3.6.0",
+    "concurrently": "5.1.0",
+    "request": "2.88.0",
+    "rimraf": "3.0.1",
+    "unzipper": "0.10.7",
+    "yaml-lint": "1.2.4"
+  },
+  "devDependencies": {
+    "ava": "^3.2.0"
+  },
+  "scripts": {
+    "install": "npm run install:webapp && npm run install:service",
+    "start": "./node_modules/.bin/concurrently \"npm run start:simulator\"",
+    "build": "cd src/webapp && npm run build",
+    "clean": "rimraf target && rimraf ui-assets/auth && rimraf ui-assets/wwe",
+    "import-ui-assets": "node src/scripts/downloadUiAssets.js",
+    "gen-certs": "mkcert -install && mkcert -key-file data/certificates/localhost.key.pem -cert-file data/certificates/localhost.cert.pem localhost 127.0.0.1 ::1",
+    "install:webapp": "echo Installing Webapp dependencies && cd ./src/webapp && npm i",
+    "install:service": "echo Installing Service dependencies && cd ./src/service/ && npm i",
+    "start:simulator": "npm --prefix ./src/service/ run start",
+    "serve:webapp": "npm --prefix ./src/webapp/ run serve",
+    "lint": "yamllint data/**/*.yaml && npm --prefix ./src/webapp/ run lint && npm --prefix ./src/service/ run lint",
+    "test-ava": "ava __tests__/*.js --verbose",
+    "test": "npm run lint && npm run test-ava"
+  }
+}

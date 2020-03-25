@@ -1,0 +1,12 @@
+- name: Break
+  code: Break
+  type: NotReady
+- name: Lunch
+  code: OutToLunch
+  type: NotReady
+- name: Take some Notes
+  code: TakeNotes
+  type: NotReady
+  userProperties:
+    - htcc:
+      - workmode: AfterCallWork
