@@ -389,7 +389,7 @@ getAgentTimeInCurrentState = (agent, channelName) => {
   );
 };
 
-const dynConfDir = "./out/";
+const dynConfDir = "./data/out/";
 const dynConfFileExt = ".tmp.txt";
 
 exports.readDynConf = name => {
