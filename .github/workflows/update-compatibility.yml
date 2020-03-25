@@ -1,0 +1,26 @@
+name: Update Readme Compatibility
+
+on: 
+  push:
+    paths:
+      - 'compatibility-versions.json'
+    branches:
+      - 'master'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: sblecon/auto-filling-by-the-code@master
+      with:
+        version_file_path: 'compatibility-versions.json'
+        readme_path: 'README.md'
+        section_title: '# Compatibility table'
+    - name: Commit and Push the updated readme.md
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add readme.md
+        git commit -m "Update readme.md compatibility table"
+        git push "https://${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}" master:master
