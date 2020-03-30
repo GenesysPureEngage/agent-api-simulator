@@ -68,11 +68,11 @@ function getCompatibilityFile() {
     // add 'raw' at the begining of the url
     const rawGithubUrl = packageJson.repository.url.replace('github.com', 'raw.github.com');
     // get the file
-    request.get(rawGithubUrl + '/blob/master/compatibility-versions.json', (err, response, body) => {
+    request.get(rawGithubUrl + '/master/compatibility-versions.json', (err, response, body) => {
       // on failure
       if (err || !body || response.statusCode !== 200) {
         if (!isUnitTest()) {
-          console.error("WARNING: Failed to get the latest 'compatibility-versions.json'. Unable to check if your Workspace components versions are compatible.")
+          console.error(`WARNING: Failed to get the latest ${rawGithubUrl + '/master/compatibility-versions.json'}. Unable to check if your Workspace components versions are compatible.`)
         }
         const file = loadLocalCompatibilityFile();
         if (!file) {

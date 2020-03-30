@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://raw.git.scm.genesys.com/Genesys/gws-simulator"
+    "url": "https://github.com/GenesysPureEngage/agent-api-simulator"
   },
   "dependencies": {
     "cli-progress": "3.6.0",
