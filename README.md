@@ -167,9 +167,9 @@ This table is updated automatically from the `compatibility-versions.json` file.
 
 ![Update Readme Compatibility](https://github.com/GenesysPureEngage/agent-api-simulator/workflows/Update%20Readme%20Compatibility/badge.svg)
 
-## Contact
+## Questions
 
-Stéphane Blécon [<stephane.blecon@genesys.com>](mailto:stephane.blecon@genesys.com)
+For questions and support please use [Genesys DevFoundry](https://developer.genesys.com/) with the tag [agent-api-simulator](https://developer.genesys.com/q2a/tag/agent-api-simulator).
 
 ## License
 
