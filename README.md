@@ -6,7 +6,7 @@ Agent API Simulator is a tool you can use in your local environment to develop a
 
 This tool simulates Genesys Web Services locally so you don't have to run all the real services used by WWE. The simulator can initiate interactions and event within WWE with minimal resources.
 
-To run the Agent API Simulator, you must have access to a version of WWE with the Workspace Web Edition UI and the Genesys Authentication UI. 
+To run the Agent API Simulator, you must have access to a version of WWE with the Workspace Web Edition UI and the Genesys Authentication UI.
 
 >**Note:** _Not all Workspace Web Edition functionality is available when using the simulator._
 
@@ -162,6 +162,10 @@ This runs every .js files in the `__tests__` folder.
 |1.0.1|9.0.000.65.7097|9.0.000.27.171|
 
 This table is updated automatically from the `compatibility-versions.json` file.
+
+## Status
+
+![Update Readme Compatibility](https://github.com/GenesysPureEngage/agent-api-simulator/workflows/Update%20Readme%20Compatibility/badge.svg)
 
 ## Contact
 
