@@ -48,18 +48,6 @@ test('Simulator: post /sim/manage/voice/create-call', t => {
     .catch((err) => t.fail(err))
 })
 
-test('Simulator: post /sim/manage/chat/create-chat', t => {
-  return testEndpoint('/sim/manage/chat/create-chat', 'POST', [200], {
-    agent: 'JohnSmith',
-    fn: 'FN',
-    ln: 'LN',
-    email: 'genesys@mail.dom',
-    subject: 'Hello test'
-  })
-    .then(() => t.pass())
-    .catch((err) => t.fail(err))
-})
-
 test('Simulator: post /sim/manage/workitem/create-workitem', t => {
   return testEndpoint('/sim/manage/workitem/create-workitem', 'POST', [200], {
     agent: 'JohnSmith',

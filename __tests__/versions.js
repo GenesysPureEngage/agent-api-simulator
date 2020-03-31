@@ -9,8 +9,8 @@ const script = require('../src/scripts/downloadUiAssets');
 // test an exact version
 test('exact_version', t => {
   return script.checkCompatibility({
-    wwe: '9.0.000.65.7097',
-    authUi: '9.0.000.27.171',
+    wwe: '9.0.000.65.7169',
+    authUi: '9.0.000.28.174',
     simulator: '1.0.1'
   }).then(() => {
     t.pass();
@@ -22,8 +22,8 @@ test('exact_version', t => {
 // test an intermediate version
 test('intermediate_version', t => {
   return script.checkCompatibility({
-    wwe: '9.0.000.65.7099',
-    authUi: '9.0.000.27.173',
+    wwe: '9.0.000.65.7170',
+    authUi: '9.0.000.28.174',
     simulator: '1.0.1'
   }).then(() => {
     t.pass();
