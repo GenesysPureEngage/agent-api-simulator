@@ -17,7 +17,8 @@
     "yaml-lint": "1.2.4"
   },
   "devDependencies": {
-    "ava": "3.2.0"
+    "ava": "3.2.0",
+    "cross-env": "7.0.2"
   },
   "scripts": {
     "install": "npm run install:webapp && npm run install:service",
@@ -32,6 +33,7 @@
     "serve:webapp": "npm --prefix ./src/webapp/ run serve",
     "lint": "yamllint data/**/*.yaml && npm --prefix ./src/webapp/ run lint && npm --prefix ./src/service/ run lint",
     "test-ava": "ava __tests__/*.js --verbose",
-    "test": "npm run lint && npm run test-ava"
+    "test": "npm run lint && cross-env NODE_ENV=test npm run test-ava",
+    "test-light": "npm run lint && cross-env NODE_ENV=test-light npm run test-ava"
   }
 }

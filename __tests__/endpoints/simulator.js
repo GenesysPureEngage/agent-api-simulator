@@ -1,12 +1,19 @@
 const test = require('ava');
 const { testEndpoint } = require('../endpoints');
 
-// get the workspace redirection
-test('Simulator: get /sim/workspace-ui', t => {
-  return testEndpoint('/sim/workspace-ui', 'GET', [200])
-    .then(() => t.pass())
-    .catch((err) => t.fail(err))
-})
+const isUnitTest = process.env.NODE_ENV === 'test';
+
+/*
+ * Test for internal only. Requires importing ui assets.
+ */
+if (isUnitTest) {
+  // get the workspace redirection
+  test('Simulator: get /sim/workspace-ui', t => {
+    return testEndpoint('/sim/workspace-ui', 'GET', [200])
+      .then(() => t.pass())
+      .catch((err) => t.fail(err))
+  })
+}
 
 test('Simulator: get /sim/is-toolkit-sample', t => {
   return testEndpoint('/sim/is-toolkit-sample', 'GET', [200])
