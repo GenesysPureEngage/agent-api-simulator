@@ -159,7 +159,7 @@ This runs every .js files in the `__tests__` folder.
 
 |AgentApiSimulator version|WWE version|AuthUi version|
 |---|---|---|
-|1.0.1|9.0.000.65.7097|9.0.000.27.171|
+|1.0.1|9.0.000.65.0001|9.0.000.28.174|
 
 This table is updated automatically from the `compatibility-versions.json` file.
 
