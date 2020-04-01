@@ -10,16 +10,13 @@ const rimraf = require('rimraf');
 const path = require('path');
 const fs = require('fs');
 
+const isUnitTest = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-light';
+
 // create a new progress bar instance and use shades_classic theme
 const downloadProgressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 // load the package.json
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'), { encoding: 'utf8' }));
-
-function isUnitTest() {
-  // check if this is called from 'ava' or from the package.json
-  return (process.argv[1] && process.argv[1].includes('\\ava\\'));
-}
 
 async function getVersions(baseUrl) {
   try {
@@ -71,7 +68,7 @@ function getCompatibilityFile() {
     request.get(rawGithubUrl + '/master/compatibility-versions.json', (err, response, body) => {
       // on failure
       if (err || !body || response.statusCode !== 200) {
-        if (!isUnitTest()) {
+        if (!isUnitTest) {
           console.error(`WARNING: Failed to get the latest ${rawGithubUrl + '/master/compatibility-versions.json'}. Unable to check if your Workspace components versions are compatible.`)
         }
         const file = loadLocalCompatibilityFile();
@@ -280,6 +277,6 @@ async function main() {
   process.exit(0)
 }
 
-if (!isUnitTest()) {
+if (!isUnitTest) {
   main();
 }
