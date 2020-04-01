@@ -163,9 +163,13 @@ This runs every .js files in the `__tests__` folder.
 
 This table is updated automatically from the `compatibility-versions.json` file.
 
-## Status
+## GitHub actions status
 
-![Update Readme Compatibility](https://github.com/GenesysPureEngage/agent-api-simulator/workflows/Update%20Readme%20Compatibility/badge.svg)
+![Node.js CI](https://github.com/GenesysPureEngage/agent-api-simulator/workflows/Node.js%20CI/badge.svg)
+
+![Compatibility - Update README](https://github.com/GenesysPureEngage/agent-api-simulator/workflows/Compatibility%20-%20Update%20README/badge.svg)
+
+![Compatibility - Merge pull request](https://github.com/GenesysPureEngage/agent-api-simulator/workflows/Compatibility%20-%20Merge%20pull%20request/badge.svg)
 
 ## Questions
 
