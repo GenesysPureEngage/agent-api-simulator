@@ -136,5 +136,5 @@ target/*
 
 # UI assets
 ui-assets/wwe*
-
 ui-assets/auth*
+ui-assets/samples*

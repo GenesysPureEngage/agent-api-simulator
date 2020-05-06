@@ -31,14 +31,18 @@ exports.getCurrentSession = (req, res) => {
 		var session = sessions[userName];
 		var configuration = conf.conf();
 		var user = conf.userByName(userName);
-		
+
+    if (!user.activeSession) {
+      res.status(403).end();
+    }
+
 		//Populate list of calls
 		user.activeSession.calls = voice.getCallsForAgent(userName);
 		//Populate media interactions
 		for(var channel of user.activeSession.media.channels) {
 			channel.interactions = media.getInteractionsForAgent(userName, channel.name);
 		}
-		
+
 		//Build response
 		res.set({ 'Content-type': 'application/json' });
 		var data = {
@@ -133,19 +137,19 @@ sessionAdded = (session, timeout) => {
 	var req = cometdServer.context.request;
 	var userName = auth.userByCode(req, req.cookies.WWE_CODE);
 	if (userName) {
-		sessions[userName] = session;
-		var configuration = conf.conf();
-		var user = conf.userByName(userName);
-		publishWorkspaceInitializationProgress(session, 50);
-		publishWorkspaceInitializationProgress(session, 100, user, configuration);
-		publishWorkspaceInitializationComplete(session, user, configuration);
-		publishInitialMediaMessage(session, user); // publish here because otherwise it may occur between disconnect and connect
-		session.addListener('removed', sessionClosed);
+    sessions[userName] = session;
+    var configuration = conf.conf();
+    var user = conf.userByName(userName);
+    publishWorkspaceInitializationProgress(session, 50);
+    publishWorkspaceInitializationProgress(session, 100, user, configuration);
+    publishWorkspaceInitializationComplete(session, user, configuration);
+    publishInitialMediaMessage(session, user); // publish here because otherwise it may occur between disconnect and connect
+    session.addListener('removed', sessionClosed);
 	} else {
 		session.addListener('removed', sessionClosed);
 		session.disconnect();
 	}
-	
+
 }
 
 exports.removeSession = (code) => {
@@ -158,7 +162,7 @@ exports.removeSession = (code) => {
 sessionClosed = (session, req) => {
 	var userName = auth.userByCode(req);
 	if (userName) {
-		delete sessions[userName]; 
+		delete sessions[userName];
 		reporting.unsubscribe(userName);
 	}
 }

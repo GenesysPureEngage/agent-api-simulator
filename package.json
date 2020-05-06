@@ -1,6 +1,6 @@
 {
   "name": "agent-api-simulator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Agent Api Simulator",
   "author": "Genesys",
   "license": "MIT",
@@ -8,28 +8,37 @@
     "type": "git",
     "url": "https://github.com/GenesysPureEngage/agent-api-simulator"
   },
+  "workspace-development-kit": {
+    "scapi-samples": {
+      "dir": "https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/api-overview/",
+      "files": ["sample.html", "wwe-service-client-api.js"]
+    }
+  },
   "dependencies": {
-    "cli-progress": "3.6.0",
-    "concurrently": "5.1.0",
-    "request": "2.88.0",
-    "rimraf": "3.0.1",
-    "unzipper": "0.10.7",
+    "cli-progress": "3.8.2",
+    "concurrently": "5.2.0",
+    "fs-extra": "9.0.0",
+    "request": "2.88.2",
+    "rimraf": "3.0.2",
+    "unzipper": "0.10.11",
     "yaml-lint": "1.2.4"
   },
   "devDependencies": {
-    "ava": "3.2.0",
+    "ava": "3.8.1",
     "cross-env": "7.0.2"
   },
   "scripts": {
-    "install": "npm run install:webapp && npm run install:service",
-    "start": "./node_modules/.bin/concurrently \"npm run start:simulator\"",
+    "install": "npm run install:webapp && npm run install:service  && npm run install:samples",
+    "start": "./node_modules/.bin/concurrently 'npm run start:simulator' 'npm run start:samples'",
     "build": "cd src/webapp && npm run build",
-    "clean": "rimraf target && rimraf ui-assets/auth && rimraf ui-assets/wwe",
+    "clean": "rimraf target && rimraf ui-assets/*",
     "import-ui-assets": "node src/scripts/downloadUiAssets.js",
     "gen-certs": "mkcert -install && mkcert -key-file data/certificates/localhost.key.pem -cert-file data/certificates/localhost.cert.pem localhost 127.0.0.1 ::1",
     "install:webapp": "echo Installing Webapp dependencies && cd ./src/webapp && npm i",
     "install:service": "echo Installing Service dependencies && cd ./src/service/ && npm i",
+    "install:samples": "echo Installing Samples dependencies && cd ./src/samples && npm i",
     "start:simulator": "npm --prefix ./src/service/ run start",
+    "start:samples": "npm --prefix ./src/samples/ start",
     "serve:webapp": "npm --prefix ./src/webapp/ run serve",
     "lint": "yamllint data/**/*.yaml && npm --prefix ./src/webapp/ run lint && npm --prefix ./src/service/ run lint",
     "test-ava": "ava __tests__/*.js --verbose",
