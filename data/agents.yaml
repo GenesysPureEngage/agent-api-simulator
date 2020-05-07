@@ -4,7 +4,9 @@ JohnSmith:
   lastName: Smith
   userName: JohnSmith
   employeeId: JohnSmith
-  userProperties: []
+  userProperties:
+    - interaction-workspace:
+      - workspace.web-content: "LocalSCAPISample"
   tenantDBID: 0
   tenant: ""
   password: JohnSmith
@@ -35,6 +37,7 @@ KateLondon:
       - views.NavigationBarRegion.ConnectRegion.order: MyChannelsView,MyCampaignsView,MyHistoryView,WorkbinsView,InteractionsSearchView,ContactDirectoryView
       - views.NavigationBarRegion.ConnectRegion.activate-order: MyChannelsView,MyCampaignsView,MyHistoryView,WorkbinsView,InteractionsSearchView,ContactDirectoryView
       - interaction.web-content: GenesysWikiSection
+      - workspace.web-content: "LocalSCAPISample"
       - views.SideBarRegion.order: TeamCommunicatorView,NotificationsView,VoiceMailView,PerformanceTrackerView
     - GenesysWikiSection:
       - label: Genesys

@@ -1,0 +1,14 @@
+{
+  "name": "gws-simulator-samples-host",
+  "version": "1.0.0",
+  "description": "HTTP/HTTPS static host for samples",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js 8080 ../../ui-assets/samples"
+  },
+  "author": "Genesys",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

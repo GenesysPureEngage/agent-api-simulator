@@ -54,13 +54,14 @@ try {
   const certs = {
     key: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.key.pem')),
     cert: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.cert.pem'))
-  }
+  };
   // listen
-  https.createServer(certs, app).listen(config.port, () => listenCallback(true))
+  https.createServer(certs, app).listen(config.port, () => listenCallback(true));
 }
 catch (e) {
   // if the certificates were not found, start in http
-  log.info('Failed to start the HTTPS server, starting with HTTP.');
+  log.info('Failed to start the HTTPS server, starting with HTTP. \n' + e);
+
   // listen
-  http.createServer(app).listen(config.port, () => listenCallback(false))
+  http.createServer(app).listen(config.port, () => listenCallback(false));
 }

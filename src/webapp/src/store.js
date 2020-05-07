@@ -160,6 +160,8 @@ export default new Vuex.Store({
       }
       // Create the CometD object.
       var cometd = new CometD.CometD();
+      // Disable WebSocket usage (default activated mode)
+      cometd.websocketEnabled = false;
 
       cometd.configure({
         url: url

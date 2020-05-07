@@ -26,12 +26,12 @@ CC-Total_Answered:
   warning-level-low: "4"
   worst-level-high: "20"
   worst-level-low: "0"
-ClickToDial2:
-  label: Dial
-  url: http://esx36-ip21-174.gws.genesys.com/sample/sample.html
-CustomAPI:
-  label: API
-  url: https://localhost:3000/sample/service-client-api/sample.html
+LocalSCAPISample:
+  label: SCAPI Overview
+  url: https://localhost:8080/scapi/sample.html
+RemoteSCAPISample:
+  label: SCAPI Overview
+  url: https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/api-overview/sample.html
 fav1:
   category: MAIL
   id: MAIL_5200
@@ -288,9 +288,6 @@ KPI-OutboundCalls:
   warning-level-low: "4"
   worst-level-high: "20"
   worst-level-low: "0"
-MyWikiSection:
-  label: Wiki
-  url: http://internalwiki.us.int.genesyslab.com/dev_teams/index.php/Workspace_Web_Edition_-_Test_Strategy
 rp1:
   attached-data.Comment: en
   display-name: English

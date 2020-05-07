@@ -6,9 +6,8 @@
 const request = require('request');
 const cliProgress = require('cli-progress');
 const unzipper = require('unzipper');
-const rimraf = require('rimraf');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 const isUnitTest = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-light';
 
@@ -31,7 +30,7 @@ async function getVersions(baseUrl) {
       simulator: simulatorVersion,
       wwe: wweVersion,
       authUi: authVersion
-    }
+    };
   }
   catch (err) {
     console.error("Error catched: ", err);
@@ -58,7 +57,7 @@ function getCompatibilityFile() {
       const file = loadLocalCompatibilityFile();
       if (!file) {
         reject("Failed to load the compatibility file");
-        return
+        return;
       }
       resolve(file);
     }
@@ -69,12 +68,12 @@ function getCompatibilityFile() {
       // on failure
       if (err || !body || response.statusCode !== 200) {
         if (!isUnitTest) {
-          console.error(`WARNING: Failed to get the latest ${rawGithubUrl + '/master/compatibility-versions.json'}. Unable to check if your Workspace components versions are compatible.`)
+          console.error(`WARNING: Failed to get the latest ${rawGithubUrl + '/master/compatibility-versions.json'}. Unable to check if your Workspace components versions are compatible.`);
         }
         const file = loadLocalCompatibilityFile();
         if (!file) {
           reject("Failed to load the compatibility file");
-          return
+          return;
         }
         resolve(file);
         return;
@@ -133,7 +132,7 @@ exports.checkCompatibility = function checkCompatibility(versions) {
     // if this versions are older than the minimum required versions
     if (versions.wwe < compatibility[i].WWE || versions.authUi < compatibility[i].AuthUi) {
       reject("Outdated versions");
-      return
+      return;
     }
     // while the simulator version stays the same
     while (i < compatibility.length && compatibility[i].AgentApiSimulator === versions.simulator) {
@@ -158,7 +157,7 @@ function getVersion(url) {
     request.get(url + 'version.json', (err, data, body) => {
       if (err) {
         reject("Version file not found.");
-        return
+        return;
       }
       if (data.statusCode !== 200) {
         reject("Failed to get the file, response code: " + data.statusCode);
@@ -172,35 +171,35 @@ function getVersion(url) {
 
 function getUserInput() {
   return (new Promise((resolve, reject) => {
-    process.stdin.once('data', (chunk) => { resolve(chunk.toString().trim()) })
+    process.stdin.once('data', (chunk) => { resolve(chunk.toString().trim()) });
   }))
 }
 
 function parseUrl(url) {
-  const urlRegex = /^(.*?)\.(.){1,4}(\/|$)/
+  const urlRegex = /^(.*?)\.(.){1,4}(\/|$)/;
   // replace every '\' by '/'
   url.replace('\\', '/');
 
   const matches = url.match(urlRegex);
 
   if (matches) {
-    url = matches[0]
+    url = matches[0];
   }
   // if there is no '/' at the end of the url, add one
   if (url[url.length - 1] !== '/') {
-    url += '/'
+    url += '/';
   }
   return (url);
 }
 
 function downloadAndUnzip(url, dest) {
-  let totalDownloaded = 0
-  let total_bytes = 0
+  let totalDownloaded = 0;
+  let total_bytes = 0;
   return (new Promise((resolve, reject) => {
     request.get(url)
       // on error
       .on('error', () => {
-        resolve(false)
+        resolve(false);
       })
       // on initial response
       .on('response', function (data) {
@@ -212,14 +211,14 @@ function downloadAndUnzip(url, dest) {
       // on new chunk of data
       .on('data', (chunk) => {
         // increase the downloaded size
-        totalDownloaded += chunk.length
+        totalDownloaded += chunk.length;
         // update the progress bar
-        downloadProgressBar.update(totalDownloaded)
+        downloadProgressBar.update(totalDownloaded);
       })
       // on end
       .on('end', () => {
         // Set 100%
-        downloadProgressBar.update(total_bytes)
+        downloadProgressBar.update(total_bytes);
         downloadProgressBar.stop();
       })
       .pipe(unzipper.Extract({ path: dest }).on(('finish'), () => {
@@ -230,18 +229,40 @@ function downloadAndUnzip(url, dest) {
 
 function getArchive(baseUrl, installDir) {
   // remove previously installed files
-  rimraf.sync(installDir)
+  fs.removeSync(installDir);
   return new Promise((resolve, reject) => {
     // try to download and extract the archive
-    console.log("Getting archive from: ", baseUrl + 'archive.zip')
+    console.log("Getting archive from: ", baseUrl + 'archive.zip');
     downloadAndUnzip(baseUrl + 'archive.zip', installDir).then(() => {
-      console.log("\nArchive downloaded and installed to ", installDir)
+      console.log("\nArchive downloaded and installed to ", installDir);
       resolve();
     }).catch((err) => {
-      console.error("\nError: Failed to get the archive.")
-      reject(err)
+      console.error("\nError: Failed to get the archive.");
+      reject(err);
     })
   })
+}
+
+function getFile(url, toFile) {
+  fs.removeSync(toFile);
+  fs.ensureFileSync(toFile);
+  let file = fs.createWriteStream(toFile);
+  return new Promise((resolve, reject) => {
+    console.log('Getting file from: ', url);
+    request.get(url)
+      .pipe(file)
+      .on('finish', () => {
+        console.log('File downloaded and installed to ', toFile);
+        resolve();
+      })
+      .on('error', (error) => {
+        console.error(`\nError: Failed to get file ${url}.`);
+        reject(error);
+      })
+  })
+    .catch(error => {
+      console.log(`Something happened: ${error}`);
+    });
 }
 
 async function main() {
@@ -249,32 +270,38 @@ async function main() {
   let url;
   // if the url is not specified in the arguments
   // ask it
-  if (process.argv.length <= 2){
-    console.log("Enter url of your Workspace platform :")
-    url = await getUserInput()
+  if (process.argv.length <= 2) {
+    console.log("Enter url of your Workspace platform :");
+    url = await getUserInput();
   }
-  else{
+  else {
     // otherwise, take it from the arguemnts
     url = process.argv[2];
   }
 
   url = parseUrl(url);
-  console.log("Downloading from", url)
+  console.log("Downloading from", url);
 
   try {
-    // check versions compatibility
+    // Check versions compatibility
     await exports.checkCompatibility(await getVersions(url));
-    // get workspace
+    // Get Workspace Web Edition archive
     await getArchive(url + 'ui/wwe/', './ui-assets/wwe');
-    // get auth ui
+    // Get GWS Auth UI archive
     await getArchive(url + 'ui/auth/', './ui-assets/auth');
+    // Get SCAPI samples from workspace-development-kit Github repository
+    const scapiSampleDir = packageJson['workspace-development-kit']['scapi-samples']['dir'];
+    const scapiSampleFiles = packageJson['workspace-development-kit']['scapi-samples']['files'];
+    await Promise.all(scapiSampleFiles.map(async (scapiFile) => {
+      await getFile(scapiSampleDir + scapiFile, `./ui-assets/samples/scapi/${scapiFile}`);
+    }));
   }
   catch (err) {
     console.error("Error catched: ", err);
     process.exit(1);
   }
-  console.log("\nSuccess !")
-  process.exit(0)
+  console.log("\nSuccess !");
+  process.exit(0);
 }
 
 if (!isUnitTest) {
