@@ -27,10 +27,10 @@ CC-Total_Answered:
   worst-level-high: "20"
   worst-level-low: "0"
 LocalSCAPISample:
-  label: API
+  label: SCAPI Overview
   url: https://localhost:8080/scapi/sample.html
 RemoteSCAPISample:
-  label: Custom API
+  label: SCAPI Overview
   url: https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/api-overview/sample.html
 fav1:
   category: MAIL
