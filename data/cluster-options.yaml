@@ -26,10 +26,10 @@ CC-Total_Answered:
   warning-level-low: "4"
   worst-level-high: "20"
   worst-level-low: "0"
-CustomLocalAPI:
+LocalSCAPISample:
   label: API
   url: https://localhost:8080/scapi/sample.html
-ScapiRemoteGithub:
+RemoteSCAPISample:
   label: Custom API
   url: https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/api-overview/sample.html
 fav1:
