@@ -143,7 +143,10 @@ sessionAdded = (session, timeout) => {
     publishWorkspaceInitializationProgress(session, 50);
     publishWorkspaceInitializationProgress(session, 100, user, configuration);
     publishWorkspaceInitializationComplete(session, user, configuration);
-    publishInitialMediaMessage(session, user); // publish here because otherwise it may occur between disconnect and connect
+    // /!\ Now that CometD messages are replayed at login, should be removed soon
+    setTimeout(() => {
+      publishInitialMediaMessage(session, user);
+    }, 1000);
     session.addListener('removed', sessionClosed);
 	} else {
 		session.addListener('removed', sessionClosed);

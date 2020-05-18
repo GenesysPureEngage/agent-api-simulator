@@ -25,9 +25,16 @@ app.use((req, res, next) => {
   if (req.get('origin') && !corsOrigins.includes(req.get('origin'))) {
     corsOrigins.push(req.get('origin'));
   }
+  // CORS
   res.header('Access-Control-Allow-Origin', corsOrigins.join(', '));
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Authorization, Origin, Content-Type, Accept');
+
+  // CSP - X-Frame-Options
+  // For IE (at least v.11)
+  res.header('X-Frame-Options', 'ALLOW-FROM https://localhost:7777, https://localhost:7777');
+  // For modern browsers (Chrome / Firefox / EdgeChromium / Safari ...)
+  res.header('Content-Security-Policy', "frame-ancestors 'self' https://localhost:7777 http://localhost:7777");
   next();
 });
 

@@ -11,11 +11,19 @@ const fs = require('fs-extra');
 
 const isUnitTest = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-light';
 
+const errorMessageVersion = '\n\nIf you can’t upgrade the GWS with a minimum version referenced in the "Compatibility table" \
+from https://github.com/GenesysPureEngage/agent-api-simulator, you must use a previous version of the Workspace Agent API \
+compatible with your GWS based on the related tag listed here: https://github.com/GenesysPureEngage/agent-api-simulator/tags\n\n';
+
 // create a new progress bar instance and use shades_classic theme
 const downloadProgressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
 // load the package.json
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'), { encoding: 'utf8' }));
+
+function getOutdatedVersionError(component, rawVersion1, rawVersion2) {
+  return `Outdated ${component} versions. \n\n+ ${component} '${rawVersion1}' is older than minimum required '${rawVersion2}'. ${errorMessageVersion}`;
+}
 
 async function getVersions(baseUrl) {
   try {
@@ -25,7 +33,9 @@ async function getVersions(baseUrl) {
     const authVersion = await getVersion(baseUrl + 'ui/auth/');
     // get local Simulator version from package.json
     const simulatorVersion = packageJson.version;
-    console.log("Versions: Simulator", simulatorVersion, ", WWE", wweVersion, ", AuthUi", authVersion);
+
+    console.log(' ');
+    console.log("Versions: Agent API Simulator", simulatorVersion, ", WWE", wweVersion, ", AuthUi", authVersion);
     return {
       simulator: simulatorVersion,
       wwe: wweVersion,
@@ -33,7 +43,7 @@ async function getVersions(baseUrl) {
     };
   }
   catch (err) {
-    console.error("Error catched: ", err);
+    console.error("ERROR:", err);
   }
   return (null);
 }
@@ -91,7 +101,7 @@ function versionAsNumber(version) {
 }
 
 // check if dependencies versions are compatible with the simulator
-exports.checkCompatibility = function checkCompatibility(versions) {
+exports.checkCompatibility = function checkCompatibility(versions, url) {
   return new Promise(async (resolve, reject) => {
     if (!versions || !versions.simulator || !versions.wwe || !versions.authUi) {
       reject("Versions object invalid")
@@ -102,10 +112,13 @@ exports.checkCompatibility = function checkCompatibility(versions) {
 
     // convert versions to numbers
     versions.simulator = versionAsNumber(versions.simulator);
+    versions.wweRaw = versions.wwe;
+    versions.authUiRaw = versions.authUi;
     versions.wwe = versionAsNumber(versions.wwe);
     versions.authUi = versionAsNumber(versions.authUi);
     compatibility.map((c) => {
       for (let key in c) {
+        c[`${key}Raw`] = c[key];
         c[key] = versionAsNumber(c[key]);
       }
     })
@@ -130,8 +143,12 @@ exports.checkCompatibility = function checkCompatibility(versions) {
       return;
     }
     // if this versions are older than the minimum required versions
-    if (versions.wwe < compatibility[i].WWE || versions.authUi < compatibility[i].AuthUi) {
-      reject("Outdated versions");
+    if (versions.wwe < compatibility[i].WWE) {
+      reject(getOutdatedVersionError('WWE', versions.wweRaw, compatibility[i].WWERaw));
+      return;
+    }
+    if (versions.authUi < compatibility[i].AuthUi) {
+      reject(getOutdatedVersionError('AuthUI', versions.authUiRaw, compatibility[i].AuthUiRaw));
       return;
     }
     // while the simulator version stays the same
@@ -271,7 +288,7 @@ async function main() {
   // if the url is not specified in the arguments
   // ask it
   if (process.argv.length <= 2) {
-    console.log("Enter url of your Workspace platform :");
+    console.log("Enter URL of your Genesys Engage platform:");
     url = await getUserInput();
   }
   else {
@@ -280,11 +297,12 @@ async function main() {
   }
 
   url = parseUrl(url);
+  console.log(' ');
   console.log("Downloading from", url);
 
   try {
     // Check versions compatibility
-    await exports.checkCompatibility(await getVersions(url));
+    await exports.checkCompatibility(await getVersions(url), url);
     // Get Workspace Web Edition archive
     await getArchive(url + 'ui/wwe/', './ui-assets/wwe');
     // Get GWS Auth UI archive
@@ -295,9 +313,8 @@ async function main() {
     await Promise.all(scapiSampleFiles.map(async (scapiFile) => {
       await getFile(scapiSampleDir + scapiFile, `./ui-assets/samples/scapi/${scapiFile}`);
     }));
-  }
-  catch (err) {
-    console.error("Error catched: ", err);
+  } catch (err) {
+    console.error("=====\nERROR:", err);
     process.exit(1);
   }
   console.log("\nSuccess !");
