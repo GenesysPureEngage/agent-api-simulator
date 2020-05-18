@@ -32,9 +32,10 @@ app.use((req, res, next) => {
 
   // CSP - X-Frame-Options
   // For IE (at least v.11)
-  res.header('X-Frame-Options', 'ALLOW-FROM https://localhost:7777');
+  // res.header('X-Frame-Options', 'ALLOW-FROM https://localhost:7777');
+
   // For modern browsers (Chrome / Firefox / EdgeChromium / Safari ...)
-  res.header('Content-Security-Policy', "frame-ancestors 'self' https://localhost:7777");
+  // res.header('Content-Security-Policy', "frame-ancestors 'self' https://localhost:7777");
   next();
 });
 

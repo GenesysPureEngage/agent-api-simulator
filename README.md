@@ -145,6 +145,22 @@ You can access the web application from [http://localhost:8080](http://localhost
 
 The service restarts automatically when a change is detected, but you might need to refresh the webapp to ensure all changes are applied.
 
+### External web-content security
+
+The Agent API Simulator exposes WWE on HTTP port 7777, and is configured to display external web contents exposed by a second HTTP server on port 8080 (like SCAPI webpage).
+
+To improve security, you may want to activate those two options :
+
+- X-Frame-Options (for IE11)
+
+  _The X-Frame-Options HTTP response header can be used to indicate whether or not a browser should be allowed to render a page in an `<iframe>`. Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites._
+
+- Content Security Policy (For Chrome, Firefox, Edge)
+
+  _Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks._
+
+If necessary, you can setup X-Frame-Option and CSP headers for this server, by uncommenting the lines bellow `CSP - X-Frame-Options` in file .`/src/samples/server.js`
+
 ### Testing
 
 To run unit tests, do the following:
