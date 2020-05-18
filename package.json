@@ -1,6 +1,6 @@
 {
   "name": "agent-api-simulator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Agent Api Simulator",
   "author": "Genesys",
   "license": "MIT",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "install": "npm run install:webapp && npm run install:service  && npm run install:samples",
-    "start": "./node_modules/.bin/concurrently 'npm run start:simulator' 'npm run start:samples'",
+    "start": "./node_modules/.bin/concurrently \"npm run start:simulator\" \"npm run start:samples\"",
     "build": "cd src/webapp && npm run build",
     "clean": "rimraf target && rimraf ui-assets/*",
     "import-ui-assets": "node src/scripts/downloadUiAssets.js",
