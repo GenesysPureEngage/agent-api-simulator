@@ -78,7 +78,6 @@ MelissaMorel:
   employeeId: MelissaMorel
   userProperties:
     - interaction-workspace:
-      - toggle.customization.enable: true
       - privilege.customization.can-use: true
       - customization.studio-url: https://localhost:5000
     - studio:
