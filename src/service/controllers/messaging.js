@@ -33,17 +33,18 @@ exports.getCurrentSession = (req, res) => {
 		var user = conf.userByName(userName);
 
     if (!user.activeSession) {
-      res.status(403).end();
+      return res.status(403).end();
     }
+    
+    // Populate list of calls
+    user.activeSession.calls = voice.getCallsForAgent(userName);
+    
+    //  Populate media interactions
+    for (var channel of user.activeSession.media.channels) {
+      channel.interactions = media.getInteractionsForAgent(userName, channel.name);
+    }	
 
-		//Populate list of calls
-		user.activeSession.calls = voice.getCallsForAgent(userName);
-		//Populate media interactions
-		for(var channel of user.activeSession.media.channels) {
-			channel.interactions = media.getInteractionsForAgent(userName, channel.name);
-		}
-
-		//Build response
+		//  Build response
 		res.set({ 'Content-type': 'application/json' });
 		var data = {
 			status: {

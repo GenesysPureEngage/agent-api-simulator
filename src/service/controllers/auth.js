@@ -10,7 +10,8 @@ const notifications = require('../common/notifications');
 const utils = require('../common/utils');
 const config = require("../config/agent-api-simulator.json");
 const fs = require("fs");
-const path= require("path");
+const path = require("path");
+const jwt = require('jsonwebtoken');
 
 var users = utils.requireAndMonitor('../../../data/agents.yaml', (updated) => { 
 	conf.handleUserUpdate(users, updated);
@@ -74,30 +75,54 @@ exports.pcToken = (req, res) => {
 				code: 0
 			},
 			data: {
-				access_token: access_token,
+				access_token,
 				expires_in: 1800
 			}
 		};
 		res.send(JSON.stringify(data));
 }
 
+exports.jwToken = (req, res) => {
+  const token = jwt.sign({ username: userByCode(req) }, 'secret');
+  res.set({ 'Content-type': 'application/json' });
+  var data = {
+    status: {
+      code: 0
+    },
+    data: {
+      access_token: token,
+      expires_in: 1800
+    }
+  };
+  res.send(JSON.stringify(data));
+}
+
+exports.validateToken = (req, res) => {
+  const access_token = conf.id();
+  const decoded = jwt.verify(req.body.assertion, 'secret');
+  tokens[access_token] = decoded.username;
+  res.set({ 'Content-type': 'application/json' });
+  var data = {
+    access_token,
+    expires_in: 1800,
+    user: {
+      cmeUserName: decoded.username
+    }
+  };
+  res.send(JSON.stringify(data));
+}
+
 exports.userinfo = (req, res) => {
-	const bearer = req.headers.authorization.split(' ')[1];
-	const userName = tokens[bearer];
+  const bearer = req.headers.authorization.split(' ')[1];
+  const userName = tokens[bearer];
 	if (userName) {
-		var configuration = conf.conf();
-		var user = conf.userByName(userName);
-		res.set({ 'Content-type': 'application/json' });
-		var data = {
-			status: {
-				code: 0
-			},
-			data: {
-				configuration: configuration,
-				user: user
-			}
+    var user = conf.userByName(userName);
+    user.cmeUserName = userName;
+    user.properties = {
+      tenantDBID: user.tenantDBID
     };
-		res.send(JSON.stringify(data));
+		res.set({ 'Content-type': 'application/json' });
+		res.send(JSON.stringify(user));
 	} else {
 		res.status(403).end();
 	}

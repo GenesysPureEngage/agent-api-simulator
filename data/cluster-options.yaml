@@ -88,6 +88,8 @@ Filter-Webcallback_Ukraine:
   condition: MediaType='webcallback' AND WCBCustomerNumber LIKE '00380%'
   displayed-columns: Subject,To,AssignedTo
   display-name: WCB, Ukraine
+studio:
+  modules: xtend-workspace
 interaction-workspace:
   workspace-toolkit.enable: "true"
   agent-status.enabled-actions-by-channel: Ready,NotReady,NotReadyReason,AfterCallWork,AfterCallWorkReason,Dnd,LogOff

@@ -23,3 +23,15 @@
   settings:
     TServer:
       gvm_mailbox: '8888'
+- managerDBIDs:
+    - 104
+  agentDBIDs:
+    - 104
+  DBID: 107
+  tenantDBID: 1
+  name: Agent Group Test
+  settings:
+    TServer:
+      gvm_mailbox: '8888'
+    studio:
+      modules: xtend-workspace

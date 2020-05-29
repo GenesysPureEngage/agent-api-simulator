@@ -139,7 +139,7 @@ flattenKVListData = (settings) => {
     return settingsObjects;
 }
 
-expandKVListData = (settingsObject) => {
+const expandKVListData = (settingsObject) => {
     var settingsArray = [];
     for(var setting of Object.keys(settingsObject)) {
         //Base case: a simple "key": "value" pair
@@ -155,6 +155,7 @@ expandKVListData = (settingsObject) => {
     }
     return settingsArray;
 }
+exports.expandKVListData = expandKVListData;
 
 simplifyKvlists = (file) => {
   function expendValueArray(element){
