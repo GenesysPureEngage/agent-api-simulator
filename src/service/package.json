@@ -13,6 +13,7 @@
     "express": "4.17.1",
     "font-awesome": "4.7.0",
     "fs-extra": "9.0.0",
+    "jsonwebtoken": "8.5.1",
     "morgan": "1.10.0",
     "request": "2.88.2",
     "underscore": "1.10.2",
@@ -23,7 +24,7 @@
     "nodemon": "2.0.3"
   },
   "scripts": {
-    "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
+    "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
     "start": "nodemon server.js"
   }
 }

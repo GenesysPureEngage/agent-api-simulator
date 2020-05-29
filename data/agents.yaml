@@ -70,3 +70,22 @@ FredericClaude:
   password: FredericClaude
   defaultPlace: Place_5102
   agentLogin: "+33298025102"
+MelissaMorel:
+  DBID: 104
+  firstName: Melissa
+  lastName: Morel
+  userName: MelissaMorel
+  employeeId: MelissaMorel
+  userProperties:
+    - interaction-workspace:
+      - toggle.customization.enable: true
+      - privilege.customization.can-use: true
+      - customization.studio-url: https://localhost:5000
+    - studio:
+      - roles: Admin
+      - modules: xtend-workspace
+  tenantDBID: 1
+  tenant: ""
+  password: MelissaMorel
+  defaultPlace: Place_MelissaMorel
+  agentLogin: "+33298025004"

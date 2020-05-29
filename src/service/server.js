@@ -15,6 +15,8 @@ const path = require('path');
 const config = require('./config/agent-api-simulator.json');
 const app = express();
 
+const isTesting = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-light';
+
 // set middlewares
 app.use(require('morgan')('dev'))
 app.use(cookieParser());
@@ -39,6 +41,7 @@ app.use(require('./routes/static'));
 app.use(require('./routes/workspace'));
 app.use(require('./routes/auth'));
 app.use(require('./routes/voice'));
+app.use(require('./routes/conf'));
 
 // function called once the server is listening
 function listenCallback(tls) {
@@ -48,20 +51,24 @@ function listenCallback(tls) {
   log.info('Workspace: ' + (tls ? 'https' : 'http') + `://localhost:${config.port}/ui/wwe/index.html`);
 }
 
-// try to host the server in https
-try {
-  // load the certificates
-  const certs = {
-    key: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.key.pem')),
-    cert: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.cert.pem'))
-  };
-  // listen
-  https.createServer(certs, app).listen(config.port, () => listenCallback(true));
-}
-catch (e) {
-  // if the certificates were not found, start in http
-  log.info('Failed to start the HTTPS server, starting with HTTP. \n' + e);
+if (isTesting || config.https) {
+  // try to host the server in https
+  try {
+    // load the certificates
+    const certs = {
+      key: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.key.pem')),
+      cert: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.cert.pem'))
+    };
+    // listen
+    https.createServer(certs, app).listen(config.port, () => listenCallback(true));
+  }
+  catch (e) {
+    // if the certificates were not found, start in http
+    log.info('Failed to start the HTTPS server, starting with HTTP. \n' + e);
 
-  // listen
+    // listen
+    http.createServer(app).listen(config.port, () => listenCallback(false));
+  }
+} else {
   http.createServer(app).listen(config.port, () => listenCallback(false));
 }

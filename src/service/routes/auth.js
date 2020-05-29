@@ -6,8 +6,16 @@ router.get('/workspace/v3/security/pure-cloud-token', (req, res) => {
   auth.pcToken(req, res);
 });
 
+router.get('/workspace/v3/security/exchange-token', (req, res) => {
+  auth.jwToken(req, res);
+});
+
 router.get('/auth/v3/oauth/authorize', (req, res) => {
   auth.authorize(req, res);
+});
+
+router.post('/auth/v3/oauth/token', (req, res) => {
+  auth.validateToken(req, res);
 });
 
 router.post('/auth/v3/auth-scheme', (req, res) => {
