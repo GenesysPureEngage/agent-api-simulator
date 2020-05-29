@@ -1,4 +1,3 @@
 {
-  "port": 7777,
-  "https": false
+  "port": 7777
 }
