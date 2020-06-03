@@ -15,6 +15,9 @@ const path = require('path');
 const config = require('./config/agent-api-simulator.json');
 const app = express();
 
+if (config.https === undefined) {
+  config.https = true;
+}
 const isTesting = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-light';
 
 // set middlewares
