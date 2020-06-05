@@ -109,7 +109,7 @@ exports.configuration = (req, res) => {
       businessAttribute => businessAttribute.id === businessAttributeId
     );
 
-    if (businessAttribute) {
+    if (businessAttribute && businessAttribute[0]) {
       data = {
         status: {
           code: 0
