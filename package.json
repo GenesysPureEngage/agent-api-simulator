@@ -11,7 +11,10 @@
   "workspace-development-kit": {
     "scapi-samples": {
       "dir": "https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/api-overview/",
-      "files": ["sample.html", "wwe-service-client-api.js"]
+      "files": [
+        "sample.html",
+        "wwe-service-client-api.js"
+      ]
     }
   },
   "dependencies": {
