@@ -91,6 +91,7 @@ Filter-Webcallback_Ukraine:
 studio:
   modules: xtend-workspace
 interaction-workspace:
+  workspace-customization.enable: "true"
   workspace-toolkit.enable: "true"
   agent-status.enabled-actions-by-channel: Ready,NotReady,NotReadyReason,AfterCallWork,AfterCallWorkReason,Dnd,LogOff
   agent-status.enabled-actions-global: Ready,NotReady,NotReadyReason,AfterCallWork,AfterCallWorkReason,Dnd,LogOff
