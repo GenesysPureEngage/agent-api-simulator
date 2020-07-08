@@ -180,10 +180,10 @@ exports.signin = (req, res) => {
 }
 
 exports.start = (req, res) => {
-	var redirectUrl = req.query.redirect_uri;
-	redirectUrl += '?code=' + req.query.code
+	var redirectUrl = new URL(req.query.redirect_uri);
+	redirectUrl.searchParams.set('code', req.query.code);
 	res.status(302);
-	res.set('Location', redirectUrl);
+	res.set('Location', redirectUrl.href);
 	res.cookie('WWE_CODE', req.query.code);
 	res.end();
 }
