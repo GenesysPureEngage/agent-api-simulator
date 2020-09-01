@@ -294,6 +294,12 @@ exports.handleResponsesCategoriesRoot = (req, res) => {
 	this.publishUcsEvent(req, 'EventGetRootCategories', { categories: standardResponsesRoot });
 }
 
+exports.handleResponsesFavorites = (req, res) => {
+	res.set({ 'Content-type': 'application/json' });
+  utils.sendOkStatus(req, res);
+	this.publishUcsEvent(req, 'EventGetFavoriteResponses', { standardResponses: [] });
+}
+
 exports.handleResponsesCategoriesDetails = (req, res) => {
   res.set({ 'Content-type': 'application/json' });
   // find the proper category based on categoryId

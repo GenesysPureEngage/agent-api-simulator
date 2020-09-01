@@ -35,14 +35,14 @@ exports.getCurrentSession = (req, res) => {
     if (!user.activeSession) {
       return res.status(403).end();
     }
-    
+
     // Populate list of calls
     user.activeSession.calls = voice.getCallsForAgent(userName);
-    
+
     //  Populate media interactions
     for (var channel of user.activeSession.media.channels) {
       channel.interactions = media.getInteractionsForAgent(userName, channel.name);
-    }	
+    }
 
 		//  Build response
 		res.set({ 'Content-type': 'application/json' });
@@ -56,7 +56,7 @@ exports.getCurrentSession = (req, res) => {
 			}
 		};
 		res.send(JSON.stringify(data));
-		setTimeout(function() { publishInitialMediaMessage(session, user); }, 100);
+		publishInitialMediaMessage(session, user);
 	} else {
 		res.status(403).end();
 	}
@@ -144,10 +144,7 @@ sessionAdded = (session, timeout) => {
     publishWorkspaceInitializationProgress(session, 50);
     publishWorkspaceInitializationProgress(session, 100, user, configuration);
     publishWorkspaceInitializationComplete(session, user, configuration);
-    // /!\ Now that CometD messages are replayed at login, should be removed soon
-    setTimeout(() => {
-      publishInitialMediaMessage(session, user);
-    }, 1000);
+    publishInitialMediaMessage(session, user);
     session.addListener('removed', sessionClosed);
 	} else {
 		session.addListener('removed', sessionClosed);
