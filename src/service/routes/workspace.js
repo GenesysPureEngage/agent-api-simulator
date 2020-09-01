@@ -66,6 +66,10 @@ router.use('/workspace/v3/ucs/responses/categories/get-root', (req, res) => {
   ucs.handleResponsesCategoriesRoot(req, res);
 });
 
+router.use('/workspace/v3/ucs/responses/get-favorites', (req, res) => {
+  ucs.handleResponsesFavorites(req, res);
+});
+
 router.use('/workspace/v3/ucs/responses/categories/:categoryId/get-details', (req, res) => {
   ucs.handleResponsesCategoriesDetails(req, res);
 });
