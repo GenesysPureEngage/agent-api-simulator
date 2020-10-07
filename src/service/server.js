@@ -34,17 +34,12 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Authorization, Origin, X-Requested-With, Content-Type, Accept, x-b3-spanid, x-b3-traceid, x-api-key, x-gws-unstable'
   );
+  if (req.method == 'OPTIONS'){
+    res.end();
+    return;
+  }
   next();
 });
-
-// add routes
-app.use(require('./routes/simulator'));
-app.use(require('./routes/compatibility'));
-app.use(require('./routes/static'));
-app.use(require('./routes/workspace'));
-app.use(require('./routes/auth'));
-app.use(require('./routes/voice'));
-app.use(require('./routes/conf'));
 
 // function called once the server is listening
 function listenCallback(tls) {
@@ -63,6 +58,7 @@ if (isTesting || config.https) {
       cert: fs.readFileSync(path.join(__dirname, '../../data/certificates/localhost.cert.pem'))
     };
     // listen
+    config.protocol = 'https';
     https.createServer(certs, app).listen(config.port, () => listenCallback(true));
   }
   catch (e) {
@@ -70,8 +66,20 @@ if (isTesting || config.https) {
     log.info('Failed to start the HTTPS server, starting with HTTP. \n' + e);
 
     // listen
+    config.protocol = 'http';
     http.createServer(app).listen(config.port, () => listenCallback(false));
   }
 } else {
+  config.protocol = 'http';
   http.createServer(app).listen(config.port, () => listenCallback(false));
 }
+
+// Add Routes so that config.protocol is set, and usable as a configuration variable in routes
+// add routes
+app.use(require('./routes/simulator'));
+app.use(require('./routes/compatibility'));
+app.use(require('./routes/static'));
+app.use(require('./routes/workspace'));
+app.use(require('./routes/auth'));
+app.use(require('./routes/voice'));
+app.use(require('./routes/conf'));

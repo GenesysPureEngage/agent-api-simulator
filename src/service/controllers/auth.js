@@ -31,14 +31,14 @@ const userByCode = function (req, code) {
 };
 
 exports.login = (req, res) => {
-	var redirectUrl = req.protocol + '://localhost:' + port + '/auth/v3/oauth/authorize?type=workspace&redirect_uri=' + req.query.redirect_uri;
+	var redirectUrl = req.protocol + '://' + req.hostname + ':' + port + '/auth/v3/oauth/authorize?type=workspace&redirect_uri=' + req.query.redirect_uri;
 	res.status(302);
 	res.set('Location', redirectUrl);
 	res.end();
 }
 
 exports.authorize = (req, res) => {
-	var redirectUrl = req.protocol + '://localhost:' + port + '/auth/sign-in.html?type=workspace';
+	var redirectUrl = req.protocol + '://' + req.hostname + ':' + port + '/auth/sign-in.html?type=workspace';
 	var userName = userByCode(req);
 	if (userName) {
 		var uri = req.cookies.WWE_URI ? req.cookies.WWE_URI : req.body.wweURI;
@@ -46,7 +46,11 @@ exports.authorize = (req, res) => {
 	}
 	res.status(302);
 	res.set('Location', redirectUrl);
-	res.cookie('WWE_URI', req.query.redirect_uri);
+	res.cookie('WWE_URI', req.query.redirect_uri, {
+    httpOnly: true,
+    secure: req.protocol === 'https',
+    sameSite: (req.protocol === 'https') ? 'none' : 'lax'
+  });
 	res.end();
 }
 
@@ -157,7 +161,7 @@ exports.authenticate = (req, res) => {
 }
 
 exports.signin = (req, res) => {
-	var redirectUrl = req.protocol + '://localhost:' + port + '/auth/sign-in.html?error&type=workspace';
+	var redirectUrl = req.protocol + '://' + req.hostname + ':' + port + '/auth/sign-in.html?error&type=workspace';
 	var username = (req.body.username || '').split('\\');
 	if (username.length === 1) {
 		username = [req.body.tenant, req.body.username];
@@ -171,7 +175,7 @@ exports.signin = (req, res) => {
 			sessions[code] = username;
 			notifications.notifySessions(sessions);
 			var uri = req.cookies.WWE_URI ? req.cookies.WWE_URI : req.body.wweURI;
-			redirectUrl = req.protocol + '://localhost:' + port + '/workspace/v3/start?code=' + code + '&redirect_uri=' + uri;
+			redirectUrl = req.protocol + '://' + req.hostname + ':' + port + '/workspace/v3/start?code=' + code + '&redirect_uri=' + uri;
 		}
 	}
 	res.status(302);
@@ -184,7 +188,11 @@ exports.start = (req, res) => {
 	redirectUrl += '?code=' + req.query.code
 	res.status(302);
 	res.set('Location', redirectUrl);
-	res.cookie('WWE_CODE', req.query.code);
+	res.cookie('WWE_CODE', req.query.code, {
+    httpOnly: true,
+    secure: req.protocol === 'https',
+    sameSite: (req.protocol === 'https') ? 'none' : 'lax'
+  });
 	res.end();
 }
 
