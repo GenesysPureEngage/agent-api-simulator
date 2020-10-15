@@ -112,18 +112,19 @@ searchContacts = (req, res) => {
 	if (searchedTerm.indexOf('\\') === 0) {
 		searchedTerm = searchedTerm.substring(1);
 	}
+	searchedTerm = new RegExp(searchedTerm, 'i');
 	utils.sendOkStatus(req, res);
 	let matchingContacts = [];
 	_.each(contacts, (contact) => {
 		const isMatchingPhoneNumber = contact.phoneNumbers && contact.phoneNumbers.find((phoneNumber) => {
-			return phoneNumber.indexOf(searchedTerm) === 0;
+			return phoneNumber.match(searchedTerm);
 		});
 		const isMatchingEmailAddress = contact.emailAddresses && contact.emailAddresses.find((emailAddress) => {
-			return emailAddress.indexOf(searchedTerm) === 0;
+			return emailAddress.match(searchedTerm);
 		});
-		const isMatchingFirstName = contact.firstName && contact.firstName.indexOf(searchedTerm) === 0;
-		const isMatchingLastName = contact.lastName && contact.lastName.indexOf(searchedTerm) === 0;
-		const isMatchingCompanyName = contact.CompanyName && contact.CompanyName.indexOf(searchedTerm) === 0;
+		const isMatchingFirstName = contact.firstName && contact.firstName.match(searchedTerm);
+		const isMatchingLastName = contact.lastName && contact.lastName.match(searchedTerm);
+		const isMatchingCompanyName = contact.CompanyName && contact.CompanyName.match(searchedTerm);
 		if (isMatchingCompanyName || isMatchingFirstName || isMatchingLastName || isMatchingEmailAddress || isMatchingPhoneNumber) {
 			matchingContacts.push({
 				id: contact.id,
