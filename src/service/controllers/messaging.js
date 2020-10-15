@@ -13,7 +13,14 @@ const media = require('./media');
 const reporting = require('./reporting');
 const voice = require('./voice');
 
-const cometdServer = cometd.createCometDServer();
+const config = require('../config/agent-api-simulator.json');
+const cometdOptions = {};
+if (config.protocol === 'https') {
+	cometdOptions.browserCookieSecure = true;
+  cometdOptions.browserCookieSameSite = 'None';
+}
+
+const cometdServer = cometd.createCometDServer(cometdOptions);
 
 var sessions = {}; // user name -> session
 

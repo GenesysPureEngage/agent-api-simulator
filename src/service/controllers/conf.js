@@ -88,7 +88,11 @@ exports.id = () => {
 };
 
 exports.initialize = (req, res) => {
-  res.cookie("WWE_CODE", req.query.code);
+  res.cookie("WWE_CODE", req.query.code, {
+    httpOnly: true,
+    secure: req.protocol === 'https',
+    sameSite: (req.protocol === 'https') ? 'none' : 'lax'
+  });
   res.set({ "Content-type": "application/json" });
   var data = {
     status: {

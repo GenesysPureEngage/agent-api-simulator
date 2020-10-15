@@ -17,7 +17,13 @@ const _ = require('underscore');
 
 const rmm = require('./rmm');
 
-const cometdServer = cometd.createCometDServer();
+const config = require('../config/agent-api-simulator.json');
+const cometdOptions = {};
+if (config.protocol === 'https') {
+	cometdOptions.browserCookieSecure = true;
+  cometdOptions.browserCookieSameSite = 'None';
+}
+const cometdServer = cometd.createCometDServer(cometdOptions);
 
 exports.start = () => {
 	simulatorChannel = cometdServer.createServerChannel('/sessions');
