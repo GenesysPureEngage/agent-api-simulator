@@ -18,7 +18,7 @@ var agentGroups = utils.requireAndMonitor('../../../data/agent-groups.yaml', (up
 
 // access workspace
 router.get('/sim/workspace-ui', (req, res) => {
-  res.redirect(req.protocol + `://localhost:${config.port}/ui/wwe/index.html`);
+  res.redirect(req.protocol + `://${req.hostname}:${config.port}/ui/wwe/index.html`);
 });
 
 // check if the toolkit sample is hosted
