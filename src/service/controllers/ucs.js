@@ -112,6 +112,7 @@ searchContacts = (req, res) => {
 	if (searchedTerm.indexOf('\\') === 0) {
 		searchedTerm = searchedTerm.substring(1);
 	}
+	searchedTerm = searchedTerm.toLowerCase();
 	utils.sendOkStatus(req, res);
 	let matchingContacts = [];
 	_.each(contacts, (contact) => {
@@ -119,11 +120,11 @@ searchContacts = (req, res) => {
 			return phoneNumber.indexOf(searchedTerm) === 0;
 		});
 		const isMatchingEmailAddress = contact.emailAddresses && contact.emailAddresses.find((emailAddress) => {
-			return emailAddress.indexOf(searchedTerm) === 0;
+			return emailAddress.toLowerCase().indexOf(searchedTerm) === 0;
 		});
-		const isMatchingFirstName = contact.firstName && contact.firstName.indexOf(searchedTerm) === 0;
-		const isMatchingLastName = contact.lastName && contact.lastName.indexOf(searchedTerm) === 0;
-		const isMatchingCompanyName = contact.CompanyName && contact.CompanyName.indexOf(searchedTerm) === 0;
+		const isMatchingFirstName = contact.firstName && contact.firstName.toLowerCase().indexOf(searchedTerm) === 0;
+		const isMatchingLastName = contact.lastName && contact.lastName.toLowerCase().indexOf(searchedTerm) === 0;
+		const isMatchingCompanyName = contact.CompanyName && contact.CompanyName.toLowerCase().indexOf(searchedTerm) === 0;
 		if (isMatchingCompanyName || isMatchingFirstName || isMatchingLastName || isMatchingEmailAddress || isMatchingPhoneNumber) {
 			matchingContacts.push({
 				id: contact.id,
