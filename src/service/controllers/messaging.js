@@ -164,6 +164,8 @@ exports.removeSession = (code) => {
 	var userName = auth.userByCode(null, code);
 	if (userName) {
 		delete sessions[userName];
+		var user = conf.userByName(userName);
+		delete user.activeSession;
 	}
 }
 
