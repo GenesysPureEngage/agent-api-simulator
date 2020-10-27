@@ -144,16 +144,9 @@ exports.configuration = (req, res) => {
         code: 0
       },
       data: {
-        monitorableAgentGroups: _.map(
-          _.filter(agentGroups, (agentGroup) => {
-            return agentGroup.managerDBIDs && user ? agentGroup.managerDBIDs.indexOf(user.DBID) !== -1 : false;
-          }), (ag) => {
-            const group = _.clone(ag);
-            group.settings = group.userProperties;
-            delete group.userProperties;
-            return _.clone(group);
-          }
-        )
+        monitorableAgentGroups: _.filter(agentGroups, (agentGroup) => {
+          return agentGroup.managerDBIDs && user ? agentGroup.managerDBIDs.indexOf(user.DBID) !== -1 : false;
+        })
       }
     };
   }
