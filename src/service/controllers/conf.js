@@ -257,11 +257,11 @@ exports.targets = function(req, res) {
   targets = _.filter(targets, target => {
     return (
       _.size(
-        _.filter(searchTerm, searchTerm => {
+        _.filter(searchTerm, term => {
           return matchType === "exact"
-            ? searchTerm === target.name
-            : target.name.indexOf(searchTerm) !== -1 ||
-                (target.userName && target.userName.indexOf(searchTerm) !== -1);
+            ? term === target.name
+            : target.name.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
+                (target.userName && target.userName.toLowerCase().indexOf(term.toLowerCase()) !== -1);
         })
       ) > 0
     );
