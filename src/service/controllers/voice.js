@@ -424,12 +424,6 @@ class Call {
       }
     };
     this.originCall.state = "Dialing";
-    if (originUser) {
-      this.originCall.userData.push(this.getInitialUserData(originUser));
-    }
-    if (destUser) {
-      this.originCall.userData.push(this.getInitialUserData(destUser));
-    }
 
     //Same as origin call, but with some fields/methods overridden for the destination user
     this.destCall = {
@@ -535,34 +529,6 @@ class Call {
     this.destCall.userData = userData;
   }
 
-  getInitialUserData(user) {
-    return {
-      key: `WWE_PARTY_${user.agentLogin}`,
-      type: "kvlist",
-      value: [
-        {
-          key: "username",
-          type: "str",
-          value: `${user.userName}`
-        },
-        {
-          key: "firstname",
-          type: "str",
-          value: `${user.firstName}`
-        },
-        {
-          key: "lastname",
-          type: "str",
-          value: `${user.lastName}`
-        },
-        {
-          key: "dbid",
-          type: "int",
-          value: user.DBID
-        }
-      ]
-    };
-  }
 }
 
 exports.createCall = (
