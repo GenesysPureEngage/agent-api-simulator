@@ -6,6 +6,11 @@ JohnSmith:
   employeeId: JohnSmith
   userProperties:
     - interaction-workspace:
+      - privilege.teamlead.can-monitor-voice: true
+      - privilege.teamlead.can-monitor-current-voice: true
+      - privilege.teamlead.can-coach-voice: false
+      - privilege.teamlead.can-coach-current-voice: false
+      - privilege.teamlead.can-switch-to-barge-in-voice: false
       - workspace.web-content: "LocalSCAPISample"
   tenantDBID: 0
   tenant: ""

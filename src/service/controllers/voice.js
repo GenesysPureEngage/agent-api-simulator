@@ -74,6 +74,7 @@ exports.makeCall = call => {
       ["Ringing", "Dialing"].includes(calls[call.id].state)
     ) {
       call.state = "Established";
+      call.onEstablished();
       reportCallState(call);
       exports.publishCallEvent(call);
     }
@@ -92,6 +93,32 @@ reportCallState = call => {
 
 reportCallStateForAgent = (userName, call) => {
   reporting.setSubject(userName, "Calls", { id: call.id, state: call.state });
+  changeAgentStatus(userName, call);
+};
+
+changeAgentStatus = (userName, call) => {
+	const user = conf.userByName(userName);
+	if (user && user.activeSession && user.activeSession.dn) {
+		const dn = user.activeSession.dn;
+		if (call.state === 'Established') {
+			switch(call.callType) {
+			case 'Inbound':	dn.activity = 'HandlingInternalCall'; break;
+			case 'Internal': dn.activity = 'HandlingInboundCall'; break;
+			case 'Outbound': dn.activity = 'HandlingOutboundCall'; break;
+			case 'Consult':	dn.activity = 'HandlingConsultCall'; break;
+			}
+			dn.available = false;
+		} else if (call.state === 'Ringing') {
+			dn.activity = 'InitiatingCall'; // ReceivingCall?
+			dn.available = false;
+		} else if (call.state === 'Hold') {
+			dn.activity = 'CallOnHold';
+			dn.available = false;
+		} else if (call.state === 'Released') {
+			dn.activity = 'Idle';
+			dn.available = true;
+		}
+	}
 };
 
 exports.changeState = (req, state, options) => {
@@ -128,6 +155,7 @@ exports.changeState = (req, state, options) => {
 exports.handleCall = (req, res) => {
   res.set({ "Content-type": "application/json" });
   var userName = auth.userByCode(req);
+  const user = conf.userByName(userName);
   var call = calls[req.params.callid];
   var agentCall;
   if (call){
@@ -139,10 +167,22 @@ exports.handleCall = (req, res) => {
     );
     utils.sendFailureStatus(res, 500);
   } else if (req.params.fn === "answer") {
-    call.state = "Established";
-    reportCallState(call);
-    utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call);
+  	if (!checkIfCallMonitored(call, user, 'Established')) {
+      call.state = "Established";
+    
+      var participantAdded = {};
+      if (user) {
+        participantAdded.number = user.agentLogin;
+      } else {
+        participantAdded.number = call.destUser ? call.destUser.agentLogin : null;
+      }
+      participantAdded.role = "RoleNewParty";
+      call.onEstablished(participantAdded);
+
+      reportCallState(call);
+      utils.sendOkStatus(req, res);
+      exports.publishCallEvent(call);
+    }
   } else if (req.params.fn === "hold") {
     agentCall.state = "Held";
     reportCallState(call);
@@ -184,7 +224,7 @@ exports.handleCall = (req, res) => {
       participantAdded.number = req.body.data.destination;
     }
     participantAdded.role = "RoleNewParty";
-    call.addParticipant(participantAdded);
+    call.onEstablished(participantAdded);
 
     reportCallState(call);
     utils.sendOkStatus(req, res);
@@ -200,16 +240,20 @@ exports.handleCall = (req, res) => {
     utils.sendOkStatus(req, res);
     exports.publishCallEvent(call, userName);
   } else if (req.params.fn === "release") {
-    call.state = "Released";
-    reportCallState(call);
-    utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call);
+  	if (!checkIfCallMonitored(call, user, 'Released', [ 'complete' ])) {
+      call.state = "Released";
+      reportCallState(call);
+      utils.sendOkStatus(req, res);
+      exports.publishCallEvent(call);
+    }
   } else if (req.params.fn === "complete") {
-    agentCall.state = "Completed";
-    reportCallStateForAgent(userName, agentCall);
-    rmm.recordInteractionComplete(userName, agentCall.id);
-    utils.sendOkStatus(req, res);
-    exports.publishAgentCallEvent(userName, agentCall);
+  	if (!checkIfCallMonitored(call, user, 'Completed')) {
+      agentCall.state = "Completed";
+      reportCallStateForAgent(userName, agentCall);
+      rmm.recordInteractionComplete(userName, agentCall.id);
+      utils.sendOkStatus(req, res);
+      exports.publishAgentCallEvent(userName, agentCall);
+    }
   } else if (
     req.params.fn === "start-recording" ||
     req.params.fn === "resume-recording"
@@ -259,6 +303,119 @@ exports.handleCall = (req, res) => {
   } else {
     utils.sendFailureStatus(res, 501);
   }
+};
+
+var monitoringSessions = {};
+
+exports.startMonitoring = req => {
+	if (req.body.data) {
+		const spv = conf.userByCode(req);
+		const user = conf.userByDestination(req.body.data.phoneNumberToMonitor);
+		if (spv && user) {
+			user.isMonitored = true;
+			user.monitoringInfo = {
+				monitoredDN: req.body.data.phoneNumberToMonitor,
+				monitoredMode: req.body.data.monitoringMode,
+				monitorScope: req.body.data.monitoringScope,
+				monitorNextCallType: req.body.data.monitoringNextCallType
+			};
+			if (!monitoringSessions[spv.agentLogin]) {
+				monitoringSessions[spv.agentLogin] = { monitoringInfo: user.monitoringInfo };
+			}
+			if (user.monitoringInfo.monitorNextCallType === 'OneCall') {
+				const calls = exports.getCallsForAgent(user.userName);
+				if (calls && calls.length) { // monitor the current call
+					sendMonitoringEventsByAgent(calls[0], user, 'Ringing', [ 'accept' ]);
+				}
+			}
+		}
+	}
+};
+
+exports.stopMonitoring = req => {
+	if (req.body.data) {
+		stopMonitoring(conf.userByCode(req), conf.userByDestination(req.body.data.phoneNumber));
+	}
+};
+
+stopMonitoring = (spv, user) => {
+	if (spv && user) {
+		delete user.isMonitored;
+		delete user.monitoringInfo;
+		delete monitoringSessions[spv.agentLogin];
+	}
+};
+
+checkIfParticipantsMonitored = call => {
+	const destUser = conf.userByDestination(call.destNumber);
+	const originUser = conf.userByDestination(call.originNumber);
+	if (destUser && destUser.isMonitored && destUser.monitoringInfo) {
+		sendMonitoringEventsByAgent(call, destUser, 'Ringing', [ 'accept' ]);
+	}
+	if (originUser && originUser.isMonitored && originUser.monitoringInfo) {
+		sendMonitoringEventsByAgent(call, originUser, 'Ringing', [ 'accept' ]);
+	}
+};
+
+checkIfCallMonitored = (call, user, state, caps) => {
+	return _.reduce(_.keys(monitoringSessions), (result, spvLogin) => {
+		if (user && spvLogin === user.agentLogin) {
+			const monitoringSession = monitoringSessions[spvLogin];
+			const c = monitoringSession.call;
+			if (c === call.originCall || c === call.destCall) {
+				sendMonitoringEvents(c, user, state, caps);
+				if (state === 'Completed') {
+					if (monitoringSession.monitoringInfo.monitorNextCallType === 'OneCall') {
+						stopMonitoring(user, conf.userByDestination(monitoringSession.monitoringInfo.monitoredDN));
+					} else {
+						delete monitoringSession.call;
+					}
+				}
+				return c;
+			}
+		}
+		return result;
+	}, null);
+};
+
+sendMonitoringEvents = (call, user, state, caps) => {
+	const monitoringSession = monitoringSessions[user.agentLogin];
+	if (monitoringSession) {
+		publishSpvCallEvent(user, call, monitoringSession, state, caps);
+	}
+};
+
+sendMonitoringEventsByAgent = (call, user, state, caps) => {
+	_.each(_.keys(monitoringSessions), spvLogin => {
+		if (monitoringSessions[spvLogin].monitoringInfo.monitoredDN === user.monitoringInfo.monitoredDN) {
+			const spv = conf.userByDestination(spvLogin);
+			if (spv) {
+				var c;
+				if (call.originUser) {
+					c = call.originCall;
+				} else if (call.destUser) {
+					c = call.destCall;
+  				} else {
+  					c = call;
+  				}
+  				publishSpvCallEvent(spv, c, monitoringSessions[spvLogin], state, caps);
+			}
+		}
+	});
+};
+
+publishSpvCallEvent = (spv, call, monitoringSession, state, caps) => {
+	monitoringSession.call = call;
+	var c = _.clone(call);
+	c.state = state;
+	if (caps) {
+		c.capabilities = c.capabilities.concat(caps);
+	}
+	c.isMonitoredByMe = true;
+	c.monitoringInfo = _.clone(monitoringSession.monitoringInfo);
+	delete c.monitoringInfo.monitorNextCallType;
+	exports.publishAgentCallEvent(spv.userName, c);
+	reportCallStateForAgent(spv.userName, c);
 };
 
 consolidateKey = (array, property) => {
@@ -517,6 +674,13 @@ class Call {
     var dest = this.destCall;
     origin.participants.push(participant);
     dest.participants.push(participant);
+  }
+
+  onEstablished(participant) {
+  	checkIfParticipantsMonitored(this);
+  	if (participant) {
+  		this.addParticipant(participant);
+  	}
   }
 
   get userData() {

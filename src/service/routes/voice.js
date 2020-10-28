@@ -89,4 +89,16 @@ router.use('/workspace/v3/voice/make-call', (req, res) => {
   res.send(defaultResponse());
 });
 
+router.use('/workspace/v3/voice/start-monitoring', (req, res) => {
+  voice.startMonitoring(req);
+  // respond with default response
+  res.send(defaultResponse());
+});
+
+router.use('/workspace/v3/voice/stop-monitoring', (req, res) => {
+  voice.stopMonitoring(req);
+  // respond with default response
+  res.send(defaultResponse());
+});
+
 module.exports = router;
