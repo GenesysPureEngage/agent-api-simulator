@@ -158,15 +158,15 @@ exports.handleCall = (req, res) => {
   const user = conf.userByName(userName);
   var call = calls[req.params.callid];
   var agentCall;
-  if (call){
+  if (call) {
     agentCall = call.getCallByUserName(userName);
+  } else {
+  	const msg = "Call with " + req.params.callid + " id does not exist for " + userName;
+    log.error(msg);
+    utils.sendFailureStatus(res, 500, msg);
+    return;
   }
-  if (!call) {
-    log.error(
-      "Call with " + req.params.callid + " id does not exist for " + userName
-    );
-    utils.sendFailureStatus(res, 500);
-  } else if (req.params.fn === "answer") {
+  if (req.params.fn === "answer") {
   	if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
       call.state = "Established";
       call.onEstablished();
