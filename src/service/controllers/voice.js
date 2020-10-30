@@ -358,6 +358,7 @@ exports.startMonitoring = req => {
 					sendMonitoringEventsByAgent(calls[0], user, 'Ringing', [ 'accept' ]);
 				}
 			}
+			exports.publishMonitorEvent(spv, user.monitoringInfo, 'MonitoringStarted');
 		}
 	}
 };
@@ -388,6 +389,8 @@ exports.stopMonitoring = req => {
 
 stopMonitoring = (spv, user) => {
 	if (spv && user) {
+		const monitoringSession = monitoringSessions[spv.agentLogin] || {};
+		exports.publishMonitorEvent(spv, monitoringSession.monitoringInfo, 'MonitoringStopped');
 		delete user.isMonitored;
 		delete user.monitoringInfo;
 		delete monitoringSessions[spv.agentLogin];
@@ -536,6 +539,19 @@ publishSpvCallEvent = (spv, call, monitoringSession, state, caps) => {
 			delete monitoringSession.call;
 		}
 	}
+};
+
+exports.publishMonitorEvent = (spv, monitoringInfo, eventType) => {
+  var msg = {
+    eventType: eventType,
+    event: {
+      otherDN: monitoringInfo ? monitoringInfo.monitoredDN : '',
+      monitorNextCallType: monitoringInfo ? monitoringInfo.monitorNextCallType : ''
+    },
+    monitorMode: monitoringInfo ? monitoringInfo.monitorMode : '',
+    messageType: "MonitoringStateChanged",
+  };
+  messaging.publish(spv.userName, "/workspace/v3/voice", msg);
 };
 
 consolidateKey = (array, property) => {
