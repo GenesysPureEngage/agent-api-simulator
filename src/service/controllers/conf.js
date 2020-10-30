@@ -385,7 +385,7 @@ setMonitoringState = (req, a) => {
   });
   if (monitoredAG && _.indexOf(monitoredAG.agentDBIDs, a.DBID) !== -1) {
     const channels = a.availability ? a.availability.channels : [];
-    a.isMonitorable = !_.isUndefined(_.find(channels, ch => { return ch.name === 'voice' && userDn.switchName === ch.switchName; }));
+    a.isMonitorable = _.some(channels, ch => { return ch.name === 'voice' && userDn.switchName === ch.switchName; });
   }
 };
 

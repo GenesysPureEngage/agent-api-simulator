@@ -166,25 +166,29 @@ exports.handleCall = (req, res) => {
     utils.sendFailureStatus(res, 500, msg);
     return;
   }
-  if (req.params.fn === "answer") {
-  	if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
-      call.state = "Established";
-      call.onEstablished();
-      reportCallState(call);
-      utils.sendOkStatus(req, res);
-      exports.publishCallEvent(call);
-    }
-  } else if (req.params.fn === "hold") {
+  switch (req.params.fn) {
+    case "answer":
+  	  if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
+        call.state = "Established";
+        call.onEstablished();
+        reportCallState(call);
+        utils.sendOkStatus(req, res);
+        exports.publishCallEvent(call);
+      }
+      break;
+  case "hold":
     agentCall.state = "Held";
     reportCallState(call);
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall);
-  } else if (req.params.fn === "retrieve") {
+    break;
+  case "retrieve":
     agentCall.state = "Established";
     reportCallStateForAgent(userName, agentCall);
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall);
-  } else if (req.params.fn === "initiate-transfer") {
+    break;
+  case "initiate-transfer":
     agentCall.state = "Held";
     reportCallStateForAgent(userName, agentCall);
     utils.sendOkStatus(req, res);
@@ -205,7 +209,8 @@ exports.handleCall = (req, res) => {
       exports.makeCall(consultCall); //make the Consult call
       reportCallState(consultCall);
     }
-  } else if (req.params.fn === "single-step-conference") {
+    break;
+  case "single-step-conference":
     call.state = "Established";
 
     var participantAdded = {};
@@ -220,7 +225,8 @@ exports.handleCall = (req, res) => {
     reportCallState(call);
     utils.sendOkStatus(req, res);
     exports.publishCallEvent(call, userName);
-  } else if (req.params.fn === "single-step-transfer") {
+    break;
+  case "single-step-transfer":
     /**
      * Not actually transferring a call. For now just complete the call so that
      * it appears to be transferred from this agent's perspective.
@@ -230,14 +236,15 @@ exports.handleCall = (req, res) => {
     rmm.recordInteractionComplete(userName, agentCall.id);
     utils.sendOkStatus(req, res);
     exports.publishCallEvent(call, userName);
-  } else if (req.params.fn === "release") {
+  case "release":
   	if (!checkIfCallMonitored(req, res, call, user, 'Released', [ 'complete' ])) {
       call.state = "Released";
       reportCallState(call);
       utils.sendOkStatus(req, res);
       exports.publishCallEvent(call);
     }
-  } else if (req.params.fn === "complete") {
+    break;
+  case "complete":
   	if (!checkIfCallMonitored(req, res, call, user, 'Completed')) {
       agentCall.state = "Completed";
       reportCallStateForAgent(userName, agentCall);
@@ -245,22 +252,23 @@ exports.handleCall = (req, res) => {
       utils.sendOkStatus(req, res);
       exports.publishAgentCallEvent(userName, agentCall);
     }
-  } else if (
-    req.params.fn === "start-recording" ||
-    req.params.fn === "resume-recording"
-  ) {
+    break;
+  case "start-recording": case "resume-recording":
     agentCall.recordingState = "Recording";
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall, 'CallRecordingStateChange');
-  } else if (req.params.fn === "stop-recording") {
+    break;
+  case "stop-recording":
     agentCall.recordingState = "Stopped";
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall, 'CallRecordingStateChange');
-  } else if (req.params.fn === "pause-recording") {
+    break;
+  case "pause-recording":
     agentCall.recordingState = "Paused";
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall, 'CallRecordingStateChange');
-  } else if (req.params.fn === "update-user-data") {
+    break;
+  case "update-user-data":
     var entries = req.body.data.userData;
     for (var entry of entries) {
       //If updating an entry with multiple instances of the same key, consolidate the keys first
@@ -271,7 +279,8 @@ exports.handleCall = (req, res) => {
     utils.sendOkStatus(req, res);
     exports.publishAttachedDataChangeEvent(call);
     rmm.updateUserData(call.id, call.userData);
-  } else if (req.params.fn === "attach-user-data") {
+    break;
+  case "attach-user-data":
     var entries = req.body.data.userData;
     for (var entry of entries) {
       //Push to array regardless of if the key already exists
@@ -280,24 +289,30 @@ exports.handleCall = (req, res) => {
     utils.sendOkStatus(req, res);
     exports.publishAttachedDataChangeEvent(call);
     rmm.updateUserData(call.id, call.userData);
-  } else if (req.params.fn === "delete-user-data-pair") {
+    break;
+  case "delete-user-data-pair":
     var key = req.body.key;
     var index = call.userData.findIndex(e => e.key === key);
     call.userData.splice(index, 1);
     utils.sendOkStatus(req, res);
     exports.publishAttachedDataChangeEvent(call);
-  } else if (req.params.fn === "send-dtmf") {
+    break;
+  case "send-dtmf":
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall);
-  } else if (req.params.fn === 'set-comment') {
+    break;
+  case 'set-comment':
     utils.sendOkStatus(req, res);
-  } else if (req.params.fn === 'switch-to-barge-in') {
+    break;
+  case 'switch-to-barge-in':
   	switchToBargein(true, call, user);
     utils.sendOkStatus(req, res);
-  } else if (req.params.fn === 'switch-to-listen-in') {
+    break;
+  case 'switch-to-listen-in':
   	switchToBargein(false, call, user);
     utils.sendOkStatus(req, res);
-  } else {
+    break;
+  default:
     utils.sendFailureStatus(res, 501);
   }
 };
