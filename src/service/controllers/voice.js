@@ -167,15 +167,15 @@ exports.handleCall = (req, res) => {
     return;
   }
   switch (req.params.fn) {
-    case "answer":
-  	  if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
-        call.state = "Established";
-        call.onEstablished();
-        reportCallState(call);
-        utils.sendOkStatus(req, res);
-        exports.publishCallEvent(call);
-      }
-      break;
+  case "answer":
+  	if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
+      call.state = "Established";
+      call.onEstablished();
+      reportCallState(call);
+      utils.sendOkStatus(req, res);
+      exports.publishCallEvent(call);
+    }
+    break;
   case "hold":
     agentCall.state = "Held";
     reportCallState(call);
