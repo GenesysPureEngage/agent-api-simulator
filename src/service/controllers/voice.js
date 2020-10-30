@@ -74,6 +74,7 @@ exports.makeCall = call => {
       ["Ringing", "Dialing"].includes(calls[call.id].state)
     ) {
       call.state = "Established";
+      call.onEstablished();
       reportCallState(call);
       exports.publishCallEvent(call);
     }
@@ -92,6 +93,32 @@ reportCallState = call => {
 
 reportCallStateForAgent = (userName, call) => {
   reporting.setSubject(userName, "Calls", { id: call.id, state: call.state });
+  changeAgentStatus(userName, call);
+};
+
+changeAgentStatus = (userName, call) => {
+	const user = conf.userByName(userName);
+	if (user && user.activeSession && user.activeSession.dn) {
+		const dn = user.activeSession.dn;
+		if (call.state === 'Established') {
+			switch(call.callType) {
+			case 'Inbound':	dn.activity = 'HandlingInternalCall'; break;
+			case 'Internal': dn.activity = 'HandlingInboundCall'; break;
+			case 'Outbound': dn.activity = 'HandlingOutboundCall'; break;
+			case 'Consult':	dn.activity = 'HandlingConsultCall'; break;
+			}
+			dn.available = false;
+		} else if (call.state === 'Ringing') {
+			dn.activity = 'InitiatingCall'; // ReceivingCall?
+			dn.available = false;
+		} else if (call.state === 'Hold') {
+			dn.activity = 'CallOnHold';
+			dn.available = false;
+		} else if (call.state === 'Released') {
+			dn.activity = 'Idle';
+			dn.available = true;
+		}
+	}
 };
 
 exports.changeState = (req, state, options) => {
@@ -128,32 +155,40 @@ exports.changeState = (req, state, options) => {
 exports.handleCall = (req, res) => {
   res.set({ "Content-type": "application/json" });
   var userName = auth.userByCode(req);
+  const user = conf.userByName(userName);
   var call = calls[req.params.callid];
   var agentCall;
-  if (call){
+  if (call) {
     agentCall = call.getCallByUserName(userName);
+  } else {
+  	const msg = "Call with " + req.params.callid + " id does not exist for " + userName;
+    log.error(msg);
+    utils.sendFailureStatus(res, 500, msg);
+    return;
   }
-  if (!call) {
-    log.error(
-      "Call with " + req.params.callid + " id does not exist for " + userName
-    );
-    utils.sendFailureStatus(res, 500);
-  } else if (req.params.fn === "answer") {
-    call.state = "Established";
-    reportCallState(call);
-    utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call);
-  } else if (req.params.fn === "hold") {
+  switch (req.params.fn) {
+  case "answer":
+  	if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
+      call.state = "Established";
+      call.onEstablished();
+      reportCallState(call);
+      utils.sendOkStatus(req, res);
+      exports.publishCallEvent(call);
+    }
+    break;
+  case "hold":
     agentCall.state = "Held";
     reportCallState(call);
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall);
-  } else if (req.params.fn === "retrieve") {
+    break;
+  case "retrieve":
     agentCall.state = "Established";
     reportCallStateForAgent(userName, agentCall);
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall);
-  } else if (req.params.fn === "initiate-transfer") {
+    break;
+  case "initiate-transfer":
     agentCall.state = "Held";
     reportCallStateForAgent(userName, agentCall);
     utils.sendOkStatus(req, res);
@@ -174,7 +209,8 @@ exports.handleCall = (req, res) => {
       exports.makeCall(consultCall); //make the Consult call
       reportCallState(consultCall);
     }
-  } else if (req.params.fn === "single-step-conference") {
+    break;
+  case "single-step-conference":
     call.state = "Established";
 
     var participantAdded = {};
@@ -184,12 +220,13 @@ exports.handleCall = (req, res) => {
       participantAdded.number = req.body.data.destination;
     }
     participantAdded.role = "RoleNewParty";
-    call.addParticipant(participantAdded);
+    call.onEstablished(participantAdded);
 
     reportCallState(call);
     utils.sendOkStatus(req, res);
     exports.publishCallEvent(call, userName);
-  } else if (req.params.fn === "single-step-transfer") {
+    break;
+  case "single-step-transfer":
     /**
      * Not actually transferring a call. For now just complete the call so that
      * it appears to be transferred from this agent's perspective.
@@ -199,33 +236,39 @@ exports.handleCall = (req, res) => {
     rmm.recordInteractionComplete(userName, agentCall.id);
     utils.sendOkStatus(req, res);
     exports.publishCallEvent(call, userName);
-  } else if (req.params.fn === "release") {
-    call.state = "Released";
-    reportCallState(call);
-    utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call);
-  } else if (req.params.fn === "complete") {
-    agentCall.state = "Completed";
-    reportCallStateForAgent(userName, agentCall);
-    rmm.recordInteractionComplete(userName, agentCall.id);
-    utils.sendOkStatus(req, res);
-    exports.publishAgentCallEvent(userName, agentCall);
-  } else if (
-    req.params.fn === "start-recording" ||
-    req.params.fn === "resume-recording"
-  ) {
+  case "release":
+  	if (!checkIfCallMonitored(req, res, call, user, 'Released', [ 'complete' ])) {
+      call.state = "Released";
+      reportCallState(call);
+      utils.sendOkStatus(req, res);
+      exports.publishCallEvent(call);
+    }
+    break;
+  case "complete":
+  	if (!checkIfCallMonitored(req, res, call, user, 'Completed')) {
+      agentCall.state = "Completed";
+      reportCallStateForAgent(userName, agentCall);
+      rmm.recordInteractionComplete(userName, agentCall.id);
+      utils.sendOkStatus(req, res);
+      exports.publishAgentCallEvent(userName, agentCall);
+    }
+    break;
+  case "start-recording": case "resume-recording":
     agentCall.recordingState = "Recording";
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall, 'CallRecordingStateChange');
-  } else if (req.params.fn === "stop-recording") {
+    break;
+  case "stop-recording":
     agentCall.recordingState = "Stopped";
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall, 'CallRecordingStateChange');
-  } else if (req.params.fn === "pause-recording") {
+    break;
+  case "pause-recording":
     agentCall.recordingState = "Paused";
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall, 'CallRecordingStateChange');
-  } else if (req.params.fn === "update-user-data") {
+    break;
+  case "update-user-data":
     var entries = req.body.data.userData;
     for (var entry of entries) {
       //If updating an entry with multiple instances of the same key, consolidate the keys first
@@ -236,7 +279,8 @@ exports.handleCall = (req, res) => {
     utils.sendOkStatus(req, res);
     exports.publishAttachedDataChangeEvent(call);
     rmm.updateUserData(call.id, call.userData);
-  } else if (req.params.fn === "attach-user-data") {
+    break;
+  case "attach-user-data":
     var entries = req.body.data.userData;
     for (var entry of entries) {
       //Push to array regardless of if the key already exists
@@ -245,20 +289,235 @@ exports.handleCall = (req, res) => {
     utils.sendOkStatus(req, res);
     exports.publishAttachedDataChangeEvent(call);
     rmm.updateUserData(call.id, call.userData);
-  } else if (req.params.fn === "delete-user-data-pair") {
+    break;
+  case "delete-user-data-pair":
     var key = req.body.key;
     var index = call.userData.findIndex(e => e.key === key);
     call.userData.splice(index, 1);
     utils.sendOkStatus(req, res);
     exports.publishAttachedDataChangeEvent(call);
-  } else if (req.params.fn === "send-dtmf") {
+    break;
+  case "send-dtmf":
     utils.sendOkStatus(req, res);
     exports.publishAgentCallEvent(userName, agentCall);
-  } else if (req.params.fn === 'set-comment') {
+    break;
+  case 'set-comment':
     utils.sendOkStatus(req, res);
-  } else {
+    break;
+  case 'switch-to-barge-in':
+  	switchToBargein(true, call, user);
+    utils.sendOkStatus(req, res);
+    break;
+  case 'switch-to-listen-in':
+  	switchToBargein(false, call, user);
+    utils.sendOkStatus(req, res);
+    break;
+  default:
     utils.sendFailureStatus(res, 501);
   }
+};
+
+var monitoringSessions = {};
+
+exports.startMonitoring = req => {
+	if (req.body.data) {
+		const spv = conf.userByCode(req);
+		const user = conf.userByDestination(req.body.data.phoneNumberToMonitor);
+		if (spv && user) {
+			user.isMonitored = true;
+			user.monitoringInfo = {
+				monitoredDN: req.body.data.phoneNumberToMonitor,
+				monitorMode: req.body.data.monitoringMode,
+				monitorScope: req.body.data.monitoringScope,
+				monitorNextCallType: req.body.data.monitoringNextCallType
+			};
+			if (!monitoringSessions[spv.agentLogin]) {
+				monitoringSessions[spv.agentLogin] = { monitoringInfo: user.monitoringInfo };
+			}
+			if (user.monitoringInfo.monitorNextCallType === 'OneCall') {
+				const calls = exports.getCallsForAgent(user.userName);
+				if (calls && calls.length) { // monitor the current call
+					sendMonitoringEventsByAgent(calls[0], user, 'Ringing', [ 'accept' ]);
+				}
+			}
+		}
+	}
+};
+
+onCallMonitored = (call, spv, monitoringInfo) => {
+	call.supervisorMonitoringState = monitoringInfo.monitorMode;
+	call.supervisorListeningIn = true;
+	_.each(getCallParties(call, spv), party => {
+		exports.publishAgentCallEvent(party.userName, call);
+	});
+};
+
+onCallNotMonitored = (call, spv) => {
+	delete call.supervisorBargedIn;
+   	delete call.supervisorListeningIn;
+   	delete call.supervisorMonitoringState;
+	_.each(getCallParties(call, spv), party => {
+		exports.publishAgentCallEvent(party.userName, call);
+	});
+};
+
+
+exports.stopMonitoring = req => {
+	if (req.body.data) {
+		stopMonitoring(conf.userByCode(req), conf.userByDestination(req.body.data.phoneNumber));
+	}
+};
+
+stopMonitoring = (spv, user) => {
+	if (spv && user) {
+		delete user.isMonitored;
+		delete user.monitoringInfo;
+		delete monitoringSessions[spv.agentLogin];
+	}
+};
+
+checkIfParticipantsMonitored = call => {
+	const destUser = conf.userByDestination(call.destNumber);
+	const originUser = conf.userByDestination(call.originNumber);
+	if (destUser && destUser.isMonitored && destUser.monitoringInfo) {
+		sendMonitoringEventsByAgent(call, destUser, 'Ringing', [ 'accept' ]);
+	}
+	if (originUser && originUser.isMonitored && originUser.monitoringInfo) {
+		sendMonitoringEventsByAgent(call, originUser, 'Ringing', [ 'accept' ]);
+	}
+};
+
+checkIfCallMonitored = (req, res, call, user, state, caps) => {
+	const monitoringSession = user ? monitoringSessions[user.agentLogin] : null;
+	if (monitoringSession) {
+		var c = monitoringSession.call;
+		if (c === call.originCall || c === call.destCall) {
+			sendMonitoringEvents(c, user, state, caps);
+			utils.sendOkStatus(req, res);
+			return c;
+		}
+	}
+	return null;
+};
+
+sendMonitoringEvents = (call, user, state, caps) => {
+	const monitoringSession = monitoringSessions[user.agentLogin];
+	if (monitoringSession) {
+		publishSpvCallEvent(user, call, monitoringSession, state, caps);
+	}
+};
+
+sendMonitoringEventsByAgent = (call, user, state, caps) => {
+	_.each(_.keys(monitoringSessions), spvLogin => {
+		if (monitoringSessions[spvLogin].monitoringInfo.monitoredDN === user.monitoringInfo.monitoredDN) {
+			const spv = conf.userByDestination(spvLogin);
+			if (spv) {
+				var c;
+				if (call.originUser) {
+					c = call.originCall;
+				} else if (call.destUser) {
+					c = call.destCall;
+  				} else {
+  					c = call;
+  				}
+  				publishSpvCallEvent(spv, c, monitoringSessions[spvLogin], state, caps);
+			}
+		}
+	});
+};
+
+switchToBargein = (isBargein, call, user) => {
+	const monitoringSession = user ? monitoringSessions[user.agentLogin] : null;
+	if (monitoringSession) {
+		var monitoringInfo = _.clone(monitoringSession.monitoringInfo);
+		monitoringInfo.monitorMode = isBargein ? 'connect' : 'mute';
+		monitoringSession.call.supervisorMonitoringState = monitoringInfo.monitorMode;
+		monitoringSession.call.supervisorListeningIn = !isBargein;
+		monitoringSession.call.supervisorBargedIn = isBargein;
+		_.each(getCallParties(call, user), party => {
+			exports.publishAgentCallEvent(party.userName, monitoringSession.call);
+		});
+		publishSpvCallEvent(user, monitoringSession.call, { monitoringInfo: monitoringInfo });
+	}
+};
+
+getCallParties = (call, except) => {
+	var result = [];
+	if (call.originUser) {
+		result.push(call.originUser);
+	}
+	if (call.destUser) {
+		result.push(call.destUser);
+	}
+    _.each(call.participants, party => {
+		const u = except.agentLogin !== party.number ? conf.userByDestination(party.number) : null;
+		if (u) {
+			result.push(u);
+		}
+	});
+	const u = call.dnis !== except.agentLogin ? conf.userByDestination(call.dnis) : null;
+	if (u) {
+		result.push(u);
+	}
+	return result;
+};
+
+publishSpvCallEvent = (spv, call, monitoringSession, state, caps) => {
+	monitoringSession.call = call;
+	var c = _.clone(call);
+	c.participants = _.clone(call.participants);
+	if (state) {
+		c.state = state;
+	}
+	if (caps) {
+		c.capabilities = c.capabilities.concat(caps);
+	}
+	c.isMonitoredByMe = true;
+	c.monitoringInfo = _.clone(monitoringSession.monitoringInfo);
+	delete c.monitoringInfo.monitorNextCallType;
+	var spvParty = {
+		number: spv.agentLogin,
+		role: 'RoleObserver'
+	};
+	_.each(getCallParties(call, spv), party => {
+		if (!_.find(c.participants, p => { return p.number === party.agentLogin; })) {
+			c.participants.push({
+				number: party.agentLogin,
+				role: 'RoleNewParty'
+			});
+		}
+	});
+	c.participants.push(spvParty);
+	if (state === 'Ringing') {
+		onCallMonitored(call, spv, c.monitoringInfo);
+	}
+	if (state === 'Released') {
+		onCallNotMonitored(call, spv);
+	}
+	if (monitoringSession.monitoringInfo.monitorMode.toLowerCase() === 'coach') {
+		if (state === 'Established') {
+			var c2 = _.clone(call);
+			c2.participants = _.clone(call.participants);
+			c2.participants.push(spvParty);
+			_.each(getCallParties(call, spv), party => {
+				exports.publishAgentCallEvent(party.userName, c2, 'ParticipantsUpdated');
+			});
+		}
+		if (state === 'Released') {
+			_.each(getCallParties(call, spv), party => {
+				exports.publishAgentCallEvent(party.userName, call, 'ParticipantsUpdated');
+			});
+		}
+	}
+	exports.publishAgentCallEvent(spv.userName, c);
+	reportCallStateForAgent(spv.userName, c);
+	if (state === 'Completed') {
+		if (monitoringSession.monitoringInfo.monitorNextCallType === 'OneCall') {
+			stopMonitoring(spv, conf.userByDestination(monitoringSession.monitoringInfo.monitoredDN));
+		} else {
+			delete monitoringSession.call;
+		}
+	}
 };
 
 consolidateKey = (array, property) => {
@@ -517,6 +776,13 @@ class Call {
     var dest = this.destCall;
     origin.participants.push(participant);
     dest.participants.push(participant);
+  }
+
+  onEstablished(participant) {
+  	checkIfParticipantsMonitored(this);
+  	if (participant) {
+  		this.addParticipant(participant);
+  	}
   }
 
   get userData() {

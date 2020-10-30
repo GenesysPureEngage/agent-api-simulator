@@ -109,6 +109,10 @@ exports.sendOkStatus = (req, res, id) => {
   }));
 }
 
-exports.sendFailureStatus = (res, status) => {
-  res.sendStatus(status);
+exports.sendFailureStatus = (res, status, msg) => {
+  if (msg) {
+    res.status(status).send(msg);
+  } else {
+    res.sendStatus(status);
+  }
 }

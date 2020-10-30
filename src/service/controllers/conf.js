@@ -208,7 +208,7 @@ exports.targets = function(req, res) {
         if (user.activeSession && user.activeSession.dn) {
           voiceChannel = {
             name: "voice",
-            available: user.activeSession.dn.agentState === "Ready",
+            available: _.isUndefined(user.activeSession.dn.available) ? true : user.activeSession.dn.available,
             userState: {
               state: user.activeSession.dn.agentState
             },
@@ -232,6 +232,7 @@ exports.targets = function(req, res) {
         }
 
         copyActiveSessionToAvailability(user, u);
+        setMonitoringState(req, u);
         targets.push(u);
       });
     } else if (type === "agent-group") {
@@ -332,8 +333,8 @@ copyActiveSessionToAvailability = (agent, a) => {
     if (agent.activeSession.dn) {
       const rec = {
         name: 'voice',
-        activity: 'Idle',
-        available: agent.activeSession.dn.agentState === 'Ready',
+        activity: agent.activeSession.dn.activity ? agent.activeSession.dn.activity : 'Idle',
+        available: _.isUndefined(agent.activeSession.dn.available) ? true : agent.activeSession.dn.available,
         userState: {
           state: agent.activeSession.dn.agentState,
         },
@@ -367,6 +368,24 @@ copyActiveSessionToAvailability = (agent, a) => {
         // dnd reasons
       });
     }
+  }
+};
+
+setMonitoringState = (req, a) => {
+  if (a.isMonitored) {
+    return;
+  }
+  const user = exports.userByCode(req);
+  const userDn = ((user || {}).activeSession || {}).dn || {};
+  if (userDn.agentState !== 'Ready' || _.indexOf(userDn.capabilities, 'start-monitoring') === -1) {
+    return;
+  }
+  const monitoredAG = _.find(agentGroups, ag => {
+    return _.indexOf(ag.managerDBIDs, user.DBID) !== -1;
+  });
+  if (monitoredAG && _.indexOf(monitoredAG.agentDBIDs, a.DBID) !== -1) {
+    const channels = a.availability ? a.availability.channels : [];
+    a.isMonitorable = _.some(channels, ch => { return ch.name === 'voice' && userDn.switchName === ch.switchName; });
   }
 };
 
