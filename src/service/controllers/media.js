@@ -276,6 +276,47 @@ exports.publishInteractionEvent = (agent, media, interaction, notificationType) 
   if(agent.body && agent.body.operationId)
     msg.operationId = agent.body.operationId;
   messaging.publish(agent, '/workspace/v3/media/' + media, msg);
+  changeAgentMediaStatus(agent, media, interaction);
+}
+
+interactionsHandled = (agent, media) => {
+  return interactionsByAgent[agent.userName] && interactionsByAgent[agent.userName][media] ? interactionsByAgent[agent.userName][media].length : 0;
+}
+
+isMediaCapacityFilled = (agent, media) => {
+  return (agent.capacity ? agent.capacity : 1) <= interactionsHandled(agent, media);
+}
+
+changeAgentMediaStatus = (agent, media, interaction) => {
+  const user = _.isString(agent) ? conf.userByName(agent) : conf.userByCode(agent);
+  if (user && user.activeSession && user.activeSession.media && user.activeSession.media.channels) {
+    const ch = _.find(user.activeSession.media.channels, ch => { return ch.name === media; });
+    if (ch) {
+      switch (interaction.state) {
+        case 'Invited':
+          ch.activity = 'DeliveringInteraction';
+          ch.available = true;
+          break;
+        case 'Processing':
+          switch(interaction.interactionType) {
+            case 'Inbound': ch.activity = 'HandlingInboundInteraction'; break;
+            case 'Internal': ch.activity = 'HandlingInternalInteraction'; break;
+            case 'Outbound': ch.activity = 'HandlingOutboundInteraction'; break;
+          }
+          ch.available = !isMediaCapacityFilled(user, media);
+          break;
+        case 'Completed': case 'InWorkbin':
+          deleteInteractionForAgent(user.userName, interaction.id, interaction.mediatype);
+          if (interactionsHandled(user, media) === 0) {
+            ch.activity = 'Idle';
+            ch.available = true;
+          } else {
+            ch.available = !isMediaCapacityFilled(user, media);
+          }
+          break;
+      }
+    }
+  }
 }
 
 var customerId = conf.id();
@@ -491,6 +532,15 @@ addInteractionForAgent = (agent, interaction) => {
   }
   interactionsByAgent[agent][interaction.mediatype].push(interaction);
   rmm.recordInteraction(agent, interaction);
+}
+
+deleteInteractionForAgent = (agentName, interactionId, mediaType) => {
+  if (interactionsByAgent[agentName] && interactionsByAgent[agentName][mediaType]) {
+    const idx = _.findIndex(interactionsByAgent[agentName][mediaType], i => { return i.id === interactionId; });
+    if (idx > -1) {
+      interactionsByAgent[agentName][mediaType].splice(idx, 1);
+    }
+  }
 }
 
 exports.getInteractionsForAgent = (agentUserName, channel) => {

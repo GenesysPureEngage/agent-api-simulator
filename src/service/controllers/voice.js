@@ -96,27 +96,44 @@ reportCallStateForAgent = (userName, call) => {
   changeAgentStatus(userName, call);
 };
 
+callsHandled = (agent) => {
+  return exports.getCallsForAgent(agent.userName).length;
+}
+
+isCapacityFilled = (agent) => {
+  return (agent.capacity ? agent.capacity : 1) <= callsHandled(agent);
+}
+
 changeAgentStatus = (userName, call) => {
 	const user = conf.userByName(userName);
 	if (user && user.activeSession && user.activeSession.dn) {
 		const dn = user.activeSession.dn;
-		if (call.state === 'Established') {
-			switch(call.callType) {
-			case 'Inbound':	dn.activity = 'HandlingInternalCall'; break;
-			case 'Internal': dn.activity = 'HandlingInboundCall'; break;
-			case 'Outbound': dn.activity = 'HandlingOutboundCall'; break;
-			case 'Consult':	dn.activity = 'HandlingConsultCall'; break;
-			}
-			dn.available = false;
-		} else if (call.state === 'Ringing') {
-			dn.activity = 'InitiatingCall'; // ReceivingCall?
-			dn.available = false;
-		} else if (call.state === 'Hold') {
-			dn.activity = 'CallOnHold';
-			dn.available = false;
-		} else if (call.state === 'Released') {
-			dn.activity = 'Idle';
-			dn.available = true;
+		switch (call.state) {
+			case 'Established':
+				switch(call.callType) {
+					case 'Inbound':	dn.activity = 'HandlingInboundCall'; break;
+					case 'Internal': dn.activity = 'HandlingInternalCall'; break;
+					case 'Outbound': dn.activity = 'HandlingOutboundCall'; break;
+					case 'Consult':	dn.activity = 'HandlingConsultCall'; break;
+				}
+				dn.available = !isCapacityFilled(user);
+				break;
+			case 'Ringing':
+				dn.activity = 'InitiatingCall'; // ReceivingCall?
+				dn.available = false;
+				break;
+			case 'Hold':
+				dn.activity = 'CallOnHold';
+				dn.available = false;
+				break;
+			case 'Completed':
+				if (callsHandled(user) === 0) {
+					dn.activity = 'Idle';
+					dn.available = true;
+				} else {
+					dn.available = !isCapacityFilled(user);
+				}
+				break;
 		}
 	}
 };
@@ -247,6 +264,7 @@ exports.handleCall = (req, res) => {
   case "complete":
   	if (!checkIfCallMonitored(req, res, call, user, 'Completed')) {
       agentCall.state = "Completed";
+      call.deleteCall();
       reportCallStateForAgent(userName, agentCall);
       rmm.recordInteractionComplete(userName, agentCall.id);
       utils.sendOkStatus(req, res);
@@ -729,6 +747,15 @@ class Call {
     this.callByNumber = {};
     this.callByNumber[this.originNumber] = this.originCall;
     this.callByNumber[this.destNumber] = this.destCall;
+  }
+
+  deleteCall() {
+  	delete this.callByUserName[this.originUserName];
+    delete this.callByUserName[this.destUserName];
+    delete this.callByUser[this.originUser];
+    delete this.callByUser[this.destUser];
+    delete this.callByNumber[this.originNumber];
+    delete this.callByNumber[this.destNumber];
   }
 
   getCallByUserName(userName) {

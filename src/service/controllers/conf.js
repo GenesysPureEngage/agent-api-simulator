@@ -202,35 +202,6 @@ exports.targets = function(req, res) {
         u.name = `${user.firstName} ${user.lastName}`;
         u.type = "agent";
         delete u.activeSession;
-
-        var voiceChannel = null;
-        //If user is actively logged in return their current state
-        if (user.activeSession && user.activeSession.dn) {
-          voiceChannel = {
-            name: "voice",
-            available: _.isUndefined(user.activeSession.dn.available) ? true : user.activeSession.dn.available,
-            userState: {
-              state: user.activeSession.dn.agentState
-            },
-            activity: "Idle",
-            phoneNumber: user.agentLogin,
-            switchName: "SIP_Switch"
-          };
-          //If the user is not logged in, then return their configured voice
-          //state if they have one specified.
-        } else if (user.voiceState) {
-          voiceChannel = {
-            name: "voice",
-            available: user.voiceState === "Ready",
-            userState: {
-              state: user.voiceState
-            },
-            activity: "Idle",
-            phoneNumber: user.agentLogin,
-            switchName: "SIP_Switch"
-          };
-        }
-
         copyActiveSessionToAvailability(user, u);
         setMonitoringState(req, u);
         targets.push(u);
@@ -355,7 +326,8 @@ copyActiveSessionToAvailability = (agent, a) => {
       _.each(agent.activeSession.media.channels, (channel) => {
         var rec = {
           name: channel.name,
-          available: channel.state === 'Ready',
+          activity: channel.activity ? channel.activity : 'Idle',
+          available: _.isUndefined(channel.available) ? true : channel.available,
           userState: {
             state: channel.state
           },

@@ -52,6 +52,7 @@ KateLondon:
   password: KateLondon
   defaultPlace: Place_5000
   agentLogin: "+33298025000"
+  capacity: 2
 JeanDupont:
   DBID: 103
   firstName: Jean
