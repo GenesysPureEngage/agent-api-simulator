@@ -11,9 +11,5 @@ router.get('/ui/wwe/profile.js', (req, res) => res.status(200).json({}))
 router.get('/auth/profile.js', (req,res) => res.status(200).json({}))
 router.get('/auth/telemetry.js', (req,res) => res.status(200).json({}))
 router.get('/auth/host-mapping', (req,res) => res.status(200).json({}))
-// to avoid an error in WWE
-router.post('/workspace/v3/voice/send-user-event', (req, res) => {
-  res.sendStatus(200);
-});
 
 module.exports = router;

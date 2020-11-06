@@ -31,6 +31,26 @@ var capabilitiesDefinitions = utils.requireAndMonitor(
     capabilitiesDefinitions = updated;
   }
 );
+var campaigns = utils.requireAndMonitor(
+  "../../../data/outbound/campaigns.yaml",
+  updated => {
+    campaigns = updated;
+  }
+);
+
+var pullPreviewRecord = utils.requireAndMonitor(
+  "../../../data/outbound/pull-preview.yaml",
+  updated => {
+    pullPreviewRecord = updated;
+  }
+);
+
+var callingListFields = utils.requireAndMonitor(
+  "../../../data/outbound/calling-list.yaml",
+  updated => {
+    callingListFields = updated;
+  }
+);
 
 var calls = {};
 
@@ -570,6 +590,69 @@ exports.publishCallEvent = call => {
   }
 };
 
+exports.handleOutboundRequest = req => {
+  const userData = utils.flattenKVListData(req.body.data.userData);
+  var responseData = {};
+  switch (userData.GSW_AGENT_REQ_TYPE) {
+    case 'CampaignStatusRequest':
+      exports.sendCampaigns(req);
+      break;
+    case 'PreviewRecordRequest':
+      responseData = {
+        userData: pullPreviewRecord,
+        messageType: "EventUserEvent"
+      }
+      exports.sendOutboundMessage(req, pullPreviewRecord);
+      break;
+    case 'RequestRecordCancel':
+      responseData = {
+        GSW_USER_EVENT: 'RecordRejectAcknowledge',
+        GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
+      }
+      exports.sendOutboundMessage(req, responseData);
+      break;
+    case 'RecordReject':
+      responseData = {
+        GSW_USER_EVENT: 'RecordCancelAcknowledge',
+        GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
+      }
+      exports.sendOutboundMessage(req, responseData);
+      break;
+    case 'RecordProcessed':
+      responseData = {
+        GSW_USER_EVENT: 'RecordProcessedAcknowledge',
+        GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
+      }
+      exports.sendOutboundMessage(req, responseData);
+      break;
+    default:
+  }
+};
+
+exports.sendOutboundMessage = (req, data) => {
+  var msg = {}
+  msg.userData = data;
+  msg.messageType = "EventUserEvent";
+  messaging.publish(req, "/workspace/v3/voice", msg);
+},
+
+exports.sendCampaignConfiguration = (req, res) => {
+  const response = {
+    data: callingListFields
+  }
+  res.send(response);
+}
+
+exports.sendCampaigns = req => {
+  _.each(campaigns, campaign => {
+    var msg = {
+      userData: campaign,
+      messageType: "EventUserEvent"
+    };
+    messaging.publish(req, "/workspace/v3/voice", msg);
+  });
+};
+
 exports.publishAttachedDataChangeEvent = call => {
   if (call.originUser) {
     exports.publishAgentCallEvent(
@@ -869,7 +952,7 @@ exports.createCall = (
       state: call.originCall.state
     });
     rmm.recordInteraction(originUserName, call.originCall);
-    
+
     if (originUser.userName && defaultExtensions) {
       const gvmMailboxExtension = defaultExtensions.find((extension) => {
         return (extension && extension.key === 'gvm_mailbox');

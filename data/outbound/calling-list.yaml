@@ -1,0 +1,65 @@
+campaign:
+  callingLists:
+    - name: Custom Calling List
+      fields:
+        - type: 'float'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: AnotherFloat
+            interaction-workspace:
+              read-only: 'false'
+          fieldType: 16
+          isNullable: 'false'
+          length: 1
+        - type: 'int'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: Custom_Integer
+              interaction-workspace:
+                read-only: 'false'
+                mandatory: 'true'
+          fieldType: 16
+          isNullable: 'false'
+          length: 10
+        - type: 'string'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: Custom_String1
+            interaction-workspace:
+              read-only: 'true'
+          fieldType: 16
+          isNullable: 'true'
+          length: 10
+        - type: 'string'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: Custom_String2
+            interaction-workspace:
+              read-only: 'true'
+          fieldType: 16
+          isNullable: 'true'
+          length: 10
+        - type: 'string'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: Custom_String3
+            interaction-workspace:
+              read-only: 'true'
+          fieldType: 16
+          isNullable: 'true'
+          length: 10
+        - type: 'string'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: Custom_String4
+            interaction-workspace:
+              read-only: 'true'
+          fieldType: 16
+          isNullable: 'true'
+          length: 10
