@@ -606,14 +606,14 @@ exports.handleOutboundRequest = req => {
       break;
     case 'RequestRecordCancel':
       responseData = {
-        GSW_USER_EVENT: 'RecordRejectAcknowledge',
+        GSW_USER_EVENT: 'RecordCancelAcknowledge',
         GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
       }
       exports.sendOutboundMessage(req, responseData);
       break;
     case 'RecordReject':
       responseData = {
-        GSW_USER_EVENT: 'RecordCancelAcknowledge',
+        GSW_USER_EVENT: 'RecordRejectAcknowledge',
         GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
       }
       exports.sendOutboundMessage(req, responseData);
