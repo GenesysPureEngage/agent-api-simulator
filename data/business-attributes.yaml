@@ -2729,13 +2729,6 @@
       userProperties:
         - interaction-workspace:
             - interaction.case-data.order: Priority,Reason,Comment
-    - name: Custom_String1
-      id: 1169
-      displayName: Custom String1
-      default: false
-      userProperties:
-        - interaction-workspace:
-            - interaction.case-data.order: Priority,Reason,Comment
 - name: ToastData
   displayName: Toast Data
   id: 1002

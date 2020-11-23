@@ -16,50 +16,10 @@ campaign:
           isCustomField: 'true'
           userProperties:
             OCServer:
-              send_attribute: Custom_Integer
+              send_attribute: AnotherInt
               interaction-workspace:
                 read-only: 'false'
                 mandatory: 'true'
           fieldType: 16
           isNullable: 'false'
-          length: 10
-        - type: 'string'
-          isCustomField: 'true'
-          userProperties:
-            OCServer:
-              send_attribute: Custom_String1
-            interaction-workspace:
-              read-only: 'true'
-          fieldType: 16
-          isNullable: 'true'
-          length: 10
-        - type: 'string'
-          isCustomField: 'true'
-          userProperties:
-            OCServer:
-              send_attribute: Custom_String2
-            interaction-workspace:
-              read-only: 'true'
-          fieldType: 16
-          isNullable: 'true'
-          length: 10
-        - type: 'string'
-          isCustomField: 'true'
-          userProperties:
-            OCServer:
-              send_attribute: Custom_String3
-            interaction-workspace:
-              read-only: 'true'
-          fieldType: 16
-          isNullable: 'true'
-          length: 10
-        - type: 'string'
-          isCustomField: 'true'
-          userProperties:
-            OCServer:
-              send_attribute: Custom_String4
-            interaction-workspace:
-              read-only: 'true'
-          fieldType: 16
-          isNullable: 'true'
           length: 10
