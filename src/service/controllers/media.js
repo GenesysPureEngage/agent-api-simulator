@@ -150,6 +150,8 @@ exports.handleInteraction = (req, res) => {
     exports.handleWorkitemInteraction(req, res, interaction);
   } else if (req.params.media === 'outboundpreview' || req.params.fn === 'publish') {
     exports.handleOutboundPreviewInteraction(req, res, interaction);
+  } else if (req.params.fn === 'add-attachment') {
+    exports.handleAttachments(req, res);
   } else {
     utils.sendFailureStatus(res, 501);
   }
@@ -227,6 +229,68 @@ exports.handleInteractionUpdateUserdata = (req, res, interaction) => {
   });
   utils.sendOkStatus(req, res);
   exports.publishInteractionEvent(req, interaction.mediatype, interaction, 'PropertiesUpdated');
+}
+
+exports.handleAttachments = (req, res) => {
+  const interaction = interactions[req.params.id];
+  switch (req.params.fn) {
+    case 'add-attachment':
+      addAttachment(req, res, interaction);
+      break;
+    case 'attachments':
+      const idx = _.findIndex(interaction.attachments, att => { return att.id === req.params.id2; });
+      if (idx !== -1) {
+        const att = interaction.attachments[idx];
+        res.set({ 'Content-Disposition': `attachment; filename= "${att.name}"` });
+        res.set({ 'Content-Length': att.size });
+        res.set({ 'Content-Type': 'application/octet-stream' });
+        res.send(new Array(att.size + 1).join('.'));
+        utils.sendOkStatus(req, res);
+      } else {
+        utils.sendFailureStatus(res, 404, 'Attachment not found');
+      }
+      break;
+    case 'remove-attachment':
+      const idxr = _.findIndex(interaction.attachments, att => { return att.id === req.params.id2; });
+      if (idxr !== -1) {
+        interaction.attachments.splice(idxr, 1);
+        exports.publishInteractionEvent(req, 'email', interaction, 'UCSPropertiesUpdated');
+      } else {
+        utils.sendFailureStatus(res, 404, 'Attachment not found');
+      }
+      break;
+  }
+}
+
+addAttachment = (req, res, interaction) => {
+  var boundary = /boundary\=(.*)/.exec(req.headers['content-type']);
+  if (boundary && boundary.length > 1) {
+    boundary = boundary[1];
+  }
+  var result = '';
+  req.on('data', chunk => { result += chunk; });
+  req.on('end', () => {
+    const resultRe = new RegExp(boundary + '[\r\n]+Content-Disposition: (.*?)[\r\n]+Content-Type: (.*?)[\r\n]+(.*)' + boundary, 's');
+    const r = resultRe.exec(result);
+    if (r && r.length >= 3) {
+      var fn = /filename\=\"(.*)\"/.exec(r[1]);
+      if (fn.length >= 1) {
+        fn = fn[1];
+      }
+      const attId = conf.id();
+      interaction.attachments = (interaction.attachments || []);
+      interaction.attachments.push({
+        id: attId,
+        isEmbedded: false,
+        mime: r[2],
+        name: fn,
+        path: `media/email/interactions/${interaction.id}/attachments/${attId}`,
+        size: r[3].length - 4
+      });
+      exports.publishInteractionEvent(req, 'email', interaction, 'UCSPropertiesUpdated');
+    }
+    utils.sendOkStatus(req, res);
+  });
 }
 
 exports.handleWorkitemInteraction = (req, res, interaction) => {

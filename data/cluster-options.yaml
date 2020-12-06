@@ -604,3 +604,8 @@ KPI-TalkDuration:
   warning-level-high: "600"
   worst-level-high: "900"
   description: Talk Duration
+workspace-service:
+  attachment.max-file-upload-size: "8"
+  attachment.restrict-to-file-types: "jpg,png,gif,pdf,doc,docx,ppt,pptx,xls,xlsx,txt,json"
+  chat.message.max-length: "64000"
+  voice.logout-on-session-cleanup.enable: "true"

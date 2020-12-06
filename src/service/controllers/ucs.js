@@ -5,6 +5,7 @@
 
 const _ = require('underscore');
 const conf = require('./conf');
+const media = require('./media');
 const messaging = require('./messaging');
 const utils = require('../common/utils');
 
@@ -74,6 +75,9 @@ makeUCSRequest = (req, res, methodName) => {
 			break;
 		case 'get-interaction-details':
 			getInteractionDetails(req, res);
+			break;
+		case 'attachments': case 'remove-attachment':
+			media.handleAttachments(req, res);
 			break;
 		default:
 			utils.sendFailureStatus(res, 501);

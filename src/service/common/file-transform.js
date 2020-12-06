@@ -97,7 +97,7 @@ class YamlTransformer extends DataFileTransformer {
 
     readFile() {
         //Need to update require cache since we can't require a yaml file directly
-        require.cache[require.resolve(this.filename)] = { exports: yaml.parse(fs.readFileSync(this.filename, 'utf8')) };
+        require.cache[require.resolve(this.filename)] = { exports: readFromYaml(fs.readFileSync(this.filename, 'utf8')) };
         return super.readFile();
     }
 }
@@ -111,7 +111,12 @@ writeToYaml = (objData) => {
 }
 
 readFromYaml = (rawData) => {
-    return yaml.parse(rawData);
+    try {
+        return yaml.parse(rawData);
+    } catch (err) {
+        console.error(err.name + ':' + err.message);
+        return {};
+    }
 }
 
 readRawData = (file) => {
