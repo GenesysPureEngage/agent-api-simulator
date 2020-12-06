@@ -196,7 +196,7 @@ interaction-workspace:
   privilege.outbound.can-reschedule: "false"
   privilege.outbound.can-reschedule-before-call: "false"
   privilege.outbound.can-use: "false"
-  privilege.outbound-push-preview.can-use: "true"
+  privilege.outbound.push-preview.can-use: "true"
   privilege.outbound.record-information.can-update: "true"
   privilege.outbound.can-get-next-preview-record: "true"
   privilege.screen-recording.can-use: "false"

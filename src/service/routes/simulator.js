@@ -127,6 +127,39 @@ router.post('/sim/manage/service-state-change-notification/create-notification',
   res.status(200).send({ message: 'Success' });
 });
 
+// send an outbound notification
+router.post('/sim/manage/outbound-notification/create-notification', (req, res) => {
+  var eventName = 'CampaignStarted';
+  var campaign = voice.getOutboundCampaign(req.body.campaign.campaignName);
+  if (req.body.campaign.campaignAction === 'START') {
+    rmm.updateCampaign(req.body.agent, campaign);
+  } else if (req.body.campaign.campaignAction === 'STOP') {
+    eventName = 'CampaignStopped'
+    rmm.updateCampaign(req.body.agent, campaign);
+  } else if (req.body.campaign.campaignAction === 'LOAD') {
+    eventName = 'CampaignLoaded'
+    rmm.addCampaign(req.body.agent, campaign);
+  } else if (req.body.campaign.campaignAction === 'UNLOAD') {
+    eventName = 'CampaignUnloaded'
+    rmm.removeCampaign(req.body.agent, req.body.campaign.campaignName);
+  }
+  const msg = {
+    messageType: 'EventUserEvent'
+  };
+
+  campaign.GSW_USER_EVENT = eventName;
+  msg.userData = campaign;
+
+  messaging.publish(req.body.agent, '/workspace/v3/voice', msg);
+  res.status(200).send({ message: 'Success' });
+});
+
+// send an outbound push preview record
+router.post('/sim/manage/outbound-notification/send-push-preview', (req, res) => {
+  media.createOutboundPushPreview(req.body.agent);
+  res.end();
+});
+
 
 // Endpoint for cometd
 

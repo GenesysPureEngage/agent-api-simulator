@@ -650,6 +650,13 @@ exports.sendCampaigns = req => {
       messageType: "EventUserEvent"
     };
     messaging.publish(req, "/workspace/v3/voice", msg);
+    rmm.addCampaign(auth.userByCode(req), campaign);
+  });
+};
+
+exports.getOutboundCampaign = campaignName => {
+  return _.find(campaigns, c => {
+    return c.GSW_CAMPAIGN_NAME === campaignName;
   });
 };
 

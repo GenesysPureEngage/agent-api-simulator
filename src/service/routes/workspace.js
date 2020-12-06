@@ -34,6 +34,10 @@ router.use('/workspace/v3/media/:media/interactions/:id/:fn', (req, res) => {
   media.handleInteraction(req, res);
 });
 
+router.use('/workspace/v3/media/topics/%3Ctenant-id%3E@%3Cplace%3E/publish', (req, res) => {
+  media.handleTopics(req, res);
+});
+
 router.use('/workspace/v3/media/:media/interactions/:fn', (req, res) => {
   media.handleInteractionWithoutId(req, res);
 });

@@ -33,6 +33,14 @@
       >
         New workitem
       </button>
+      <button
+        id="new-pushpreview"
+        :disabled="!selectedSession"
+        type="button"
+        @click="() => createPushPreview()"
+      >
+        New Push Preview
+      </button>
     </div>
     <EmailForm
       v-if="showEmailForm"
@@ -88,6 +96,17 @@ export default {
         }).catch((err) => {
           this.$snotify.error(err, 'Workitem error', {timeout: 4000});
         });
+      },
+      createPushPreview() {
+        axios.post('/sim/manage/outbound-notification/send-push-preview', {
+          agent: this.selectedSession
+        })
+        .then(() => {
+          this.$snotify.success(null, 'Push Preview sent !', {timeout:2000});
+        })
+        .catch(() => {
+          this.$snotify.error(err, 'Failed to send Push Preview', {timeout:4000});
+        })
       }
     }
 }
