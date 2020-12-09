@@ -1,37 +1,43 @@
-- managerDBIDs:
-    - 114
-  agentDBIDs:
-    - 112
-    - 113
-    - 114
-    - 115
-    - 167
-  DBID: 105
+- DBID: 105
   tenantDBID: 1
-  name: Agent Group Email
+  name: 'Agent Group Email'
+  managerDBIDs: [
+    114
+  ]
+  agentDBIDs: [
+    112,
+    113,
+    114,
+    115,
+    167
+  ]
   settings:
     TServer:
       gvm_mailbox: '9999'
-- managerDBIDs:
-    - 101
-  agentDBIDs:
-    - 101
-    - 102
-  DBID: 106
+- DBID: 106
   tenantDBID: 1
-  name: Agent Group SIP
+  name: 'Agent Group SIP'
+  managerDBIDs: [
+    101
+  ]
+  agentDBIDs: [
+    101,
+    102
+  ]
   settings:
     TServer:
       gvm_mailbox: '8888'
-- managerDBIDs:
-    - 104
-  agentDBIDs:
-    - 104
-  DBID: 107
+- DBID: 107
   tenantDBID: 1
-  name: Agent Group Test
+  name: 'Agent Group Test'
+  managerDBIDs: [
+    104
+  ]
+  agentDBIDs: [
+    104
+  ]
   settings:
     TServer:
       gvm_mailbox: '8888'
     studio:
-      modules: xtend-workspace
+      modules: 'xtend-workspace'

@@ -1,0 +1,16 @@
+- type: interaction-queue
+  DBID: 302
+  name: chat-inbound-queue
+  displayName: chat-inbound-queue
+- type: interaction-queue
+  DBID: 306
+  name: chat-transcript-queue
+  displayName: chat-transcript-queue
+- type: interaction-queue
+  DBID: 316
+  name: email-default-queue
+  displayName: email-default-queue
+- type: interaction-queue
+  DBID: 469
+  name: email-queue-for-outbound-email-processing
+  displayName: email-queue-for-outbound-email-processing
