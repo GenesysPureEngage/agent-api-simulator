@@ -9,7 +9,7 @@
     - DBID: 101
       firstName: John
       lastName: Smith
-      userName: John_Smith
+      userName: JohnSmith
   threadId: 00000wF6A9KP0001
 - id: 0001TaF1RNBUKD5J
   state: Stopped
@@ -22,8 +22,36 @@
     - DBID: 101
       firstName: John
       lastName: Smith
-      userName: John_Smith
+      userName: JohnSmith
   threadId: 00000wF6A9K70000
+- id: 02DNVWTYPA408000
+  state: Pending
+  typeId: Outbound
+  subject: E-mail acknowledgement receipt
+  contactId: 0000BaCJQQH30052
+  startDate: 2020-11-16T14:09:08.715Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 102
+      firstName: Kate
+      lastName: London
+      userName: KateLondon
+  threadId: 0001TaF1RNBUGS10
+  subtypeId: OutboundNew
+- id: 02DNVWTYPA408001
+  state: Pending
+  typeId: Outbound
+  subject: Forgot Login ID
+  contactId: 0000BaCJQQH30052
+  startDate: 2020-11-16T14:09:08.715Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 102
+      firstName: Kate
+      lastName: London
+      userName: KateLondon
+  threadId: 0001TaF1RNBUGS11
+  subtypeId: OutboundNew
 - id: 0001TaF1RNBUKD5H
   state: Pending
   typeId: Outbound
@@ -34,7 +62,7 @@
     - DBID: 101
       firstName: John
       lastName: Smith
-      userName: John_Smith
+      userName: JohnSmith
 - id: 0001TaF1RNBUKD5E
   state: Stopped
   typeId: Outbound
@@ -46,7 +74,63 @@
     - DBID: 101
       firstName: John
       lastName: Smith
-      userName: John_Smith
+      userName: JohnSmith
+- id: 02DNVWTYPA408005
+  state: Pending
+  typeId: Outbound
+  subject: "Re: More info on one of your product ?"
+  contactId: 0000BaCJQQH30054
+  startDate: 2020-11-26T13:58:01.593Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: JohnSmith
+  threadId: 0001TaF1RNBUGS00
+  subtypeId: OutboundReply
+- id: 0000DaFU51GM001D
+  state: InProgress
+  typeId: Inbound
+  subject: More info on one of your product ?
+  contactId: 0000BaCJQQH30054
+  startDate: 2020-11-26T13:46:22.052Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: JohnSmith
+  threadId: 0001TaF1RNBUGS00
+  subtypeId: InboundNew
+- id: 02DNVWTYPA408006
+  state: Pending
+  typeId: Outbound
+  subject: "Re: Login account Issue"
+  contactId: 0000BaCJQQH30054
+  startDate: 2020-11-26T13:58:18.549Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: JohnSmith
+  threadId: 0001TaF1RNBUGS01
+  subtypeId: OutboundReply
+- id: 0000DaFU51GM0017
+  state: InProgress
+  typeId: Inbound
+  subject: Login account Issue
+  contactId: 0000BaCJQQH30054
+  startDate: 2020-11-26T13:43:30.602Z
+  mediaType: email
+  ownerInformation:
+    - DBID: 101
+      firstName: John
+      lastName: Smith
+      userName: JohnSmith
+  threadId: 0001TaF1RNBUGS01
+  subtypeId: InboundNew
 - id: 02DQ682X41WCE03E
   state: Pending
   typeId: Outbound

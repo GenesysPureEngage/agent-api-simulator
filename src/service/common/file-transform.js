@@ -224,6 +224,7 @@ var fileTransformers = [
     new YamlTransformer('../../../data/media/attached-data.yaml', [flattenKVListData, writeToYaml], [simplifyUserData]),
     new YamlTransformer('../../../data/voice/extensions.yaml', [flattenKVListData, writeToYaml], [expandKVListData]),
     new YamlTransformer('../../../data/route-points.yaml', [writeToYaml]),
+    new YamlTransformer('../../../data/interaction-queues.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/ucs/contacts.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/ucs/contact-interactions.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/ucs/contact-interactions-details.yaml', [writeToYaml]),
@@ -239,7 +240,8 @@ var fileTransformers = [
     new YamlTransformer('../../../data/ucs/standard-responses-root.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/ucs/standard-responses-category-details.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/ucs/standard-responses-details.yaml', [writeToYaml]),
-    new YamlTransformer('../../../data/ucs/workbins.yaml', [writeToYaml])
+    new YamlTransformer('../../../data/open-media/workbins.yaml', [writeToYaml]),
+    new YamlTransformer('../../../data/open-media/media-management.yaml', [writeToYaml])
 ];
 
 exports.getFileTransformer = (file) => {

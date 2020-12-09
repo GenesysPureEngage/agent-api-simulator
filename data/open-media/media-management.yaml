@@ -1,0 +1,1385 @@
+- snapshotId: "ONE"
+  condition: "MediaType='email'"
+  startIndex: 0
+  size: 10
+  numberOfInteractions: 2
+  interactions: [
+    {
+      capabilities: [],
+      proxyClientId: 46,
+      interactionType: 'Outbound',
+      id: '02DNVWTYPA408005',
+      assignedAt: '2020-11-26T13:57:56Z',
+      receivedAt: '2020-11-26T13:57:56Z',
+      isHeld: false,
+      submittedBy: 'JohnSmith',
+      agentId: 'JohnSmith',
+      assignedTo: 'JohnSmith',
+      tenantId: 1,
+      queue: 'email-draft-wb/PrivateQueue',
+      submitSeq: '8389080',
+      deliveredAt: '2020-11-26T13:57:56Z',
+      movedToQueueAt: '2020-11-26T13:58:03Z',
+      workflowState: 'Queued',
+      submittedAt: '2020-11-26T13:57:56Z',
+      placedInQueueAt: '2020-11-26T13:58:03Z',
+      userData: [
+        {
+          'key': 'Priority',
+          'type': 'int',
+          'value': 8
+        },
+        {
+          'key': 'FirstName',
+          'type': 'str',
+          'value': 'Client'
+        },
+        {
+          'key': 'Origination_Source',
+          'type': 'str',
+          'value': 'Web'
+        },
+        {
+          'key': 'ContactId',
+          'type': 'str',
+          'value': '0000BaCJQQH30054'
+        },
+        {
+          'key': 'EmailAddress',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': 'LastName',
+          'type': 'str',
+          'value': 'WebMail'
+        },
+        {
+          'key': 'Segment',
+          'type': 'str',
+          'value': 'Gold'
+        },
+        {
+          'key': 'CallType',
+          'type': 'str',
+          'value': 'Plop'
+        },
+        {
+          'key': 'RVQDBID',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RTargetAgSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTargetPlSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTenantDBID',
+          'type': 'str',
+          'value': '1'
+        },
+        {
+          'key': 'CustomerSegment',
+          'type': 'str',
+          'value': 'default'
+        },
+        {
+          'key': 'IW_BundleUid',
+          'type': 'str',
+          'value': '069aea5f-bbfc-4320-130b-dceba3748a5b'
+        },
+        {
+          'key': 'IW_CaseUid',
+          'type': 'str',
+          'value': '34079db1-3fff-44dc-6470-08c390efd8a6'
+        },
+        {
+          'key': 'IsHeld',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': 'toAddresses',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': 'FromAddress',
+          'type': 'str',
+          'value': 'webmail2@mail.dom'
+        },
+        {
+          'key': 'Subject',
+          'type': 'str',
+          'value': 'Re: More info on one of your product ?'
+        },
+        {
+          'key': 'To',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': '_AttachmentsInfo',
+          'type': 'kvlist',
+          'value': []
+        },
+        {
+          'key': 'IWAttachedDataInformation',
+          'type': 'kvlist',
+          'value': [
+            {
+              'key': 'CaseDataBusinessAttribute',
+              'type': 'str',
+              'value': 'CaseData'
+            },
+            {
+              'key': 'DispositionCode.Key',
+              'type': 'str',
+              'value': 'DispositionCodeSpecific'
+            },
+            {
+              'key': 'Option.interaction.case-data.frame-color',
+              'type': 'str',
+              'value': '#FFBA00'
+            },
+            {
+              'key': 'DispositionCode.Label',
+              'type': 'str',
+              'value': 'Disposition Code Specific'
+            },
+            {
+              'key': 'SelectedDispositionCodeName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeDisplayName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeCompleteName',
+              'type': 'str',
+              'value': ''
+            }
+          ]
+        }
+      ],
+      interactionSubtype: 'OutboundReply',
+      isLocked: false,
+      workbinTypeId: 'email-draft-wb',
+      isOnline: false,
+      parentInteractionId: '0000DaFU51GM001D',
+      email: {
+        from: 'webmail@mail.dom',
+        to: [
+          'katie.bishop@mail.dom'
+        ],
+        bodyAsPlainText: "\n\nOn 11/26/2020 2:46:22 PM, Client WebMail wrote:\n> Hi,\n> \n> could you give me more information about the product with the ref R062A328.\n> \n> Thanks."
+      },
+      subject: 'Re: More info on one of your product ?',
+      isAlive: true,
+      contactId: '0000BaCJQQH30054',
+      ucsContent: 'available',
+      state: 'InWorkbin',
+      ownerInformation: {
+        firstName': 'John',
+        lastName': 'Smith',
+        userName': 'JohnSmith',
+        DBID: 101
+      },
+      startDate: '2020-11-26T13:58:01.593Z',
+      mediaType: 'email'
+    },
+    {
+      capabilities: [],
+      proxyClientId: 46,
+      interactionType: 'Outbound',
+      id: '02DNVWTYPA408006',
+      assignedAt: '2020-11-26T13:58:13Z',
+      receivedAt: '2020-11-26T13:58:13Z',
+      isHeld: false,
+      submittedBy: 'JohnSmith',
+      agentId: 'JohnSmith',
+      assignedTo: 'JohnSmith',
+      tenantId: 1,
+      queue: 'email-draft-wb/PrivateQueue',
+      submitSeq: '8389102',
+      deliveredAt: '2020-11-26T13:58:13Z',
+      movedToQueueAt: '2020-11-26T13:58:19Z',
+      workflowState: 'Queued',
+      submittedAt: '2020-11-26T13:58:13Z',
+      placedInQueueAt: '2020-11-26T13:58:19Z',
+      userData: [
+        {
+          'key': 'Priority',
+          'type': 'int',
+          'value': 8
+        },
+        {
+          'key': 'FirstName',
+          'type': 'str',
+          'value': 'Client'
+        },
+        {
+          'key': 'Origination_Source',
+          'type': 'str',
+          'value': 'Web'
+        },
+        {
+          'key': 'ContactId',
+          'type': 'str',
+          'value': '0000BaCJQQH30054'
+        },
+        {
+          'key': 'EmailAddress',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': 'LastName',
+          'type': 'str',
+          'value': 'WebMail'
+        },
+        {
+          'key': 'Segment',
+          'type': 'str',
+          'value': 'Gold'
+        },
+        {
+          'key': 'CallType',
+          'type': 'str',
+          'value': 'Plop'
+        },
+        {
+          'key': 'PegRejected',
+          'type': 'int',
+          'value': 3
+        },
+        {
+          'key': 'RVQDBID',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RTargetAgSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTargetPlSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTenantDBID',
+          'type': 'str',
+          'value': '1'
+        },
+        {
+          'key': 'CustomerSegment',
+          'type': 'str',
+          'value': 'default'
+        },
+        {
+          'key': 'IW_BundleUid',
+          'type': 'str',
+          'value': '1c383a51-2497-4618-47e9-9f8c5a4e33c1'
+        },
+        {
+          'key': 'IW_CaseUid',
+          'type': 'str',
+          'value': '6c3df3b9-852a-4d68-bae7-503031a31931'
+        },
+        {
+          'key': 'IsHeld',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': 'toAddresses',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': 'FromAddress',
+          'type': 'str',
+          'value': 'webmail2@mail.dom'
+        },
+        {
+          'key': 'Subject',
+          'type': 'str',
+          'value': 'Re: Login account Issue'
+        },
+        {
+          'key': 'To',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': '_AttachmentsInfo',
+          'type': 'kvlist',
+          'value': []
+        },
+        {
+          'key': 'IWAttachedDataInformation',
+          'type': 'kvlist',
+          'value': [
+            {
+              'key': 'CaseDataBusinessAttribute',
+              'type': 'str',
+              'value': 'CaseData'
+            },
+            {
+              'key': 'DispositionCode.Key',
+              'type': 'str',
+              'value': 'DispositionCodeSpecific'
+            },
+            {
+              'key': 'Option.interaction.case-data.frame-color',
+              'type': 'str',
+              'value': '#FFBA00'
+            },
+            {
+              'key': 'DispositionCode.Label',
+              'type': 'str',
+              'value': 'Disposition Code Specific'
+            },
+            {
+              'key': 'SelectedDispositionCodeName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeDisplayName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeCompleteName',
+              'type': 'str',
+              'value': ''
+            }
+          ]
+        }
+      ],
+      interactionSubtype: 'OutboundReply',
+      isLocked: false,
+      workbinTypeId: 'email-draft-wb',
+      isOnline: false,
+      parentInteractionId: '0000DaFU51GM0017',
+      email: {
+        from: 'webmail@mail.dom',
+        to: [
+          'katie.bishop@mail.dom'
+        ],
+        bodyAsPlainText: "\n\nOn 11/26/2020 2:43:30 PM, Client WebMail wrote:\n> Hi,\n> \n> I don't manage to login into your web site, can you help me ?\n> \n> Thanks."
+      },
+      subject: 'Re: Login account Issue',
+      isAlive: true,
+      contactId: '0000BaCJQQH30054',
+      ucsContent: 'available',
+      state: 'InWorkbin',
+      ownerInformation: {
+        firstName: 'John',
+        lastName: 'Smith',
+        userName: 'JohnSmith',
+        DBID: 101
+      },
+      startDate: '2020-11-26T13:58:18.549Z',
+      mediaType: 'email'
+    },
+    {
+      capabilities: [],
+      proxyClientId: 38,
+      interactionType: 'Outbound',
+      id: '02DNVWTYPA408000',
+      assignedAt: '2020-11-16T16:21:23Z',
+      receivedAt: '2020-11-16T14:09:08Z',
+      isHeld: false,
+      submittedBy: 'KateLondon',
+      agentId: 'KateLondon',
+      assignedTo: 'KateLondon',
+      tenantId: 1,
+      queue: 'email-draft-wb/PrivateQueue',
+      submitSeq: '8388611',
+      deliveredAt: '2020-11-16T14:09:08Z',
+      movedToQueueAt: '2020-11-16T14:09:24Z',
+      workflowState: 'Queued',
+      submittedAt: '2020-11-16T14:09:08Z',
+      placedInQueueAt: '2020-11-16T16:23:19Z',
+      userData: [
+        {
+          'key': 'IW_CaseUid',
+          'type': 'str',
+          'value': 'e51536fc-02dd-48ee-9a77-de88ac9ac624'
+        },
+        {
+          'key': 'IW_BundleUid',
+          'type': 'str',
+          'value': 'ad898a58-253d-48e5-86c5-09d986520888'
+        },
+        {
+          'key': 'toAddresses',
+          'type': 'str',
+          'value': 'john.doe@mail.dom'
+        },
+        {
+          'key': 'ContactId',
+          'type': 'str',
+          'value': '0000BaCJQQH30052'
+        },
+        {
+          'key': 'FromAddress',
+          'type': 'str',
+          'value': 'CS <emailserver@mail.dom>'
+        },
+        {
+          'key': 'ToAddress',
+          'type': 'str',
+          'value': 'john.doe@mail.dom'
+        },
+        {
+          'key': 'To',
+          'type': 'str',
+          'value': 'john.doe@mail.dom'
+        },
+        {
+          'key': 'Subject',
+          'type': 'str',
+          'value': 'E-mail acknowledgement receipt'
+        },
+        {
+          'key': 'IWAttachedDataInformation',
+          'type': 'kvlist',
+          'value': [
+            {
+              'key': 'CaseDataBusinessAttribute',
+              'type': 'str',
+              'value': 'CaseData'
+            },
+            {
+              'key': 'DispositionCode.Key',
+              'type': 'str',
+              'value': 'DispositionCodeSpecific'
+            },
+            {
+              'key': 'Option.interaction.case-data.frame-color',
+              'type': 'str',
+              'value': '#FFBA00'
+            },
+            {
+              'key': 'DispositionCode.Label',
+              'type': 'str',
+              'value': 'Disposition Code Specific'
+            },
+            {
+              'key': 'SelectedDispositionCodeName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeDisplayName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeCompleteName',
+              'type': 'str',
+              'value': ''
+            }
+          ]
+        }
+      ],
+      interactionSubtype: 'OutboundNew',
+      isLocked: false,
+      workbinTypeId: 'email-draft-wb',
+      isOnline: false,
+      email: {
+        from: 'emailserver@mail.dom',
+        to: [
+          'john.doe@mail.dom'
+        ],
+        bodyAsPlainText: "Thank you for your recent e-mail. You inquiry will be processed and we will contact you ASAP.\n\n"
+      },
+      subject: 'E-mail acknowledgement receipt',
+      isAlive: true,
+      contactId: '0000BaCJQQH30052',
+      ucsContent: 'available',
+      state: 'InWorkbin',
+      ownerInformation: {
+        firstName: 'Kate',
+        lastName: 'London',
+        userName: 'KateLondon',
+        DBID: 102
+      },
+      startDate: '2020-11-16T14:09:08.715Z',
+      mediaType: 'email'
+    },
+    {
+      capabilities: [],
+      proxyClientId: 39,
+      interactionType: 'Outbound',
+      id: '02DNVWTYPA408001',
+      assignedAt: '2020-11-16T16:00:25Z',
+      receivedAt: '2020-11-16T16:00:25Z',
+      isHeld: false,
+      submittedBy: 'KateLondon',
+      agentId: 'KateLondon',
+      assignedTo: 'KateLondon',
+      tenantId: 1,
+      queue: 'email-draft-wb/PrivateQueue',
+      submitSeq: '8388656',
+      deliveredAt: '2020-11-16T16:00:25Z',
+      movedToQueueAt: '2020-11-16T16:00:38Z',
+      workflowState: 'Queued',
+      submittedAt: '2020-11-16T16:00:25Z',
+      placedInQueueAt: '2020-11-16T16:00:38Z',
+      userData: [
+        {
+          'key': 'IW_CaseUid',
+          'type': 'str',
+          'value': 'fbfba539-c38d-4aa7-4884-e1cb0fb35f00'
+        },
+        {
+          'key': 'IW_BundleUid',
+          'type': 'str',
+          'value': '7255748d-4c55-4bd7-4590-40e890a869dd'
+        },
+        {
+          'key': 'toAddresses',
+          'type': 'str',
+          'value': 'john.doe@mail.dom'
+        },
+        {
+          'key': 'ContactId',
+          'type': 'str',
+          'value': '0000BaCJQQH30052'
+        },
+        {
+          'key': 'FromAddress',
+          'type': 'str',
+          'value': 'CS <emailserver@mail.dom>'
+        },
+        {
+          'key': 'ToAddress',
+          'type': 'str',
+          'value': 'john.doe@mail.dom'
+        },
+        {
+          'key': 'To',
+          'type': 'str',
+          'value': 'john.doe@mail.dom'
+        },
+        {
+          'key': 'Subject',
+          'type': 'str',
+          'value': 'Forgot Login ID'
+        },
+        {
+          'key': 'IWAttachedDataInformation',
+          'type': 'kvlist',
+          'value': [
+            {
+              'key': 'CaseDataBusinessAttribute',
+              'type': 'str',
+              'value': 'CaseData'
+            },
+            {
+              'key': 'DispositionCode.Key',
+              'type': 'str',
+              'value': 'DispositionCodeSpecific'
+            },
+            {
+              'key': 'Option.interaction.case-data.frame-color',
+              'type': 'str',
+              'value': '#FFBA00'
+            },
+            {
+              'key': 'DispositionCode.Label',
+              'type': 'str',
+              'value': 'Disposition Code Specific'
+            },
+            {
+              'key': 'SelectedDispositionCodeName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeDisplayName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeCompleteName',
+              'type': 'str',
+              'value': ''
+            }
+          ]
+        }
+      ],
+      interactionSubtype: 'OutboundNew',
+      isLocked: false,
+      workbinTypeId: 'email-draft-wb',
+      isOnline: false,
+      email: {
+        from: 'emailserver@mail.dom',
+        to: [
+          'john.doe@mail.dom'
+        ],
+        bodyAsPlainText: "Dear John Doe,\n\nIf you forget your Login  ID, you can reset it from our web site homepage by clicking Forgot your Login?\n\nSincerely\n\n"
+      },
+      subject: 'Forgot Login ID',
+      isAlive: true,
+      contactId: '0000BaCJQQH30052',
+      ucsContent: 'available',
+      state: 'InWorkbin',
+      ownerInformation: {
+        firstName: 'Kate',
+        lastName: 'London',
+        userName: 'KateLondon',
+        DBID: 102
+      },
+      startDate: '2020-11-16T16:00:25.780Z',
+      mediaType: 'email'
+    },
+    {
+      capabilities: [],
+      proxyClientId: 46,
+      interactionType: 'Inbound',
+      id: '0000DaFU51GM001D',
+      assignedAt: '2020-11-26T13:57:51Z',
+      receivedAt: '2020-11-26T13:46:22Z',
+      isHeld: false,
+      submittedBy: 'esv_esj',
+      agentId: 'JohnSmith',
+      assignedTo: 'JohnSmith',
+      tenantId: 1,
+      queue: 'email-in-progress-wb/PrivateQueue',
+      submitSeq: '8389056',
+      deliveredAt: '2020-11-26T13:46:33Z',
+      movedToQueueAt: '2020-11-26T13:46:40Z',
+      workflowState: 'Queued',
+      submittedAt: '2020-11-26T13:46:28Z',
+      placedInQueueAt: '2020-11-26T13:57:57Z',
+      userData: [
+        {
+          'key': 'Priority',
+          'type': 'int',
+          'value': 8
+        },
+        {
+          'key': 'ServiceObjective',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': 'FromPersonal',
+          'type': 'str',
+          'value': 'Client WebMail'
+        },
+        {
+          'key': 'Header_Content-Transfer-Encoding',
+          'type': 'str',
+          'value': 'quoted-printable'
+        },
+        {
+          'key': '_AutoReplyCount',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': '_AttachmentFileNames',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'FirstName',
+          'type': 'str',
+          'value': 'Client'
+        },
+        {
+          'key': 'Origination_Source',
+          'type': 'str',
+          'value': 'Web'
+        },
+        {
+          'key': 'Header_MIME-Version',
+          'type': 'str',
+          'value': '1.0'
+        },
+        {
+          'key': 'Header_Date',
+          'type': 'str',
+          'value': 'Thu, 26 Nov 2020 14:46:22 +0100 (CET)'
+        },
+        {
+          'key': 'Header_X-Mailer',
+          'type': 'str',
+          'value': 'Genesys E-Mail 8.5.104.23'
+        },
+        {
+          'key': '_ContainsAttachment',
+          'type': 'str',
+          'value': 'false'
+        },
+        {
+          'key': 'ContactId',
+          'type': 'str',
+          'value': '0000BaCJQQH30054'
+        },
+        {
+          'key': 'EmailAddress',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': 'Subject',
+          'type': 'str',
+          'value': 'More info on one of your product ?'
+        },
+        {
+          'key': 'FromAddress',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': '_AttachmentsSize',
+          'type': 'str',
+          'value': '0'
+        },
+        {
+          'key': 'Mailbox',
+          'type': 'str',
+          'value': 'webmail@mail.dom'
+        },
+        {
+          'key': 'Header_Content-Type',
+          'type': 'str',
+          'value': 'text/plain; charset=utf-8'
+        },
+        {
+          'key': 'LastName',
+          'type': 'str',
+          'value': 'WebMail'
+        },
+        {
+          'key': 'To',
+          'type': 'str',
+          'value': 'webmail@mail.dom'
+        },
+        {
+          'key': 'Header_Message-ID',
+          'type': 'str',
+          'value': '<6c8fcdfc-dac5-4f3e-9666-57d4e9cadf9c@server.id.only>'
+        },
+        {
+          'key': 'Segment',
+          'type': 'str',
+          'value': 'Gold'
+        },
+        {
+          'key': 'CallType',
+          'type': 'str',
+          'value': 'Plop'
+        },
+        {
+          'key': 'RTargetAgentGroup',
+          'type': 'str',
+          'value': 'Agent Group Email'
+        },
+        {
+          'key': 'RVQID',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RVQDBID',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RTargetTypeSelected',
+          'type': 'str',
+          'value': '2'
+        },
+        {
+          'key': 'RTargetRuleSelected',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RTargetObjectSelected',
+          'type': 'str',
+          'value': 'Agent Group Email'
+        },
+        {
+          'key': 'RTargetObjSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTargetAgentSelected',
+          'type': 'str',
+          'value': 'JohnSmith'
+        },
+        {
+          'key': 'RTargetAgSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTargetPlaceSelected',
+          'type': 'str',
+          'value': 'Place_JohnSmith'
+        },
+        {
+          'key': 'RTargetPlSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTenant',
+          'type': 'str',
+          'value': 'Environment'
+        },
+        {
+          'key': 'RTenantDBID',
+          'type': 'str',
+          'value': '1'
+        },
+        {
+          'key': 'RStrategyName',
+          'type': 'str',
+          'value': 'email-routing-inbound'
+        },
+        {
+          'key': 'RStrategyDBID',
+          'type': 'str',
+          'value': '362'
+        },
+        {
+          'key': 'CBR-actual_volume',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'CBR-Interaction_cost',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'CBR-contract_DBIDs',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'CBR-IT-path_DBIDs',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RRequestedSkillCombination',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RRequestedSkills',
+          'type': 'kvlist',
+          'value': []
+        },
+        {
+          'key': 'RTargetRequested',
+          'type': 'str',
+          'value': 'Agent Group Email'
+        },
+        {
+          'key': 'CustomerSegment',
+          'type': 'str',
+          'value': 'default'
+        },
+        {
+          'key': 'ServiceType',
+          'type': 'str',
+          'value': 'default'
+        },
+        {
+          'key': 'PegAGAgent Group Email',
+          'type': 'int',
+          'value': 1
+        },
+        {
+          'key': 'IW_BundleUid',
+          'type': 'str',
+          'value': '069aea5f-bbfc-4320-130b-dceba3748a5b'
+        },
+        {
+          'key': 'IW_CaseUid',
+          'type': 'str',
+          'value': '34079db1-3fff-44dc-6470-08c390efd8a6'
+        },
+        {
+          'key': 'IsHeld',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': '_AttachmentsInfo',
+          'type': 'kvlist',
+          'value': []
+        },
+        {
+          'key': 'WWEOutboundInteractionId',
+          'type': 'str',
+          'value': '02DNVWTYPA408005'
+        },
+        {
+          'key': 'IWAttachedDataInformation',
+          'type': 'kvlist',
+          'value': [
+            {
+              'key': 'CaseDataBusinessAttribute',
+              'type': 'str',
+              'value': 'CaseData'
+            },
+            {
+              'key': 'DispositionCode.Key',
+              'type': 'str',
+              'value': 'DispositionCodeSpecific'
+            },
+            {
+              'key': 'Option.interaction.case-data.frame-color',
+              'type': 'str',
+              'value': '#FFBA00'
+            },
+            {
+              'key': 'DispositionCode.Label',
+              'type': 'str',
+              'value': 'Disposition Code Specific'
+            },
+            {
+              'key': 'SelectedDispositionCodeName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeDisplayName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeCompleteName',
+              'type': 'str',
+              'value': ''
+            }
+          ]
+        }
+      ],
+      interactionSubtype: 'InboundNew',
+      isLocked: false,
+      workbinTypeId: 'email-in-progress-wb',
+      isOnline: false,
+      placeInQueueSeq: '8389056',
+      email: {
+        from: 'katie.bishop@mail.dom',
+        to: [
+          'webmail@mail.dom'
+        ],
+        bodyAsPlainText: "Hi,\r\n\r\ncould you give me more information about the product with the ref R062A328.\r\n\r\nThanks."
+      },
+      subject: 'More info on one of your product ?',
+      isAlive: true,
+      contactId: '0000BaCJQQH30054',
+      ucsContent: 'available',
+      state: 'InWorkbin',
+      ownerInformation: {
+        firstName: 'John',
+        lastName: 'Smith',
+        userName: 'JohnSmith',
+        DBID: 101
+      },
+      startDate: '2020-11-26T13:46:22.052Z',
+      mediaType: 'email'
+    },
+    {
+      capabilities: [],
+      proxyClientId: 46,
+      interactionType: 'Inbound',
+      id: '0000DaFU51GM0017',
+      assignedAt: '2020-11-26T13:58:08Z',
+      receivedAt: '2020-11-26T13:43:30Z',
+      isHeld: false,
+      submittedBy: 'esv_esj',
+      agentId: 'JohnSmith',
+      assignedTo: 'JohnSmith',
+      tenantId: 1,
+      queue: 'email-in-progress-wb/PrivateQueue',
+      submitSeq: '8389013',
+      deliveredAt: '2020-11-26T13:44:43Z',
+      movedToQueueAt: '2020-11-26T13:44:53Z',
+      workflowState: 'Queued',
+      submittedAt: '2020-11-26T13:43:38Z',
+      placedInQueueAt: '2020-11-26T13:58:14Z',
+      userData: [
+        {
+          'key': 'Priority',
+          'type': 'int',
+          'value': 8
+        },
+        {
+          'key': 'ServiceObjective',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': 'FromPersonal',
+          'type': 'str',
+          'value': 'Client WebMail'
+        },
+        {
+          'key': 'Header_Content-Transfer-Encoding',
+          'type': 'str',
+          'value': 'quoted-printable'
+        },
+        {
+          'key': '_AutoReplyCount',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': '_AttachmentFileNames',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'FirstName',
+          'type': 'str',
+          'value': 'Client'
+        },
+        {
+          'key': 'Origination_Source',
+          'type': 'str',
+          'value': 'Web'
+        },
+        {
+          'key': 'Header_MIME-Version',
+          'type': 'str',
+          'value': '1.0'
+        },
+        {
+          'key': 'Header_Date',
+          'type': 'str',
+          'value': 'Thu, 26 Nov 2020 14:43:30 +0100 (CET)'
+        },
+        {
+          'key': 'Header_X-Mailer',
+          'type': 'str',
+          'value': 'Genesys E-Mail 8.5.104.23'
+        },
+        {
+          'key': '_ContainsAttachment',
+          'type': 'str',
+          'value': 'false'
+        },
+        {
+          'key': 'ContactId',
+          'type': 'str',
+          'value': '0000BaCJQQH30054'
+        },
+        {
+          'key': 'EmailAddress',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': 'Subject',
+          'type': 'str',
+          'value': 'Login account Issue'
+        },
+        {
+          'key': 'FromAddress',
+          'type': 'str',
+          'value': 'katie.bishop@mail.dom'
+        },
+        {
+          'key': '_AttachmentsSize',
+          'type': 'str',
+          'value': '0'
+        },
+        {
+          'key': 'Mailbox',
+          'type': 'str',
+          'value': 'webmail@mail.dom'
+        },
+        {
+          'key': 'Header_Content-Type',
+          'type': 'str',
+          'value': 'text/plain; charset=utf-8'
+        },
+        {
+          'key': 'LastName',
+          'type': 'str',
+          'value': 'WebMail'
+        },
+        {
+          'key': 'To',
+          'type': 'str',
+          'value': 'webmail@mail.dom'
+        },
+        {
+          'key': 'Header_Message-ID',
+          'type': 'str',
+          'value': '<4ee6959f-e563-449b-94b0-bf02d9971301@server.id.only>'
+        },
+        {
+          'key': 'Segment',
+          'type': 'str',
+          'value': 'Gold'
+        },
+        {
+          'key': 'CallType',
+          'type': 'str',
+          'value': 'Plop'
+        },
+        {
+          'key': 'PegRejected',
+          'type': 'int',
+          'value': 3
+        },
+        {
+          'key': 'RTargetAgentGroup',
+          'type': 'str',
+          'value': 'Agent Group Email'
+        },
+        {
+          'key': 'RVQID',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RVQDBID',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RTargetTypeSelected',
+          'type': 'str',
+          'value': '2'
+        },
+        {
+          'key': 'RTargetRuleSelected',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RTargetObjectSelected',
+          'type': 'str',
+          'value': 'Agent Group Email'
+        },
+        {
+          'key': 'RTargetObjSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTargetAgentSelected',
+          'type': 'str',
+          'value': 'JohnSmith'
+        },
+        {
+          'key': 'RTargetAgSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTargetPlaceSelected',
+          'type': 'str',
+          'value': 'Place_JohnSmith'
+        },
+        {
+          'key': 'RTargetPlSelDBID',
+          'type': 'str',
+          'value': '101'
+        },
+        {
+          'key': 'RTenant',
+          'type': 'str',
+          'value': 'Environment'
+        },
+        {
+          'key': 'RTenantDBID',
+          'type': 'str',
+          'value': '1'
+        },
+        {
+          'key': 'RStrategyName',
+          'type': 'str',
+          'value': 'email-routing-inbound'
+        },
+        {
+          'key': 'RStrategyDBID',
+          'type': 'str',
+          'value': '362'
+        },
+        {
+          'key': 'CBR-actual_volume',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'CBR-Interaction_cost',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'CBR-contract_DBIDs',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'CBR-IT-path_DBIDs',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RRequestedSkillCombination',
+          'type': 'str',
+          'value': ''
+        },
+        {
+          'key': 'RRequestedSkills',
+          'type': 'kvlist',
+          'value': []
+        },
+        {
+          'key': 'RTargetRequested',
+          'type': 'str',
+          'value': 'Agent Group Email'
+        },
+        {
+          'key': 'CustomerSegment',
+          'type': 'str',
+          'value': 'default'
+        },
+        {
+          'key': 'ServiceType',
+          'type': 'str',
+          'value': 'default'
+        },
+        {
+          'key': 'PegAGAgent Group Email',
+          'type': 'int',
+          'value': 1
+        },
+        {
+          'key': 'IW_BundleUid',
+          'type': 'str',
+          'value': '1c383a51-2497-4618-47e9-9f8c5a4e33c1'
+        },
+        {
+          'key': 'IW_CaseUid',
+          'type': 'str',
+          'value': '6c3df3b9-852a-4d68-bae7-503031a31931'
+        },
+        {
+          'key': 'IsHeld',
+          'type': 'int',
+          'value': 0
+        },
+        {
+          'key': '_AttachmentsInfo',
+          'type': 'kvlist',
+          'value': []
+        },
+        {
+          'key': 'WWEOutboundInteractionId',
+          'type': 'str',
+          'value': '02DNVWTYPA408006'
+        },
+        {
+          'key': 'IWAttachedDataInformation',
+          'type': 'kvlist',
+          'value': [
+            {
+              'key': 'CaseDataBusinessAttribute',
+              'type': 'str',
+              'value': 'CaseData'
+            },
+            {
+              'key': 'DispositionCode.Key',
+              'type': 'str',
+              'value': 'DispositionCodeSpecific'
+            },
+            {
+              'key': 'Option.interaction.case-data.frame-color',
+              'type': 'str',
+              'value': '#FFBA00'
+            },
+            {
+              'key': 'DispositionCode.Label',
+              'type': 'str',
+              'value': 'Disposition Code Specific'
+            },
+            {
+              'key': 'SelectedDispositionCodeName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeDisplayName',
+              'type': 'str',
+              'value': ''
+            },
+            {
+              'key': 'SelectedDispositionCodeCompleteName',
+              'type': 'str',
+              'value': ''
+            }
+          ]
+        }
+      ],
+      interactionSubtype: 'InboundNew',
+      isLocked: false,
+      workbinTypeId: 'email-in-progress-wb',
+      isOnline: false,
+      placeInQueueSeq: '8389013',
+      email: {
+        from: 'katie.bishop@mail.dom',
+        to: [
+          'webmail@mail.dom'
+        ],
+        bodyAsPlainText: "Hi,\r\n\r\nI don't manage to login into your web site, can you help me ?\r\n\r\nThanks."
+      },
+      subject: 'Login account Issue',
+      isAlive: true,
+      contactId: '0000BaCJQQH30054',
+      ucsContent: 'available',
+      state: 'InWorkbin',
+      ownerInformation: {
+        firstName: 'John',
+        lastName: 'Smith',
+        userName: 'JohnSmith',
+        DBID: 102
+      },
+      startDate: '2020-11-26T13:43:30.602Z',
+      mediaType: 'email'
+    }
+  ]
+- snapshotId: "TWO"
+  condition: "MediaType='email' AND Queue='queue-no-strategy'"
+  startIndex: 0
+  size: 10
+  numberOfInteractions: 0
+  interactions: []
+- snapshotId: "TREE"
+  condition: "MediaType='email' AND Queue='queue-without-destination'"
+  startIndex: 0
+  size: 10
+  numberOfInteractions: 0
+  interactions: []

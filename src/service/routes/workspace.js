@@ -13,6 +13,7 @@ const media = require('../controllers/media');
 const reporting = require('../controllers/reporting');
 const ucs = require('../controllers/ucs');
 const workbins = require('../controllers/workbins');
+const mediaManagement = require('../controllers/media-management');
 
 //Start CometD servers
 messaging.start();
@@ -124,6 +125,14 @@ router.use('/workspace/v3/workbins/:id/:fn', (req, res) => {
 
 router.use('/workspace/v3/workbins/:fn', (req, res) => {
   workbins.handleWorkbins(req, res);
+});
+
+router.use('/workspace/v3/media-management/:id/:fn', (req, res) => {
+  mediaManagement.handleMediaManagementFunctionWithId(req, res);
+});
+
+router.use('/workspace/v3/media-management/:fn', (req, res) => {
+  mediaManagement.handleMediaManagementFunction(req, res);
 });
 
 router.use('/workspace/v3/users/:fn1/:fn2/:fn3/:fn4', (req, res) => {
