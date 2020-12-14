@@ -112,6 +112,11 @@ exports.handleInteraction = (req, res) => {
   var userName = auth.userByCode(req);
   var interaction = interactions[req.params.id];
   if (!interaction) {
+    if (req.params.fn === 'pull') {
+      interaction = workbins.getInteraction(req.params.id);
+    }
+  }
+  if (!interaction) {
     log.error('Interaction with ' + req.params.id + ' id does not exist for ' + userName);
   } else if (req.params.fn === 'complete' || req.params.fn === 'reject') {
     interaction.state = 'Completed';
@@ -143,6 +148,7 @@ exports.handleInteraction = (req, res) => {
   } else if (req.params.fn === 'pull') {
     utils.sendOkStatus(req, res);
     workbins.pull(req, res);
+    exports.openInteraction(req, interaction);
   } else if (req.params.fn === 'place-in-queue') {
     utils.sendOkStatus(req, res);
     workbins.placeInQueue(req, res);
@@ -403,8 +409,9 @@ exports.publishInteractionEvent = (agent, media, interaction, notificationType) 
     interaction: interaction,
     messageType: 'InteractionStateChanged'
   }
-  if(agent.body && agent.body.operationId)
+  if (agent.body && agent.body.operationId) {
     msg.operationId = agent.body.operationId;
+  }
   messaging.publish(agent, '/workspace/v3/media/' + media, msg);
   changeAgentMediaStatus(agent, media, interaction);
 }
@@ -428,6 +435,7 @@ changeAgentMediaStatus = (agent, media, interaction) => {
           ch.available = true;
           break;
         case 'Processing':
+        case 'Composing':
           switch(interaction.interactionType) {
             case 'Inbound': ch.activity = 'HandlingInboundInteraction'; break;
             case 'Internal': ch.activity = 'HandlingInternalInteraction'; break;
@@ -435,7 +443,8 @@ changeAgentMediaStatus = (agent, media, interaction) => {
           }
           ch.available = !isMediaCapacityFilled(user, media);
           break;
-        case 'Completed': case 'InWorkbin':
+        case 'Completed':
+        case 'InWorkbin':
           deleteInteractionForAgent(user.userName, interaction.id, interaction.mediatype);
           if (interactionsHandled(user, media) === 0) {
             ch.activity = 'Idle';
@@ -721,6 +730,30 @@ exports.createOutboundPushPreview = (agent) => {
   interactions[interactionId] = interaction;
   addInteractionForAgent(agent, interaction);
   exports.publishInteractionEvent(agent, 'outboundpreview', interaction);
+}  
+
+exports.openInteraction = (req, interaction) => {
+  interaction.state = interaction.interactionType === 'Inbound' ? 'Processing' : 'Composing';
+  interaction.mediatype = interaction.mediatype ? interaction.mediatype : interaction.mediaType;
+  interaction.isInWorkflow = true;
+  if (interaction.interactionType === 'Outbound') {
+    if (interaction.mediatype === 'email') {
+      interaction.capabilities = [
+        'attach-user-data', 'delete-user-data', 'update-user-data',
+        'place-in-queue', 'transfer',
+        'send', 'cancel', 'save', 'set-comment', 'assign-contact', 'add-attachment'
+      ];
+    } else {
+      interaction.capabilities = [
+        "attach-user-data", "delete-user-data", "update-user-data",
+        "place-in-queue", "transfer",
+        "complete"
+      ];
+    }
+  }
+  interactions[interaction.id] = interaction;
+  addInteractionForAgent(auth.userByCode(req), interaction);
+  exports.publishInteractionEvent(req, interaction.mediatype, interaction);
 }
 
 addInteractionForAgent = (agent, interaction) => {

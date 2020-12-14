@@ -5,16 +5,18 @@
 
 const _ = require('underscore');
 
+const log = require('../common/log');
 const auth = require('./auth');
 const conf = require('./conf');
 const messaging = require('./messaging');
 const media = require('./media');
 const utils = require('../common/utils');
+const mediaManagement = require('./media-management');
 
-let workbins = utils.requireAndMonitor('../../../data/ucs/workbins.yaml', updated => { workbins = updated });
+let workbins = utils.requireAndMonitor('../../../data/open-media/workbins.yaml', updated => { workbins = updated });
 
 exports.getWorkbinById = (workbinId) => {
-	return _.find(workbins, (workbin) => {
+  return _.find(workbins, (workbin) => {
 		return workbinId === workbin.id;
 	});
 }
@@ -25,50 +27,16 @@ exports.getWorkbinByName = (workbinName) => {
 	});
 }
 
-exports.addToWorkbin = (req, workbinId, interactionId) => {
-	const workbin = exports.getWorkbinById(workbinId);
-	const interaction = media.getInteraction(interactionId);
-	if (workbin && interaction) {
-		const userName = auth.userByCode(req);
-		workbin.interactions.push(exports.adjustInteraction(interaction));
-		interaction.queue = workbin.workbinName;
-		this.publishWorkbinEvent(req, 'EventWorkbinContentChanged', {
-			workbin: { id: workbin.id, owner: userName },
-			interaction: interaction,
-			operation: 'PlaceInWorkbin',
-			workbinContentOperation: 'Add'
-		});
-		interaction.state = 'InWorkbin';
-		media.publishInteractionEvent(req, interaction.mediatype, interaction);
-	}
-}
-
-exports.removeFromWorkbin = (req, workbinId, interactionId) => {
-	const workbin = workbinId ? exports.getWorkbinById(workbinId) : exports.getWorkbinByInteraction(interactionId);
-	const interaction = media.getInteraction(interactionId);
-	if (workbin && interaction) {
-		const userName = auth.userByCode(req);
-		const idx = workbin.interactions.indexOf(interaction);
-		if (idx !== -1) {
-			workbin.interactions.splice(idx, 1);
-		}
-		this.publishWorkbinEvent(req, 'EventWorkbinContentChanged', {
-			workbin: { id: workbin.id, owner: userName },
-			interaction: interaction,
-			operation: 'Pull',
-			workbinContentOperation: 'Remove'
-		});
-		interaction.state = interaction.interactionType === 'Inbound' ? 'Processing' : 'Composing';
-		media.publishInteractionEvent(req, interaction.mediatype, interaction);
-	}
-}
-
 exports.getInteraction = (interactionId) => {
-	return _.reduce(workbins, (result, workbin) => {
+  var interaction = _.reduce(workbins, (result, workbin) => {
 		return result || _.find(workbin.interactions, interaction => {
 			return interaction.id === interactionId;
 		});
-	}, null);
+  }, null);
+  if (!interaction) {
+    interaction = mediaManagement.getInteraction(interactionId);
+  }
+	return interaction;
 }
 
 exports.getWorkbinByInteraction = (interactionId) => {
@@ -88,41 +56,205 @@ exports.adjustInteraction = (interaction) => {
 	return interaction;
 }
 
+exports.getReqOwnerId = (req) => {
+  return req.body.data.ownerId ? req.body.data.ownerId : auth.userByCode(req);
+}
+
+exports.getWorkbinByIdAndOwnerId = (workbinId, ownerId) => {
+  var wb = null;
+  var foundWb = this.getWorkbinById(workbinId);
+  if (foundWb) {
+    wb = _.clone(foundWb);
+    if (ownerId) {
+      wb.interactions = _.filter(wb.interactions, iObj => {
+        return iObj.agentId === ownerId;
+      });
+    }
+  }
+  return wb;
+}
+
 exports.pull = (req, res) => {
-	exports.removeFromWorkbin(req, req.body.data.sourceId, req.params.id);
+	this.removeFromWorkbinId(req, req.params.id, req.body.data.sourceId);
 }
 
 exports.placeInQueue = (req, res) => {
-	var workbin; 
+  var workbin, wbOwner;
 	if (req.body.data.queue === '__BACK__') {
-		const interaction = media.getInteraction(req.params.id);
+    const interaction = media.getInteraction(req.params.id);
+    if (!interaction) {
+      interaction = this.getInteraction(req.params.id);
+    }
 		if (interaction) {
-			workbin = exports.getWorkbinByName(interaction.queue);
+      var wbName = (interaction.queue.indexOf('/PrivateQueue') === -1) ? interaction.queue : interaction.workbinTypeId;
+      wbOwner = interaction.agentId ? interaction.agentId : auth.userByCode(req);
+			workbin = this.getWorkbinByName(wbName);
 		}
 	} else {
-		workbin = exports.getWorkbinByName(req.body.data.queue);
+		workbin = this.getWorkbinByName(req.body.data.queue);
+    wbOwner = this.getReqOwnerId(req);
 	}
 	if (workbin) {
-		exports.addToWorkbin(req, workbin.id, req.params.id);
+		this.addToWorkbinId(req, req.params.id, workbin.id, wbOwner);
 	}
+}
+
+exports.updateInteractionWorkbinContainerProperties = (req, interaction, workbin, ownerId) => {
+  interaction.queue = workbin.workbinName + '/PrivateQueue';
+  interaction.workbinTypeId = workbin.workbinName;
+  interaction.agentId = ownerId ? ownerId : this.getReqOwnerId(req);
+  interaction.assignedTo = interaction.agentId;
+  interaction.interactionState = 'Queued';
+  interaction.workflowState = 'Queued';
+  interaction.state = 'InWorkbin';
+  mediaManagement.updateInteraction(interaction);
+  return interaction;
+}
+
+exports.publishEventWorkbinContentChangedInteractionAdded = (req, interaction, workbinId, ownerId) => {
+  this.publishWorkbinEvent(req, 'EventWorkbinContentChanged', {
+    interaction: interaction,
+    operation: 'PlaceInWorkbin',
+    workbin: { id: workbinId, owner: ownerId },
+    workbinContentOperation: 'Add'
+  });
+}
+
+exports.addToWorkbin = (req, interaction, workbin, ownerId) => {
+  var userName = ownerId ? ownerId : this.getReqOwnerId(req);
+  interaction = this.updateInteractionWorkbinContainerProperties(req, interaction, workbin, ownerId);
+  workbin.interactions.push(this.adjustInteraction(interaction));
+  this.publishEventWorkbinContentChangedInteractionAdded(req, interaction, workbin.id, userName);
+  media.publishInteractionEvent(req, interaction.mediatype, interaction);
+}
+
+exports.addToWorkbinId = (req, interactionId, workbinId, ownerId) => {
+  var workbin = this.getWorkbinById(workbinId);
+  if (workbin) {
+    var interaction = media.getInteraction(interactionId);
+    if (!interaction) {
+      interaction = this.getInteraction(interactionId);
+    }
+    if (interaction) {
+      this.addToWorkbin(req, interaction, workbin, ownerId);
+    }
+  }
+}
+
+exports.publishEventWorkbinContentChangedInteractionRemoved = (req, interaction, workbinId, ownerId) => {
+  this.publishWorkbinEvent(req, 'EventWorkbinContentChanged', {
+    interaction: interaction,
+    operation: 'Pull',
+    workbin: { id: workbinId, owner: ownerId },
+    workbinContentOperation: 'Remove'
+  });
+}
+
+exports.removeFromWorkbin = (req, interaction, workbin) => {
+  workbin.interactions = _.without(workbin.interactions, interaction);
+  this.publishEventWorkbinContentChangedInteractionRemoved(req, interaction, workbin.id, interaction.agentId);
+    // media.openInteraction(req, wbInteraction);
+  // } else {
+  //   const mediaInteraction = media.getInteraction(interactionId);
+  //   if (mediaInteraction) {
+  //     media.openInteraction(req, mediaInteraction);
+  //   }
+}
+
+exports.removeFromWorkbinId = (req, interactionId, workbinId) => {
+  var workbin = workbinId ? this.getWorkbinById(workbinId) : this.getWorkbinByInteraction(interactionId);
+  if (workbin) {
+    var wbInteraction = this.getInteraction(interactionId);
+    if (wbInteraction) {
+      this.removeFromWorkbin(req, wbInteraction, workbin);
+    }
+  }
+  mediaManagement.removeFromSnapshots(interactionId);
+}
+
+exports.moveToWorkbin = (req, interactionId, workbinId, ownerId) => {
+  var wbTarget = this.getWorkbinById(workbinId);
+  if (wbTarget) {
+    var interaction = this.getInteraction(interactionId);
+    if (interaction) {
+      if (interaction.workbinTypeId) {
+        // interaction is in a workbin
+        var wbSource = this.getWorkbinByName(interaction.workbinTypeId);
+        if (wbSource) {
+          if (wbSource.workbinName !== wbTarget.workbinName) {
+            // Workbin source != workbin target
+            // => interaction should be removed from workbin source and then added to workbin target
+            this.removeFromWorkbin(req, interaction, wbSource);
+            this.addToWorkbin(req, interaction, wbTarget);
+          } else {
+            // Source and target workbin have same name not same owner
+            // => only update OwnerId and publish WorkbinContentChanged events (removed + added)
+            this.publishEventWorkbinContentChangedInteractionRemoved(req, interaction, wbSource.id, interaction.agentId);
+            interaction = this.updateInteractionWorkbinContainerProperties(req, interaction, wbTarget, ownerId);
+            this.publishEventWorkbinContentChangedInteractionAdded(req, interaction, wbTarget.id, ownerId);
+          }
+        }
+      } else {
+        // interaction is in a queue (not a workbin)
+        // => added it to workbin target
+        this.addToWorkbin(req, interaction, wbTarget);
+      }
+    }
+  }
+}
+
+exports.updateInteractionQueueContainerProperties = (interaction, queueName) => {
+  interaction.queue = queueName;
+  interaction.workbinTypeId = undefined;
+  interaction.workflowState = 'Queued';
+  interaction.interactionState = 'Cached';
+  interaction.state = 'Queued';
+  mediaManagement.updateInteraction(interaction);
+  return interaction;
+}
+
+exports.moveToQueue = (req, interactionId, queue) => {
+  var interaction = this.getInteraction(interactionId);
+  if (interaction) {
+    if (interaction.workbinTypeId) {
+      // interaction is in a workbin
+      var wbSource = this.getWorkbinByName(interaction.workbinTypeId);
+      if (wbSource) {
+        // => interaction should be removed from workbin source
+        this.removeFromWorkbin(req, interaction, wbSource);
+      }
+    }
+    // update interaction properties with queue target
+    interaction = this.updateInteractionQueueContainerProperties(interaction, queue);
+  }
 }
 
 exports.handleWorkbins = (req, res) => {
 	res.set({ 'Content-type': 'application/json' });
 	if (req.params.fn === 'get-workbins') {
-		utils.sendOkStatus(req, res);
-		this.publishWorkbinEvent(req, 'EventWorkbins', { workbins: workbins });
+    utils.sendOkStatus(req, res);
+    var wbs = [];
+    _.each(workbins, (workbin) => {
+      wbs.push({
+        workbinName: workbin.workbinName,
+        id: workbin.id,
+        displayName: workbin.displayName,
+        type: workbin.type
+      });
+    });
+    this.publishWorkbinEvent(req, 'EventWorkbins', { workbins: wbs });
 	} else if (req.params.fn === 'get-contents') {
-		var workbins2 = {};
-		if (req.body.workbinIds) {
-			_.each(workbins, (workbin) => {
-				if (req.body.workbinIds.indexOf(workbin.id) !== -1) {
-					workbins2[workbin.id] = workbin;
-				}
-			});
-		}
+    var ownerId = this.getReqOwnerId(req);
+		var wbs = {};
+    var wbIds = req.body.data.workbinIds ? req.body.data.workbinIds.split(',') : [];
+    _.each(wbIds, (wbId) => {
+      var wb = this.getWorkbinByIdAndOwnerId(wbId, ownerId);
+      if (wb) {
+        wbs[wbId] = wb;
+      }
+		});
 		utils.sendOkStatus(req, res);
-		this.publishWorkbinEvent(req, 'EventWorkbinsContent', { workbins: workbins2 });
+		this.publishWorkbinEvent(req, 'EventWorkbinsContent', { workbins: wbs });
 	} else {
 		utils.sendFailureStatus(res, 501);
 	}
@@ -134,15 +266,17 @@ exports.handleWorkbin = (req, res) => {
 		utils.sendOkStatus(req, res);
 		this.publishWorkbinEvent(req, 'EventAck', { operation: 'SubscribeWorkbinEvents', workbinId: req.params.id });
 	} else if (req.params.fn === 'get-content') {
-		_.each(workbins, (workbin) => {
-			if (req.params.id === workbin.id) {
-				utils.sendOkStatus(req, res);
-				this.publishWorkbinEvent(req, 'EventWorkbinContent', { workbin: workbin });
-			}
-		});
+    var ownerId = this.getReqOwnerId(req);
+    var wb = this.getWorkbinByIdAndOwnerId(req.params.id, ownerId);
+    if (wb) {
+      utils.sendOkStatus(req, res);
+      this.publishWorkbinEvent(req, 'EventWorkbinContent', { workbin: wb });
+    } else {
+      utils.sendFailureStatus(res, 500);
+    }
 	} else if (req.params.fn === 'add-interaction') {
 		utils.sendOkStatus(req, res);
-		exports.addToWorkbin(req, req.params.id, req.body.data.interactionId);
+		this.addToWorkbinId(req, req.body.data.interactionId, req.params.id);
 	} else {
 		utils.sendFailureStatus(res, 501);
 	}
@@ -151,18 +285,19 @@ exports.handleWorkbin = (req, res) => {
 exports.handleWorkbinInteraction = (req, res) => {
 	res.set({ 'Content-type': 'application/json' });
 	if (req.params.fn === 'get-details') {
-		utils.sendOkStatus(req, res);
-		this.publishWorkbinEvent(req, 'EventGetInteractionDetails', { interaction: exports.getInteraction(req.params.id) });
+    utils.sendOkStatus(req, res);
+		this.publishWorkbinEvent(req, 'EventGetInteractionDetails', { interaction: this.getInteraction(req.params.id) });
 	}
 }
 
 exports.publishWorkbinEvent = (req, eventName, opts) => {
-	var operationId = req.body.operationId ? req.body.operationId : conf.id();
 	var msg = {
 		name: eventName,
-		operationId: operationId,
 		messageType: 'WorkbinsMessage'
-	}
+  }
+  if (eventName != 'EventWorkbinContentChanged') {
+		msg.operationId = req.body.operationId ? req.body.operationId : conf.id();
+  }
 	_.each(_.keys(opts), (opt) => {
 		msg[opt] = opts[opt];
 	});
