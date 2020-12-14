@@ -243,7 +243,7 @@ var fileTransformers = [
     new YamlTransformer('../../../data/ucs/workbins.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/outbound/campaigns.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/outbound/pull-preview.yaml', [writeToYaml]),
-    new YamlTransformer('../../../data/outbound/calling-list.yaml', [writeToYaml])
+    new YamlTransformer('../../../data/outbound/calling-list.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/open-media/workbins.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/open-media/media-management.yaml', [writeToYaml])
 ];
