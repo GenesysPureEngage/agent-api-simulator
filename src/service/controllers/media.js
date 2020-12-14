@@ -52,12 +52,14 @@ exports.initializeMediaData = (user) => {
     return {
       channels: [{
         name: 'email',
+        available: false,
         state: 'NotReady',
         dnd: false,
         reasons: [],
         timestamp: Date.now()
       }, {
         name: 'workitem',
+        available: false,
         state: 'NotReady',
         dnd: false,
         reasons: [],
@@ -296,9 +298,10 @@ exports.handleWorkitemInteraction = (req, res, interaction) => {
   }
 }
 
-changeMediState = (req, media, state, options) => {
+changeMediaState = (req, media, state, options) => {
   if (media) {
     media.state = state;
+    media.available = (state === 'Ready');
     if (options) {
       media.dnd = options.dnd;
       if (options.reasonCode) {
@@ -326,10 +329,10 @@ exports.changeState = (req, state, options) => {
       const mediaName = req && req.params ? req.params.media : (options ? options.media : null);
       if (mediaName) {
         const media = _.find(user.activeSession.media.channels, function (m) { return m.name === mediaName; });
-        changeMediState(req, media, state, options);
+        changeMediaState(req, media, state, options);
       } else {
         _.each(user.activeSession.media.channels, (m) => {
-          changeMediState(req, m, state, options);
+          changeMediaState(req, m, state, options);
         });
       }
     }
