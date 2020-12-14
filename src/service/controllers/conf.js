@@ -44,6 +44,12 @@ var routePoints = utils.requireAndMonitor(
     routePoints = updated;
   }
 );
+var interactionQueues = utils.requireAndMonitor(
+  "../../../data/interaction-queues.yaml",
+  updated => {
+    interactionQueues = updated;
+  }
+);
 var transactions = utils.requireAndMonitor(
   "../../../data/transactions.yaml",
   updated => {
@@ -193,7 +199,9 @@ exports.targets = function(req, res) {
   var targets = [];
   var types = req.query.types ? req.query.types.split(",") : [];
   var searchTerm = req.query.searchTerm ? req.query.searchTerm.split(",") : [];
+  var searchAll = (searchTerm.length === 1 && searchTerm[0] === '*') ? true : false;
   var matchType = req.query.matchType;
+  var restrictToGroup = req.query.restrictToGroup ? req.query.restrictToGroup.split(",") : [];
   var filterName = req.query.filterName;
   _.each(types, type => {
     if (type === "agent") {
@@ -206,6 +214,22 @@ exports.targets = function(req, res) {
         setMonitoringState(req, u);
         targets.push(u);
       });
+
+      if (restrictToGroup.length > 0) {
+        var agentsOfGroups = [];
+        _.each(restrictToGroup, (grp) => {
+          _.each(agentGroups, (agtGp) => {
+            if (agtGp.name === grp) {
+              agentsOfGroups = _.union(agentsOfGroups, agtGp.agentDBIDs);
+            }
+          });
+        });
+
+        targets = _.filter(targets, target => {
+          return agentsOfGroups.includes(target.DBID);
+        })
+      }
+
     } else if (type === "agent-group") {
       var tAgentGroups = _.map(agentGroups, (agentGroup) => {
         agentGroup.timestamp = Date.now();
@@ -224,20 +248,31 @@ exports.targets = function(req, res) {
         return routePoint;
       });
       targets = targets.concat(tRoutePoints);
+    } else if (type === "interaction-queue") {
+      var tInteractionQueues = _.map(interactionQueues, (interactionQueue) => {
+        interactionQueue.timestamp = Date.now();
+        interactionQueue.type = 'interaction-queue';
+        interactionQueue.availability = { waitingCalls: 0 };
+        interactionQueue.isMonitored = false;
+        return interactionQueue;
+      });
+      targets = targets.concat(tInteractionQueues);
     }
   });
-  targets = _.filter(targets, target => {
-    return (
-      _.size(
-        _.filter(searchTerm, term => {
-          return matchType === "exact"
-            ? term === target.name
-            : target.name.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
-                (target.userName && target.userName.toLowerCase().indexOf(term.toLowerCase()) !== -1);
-        })
-      ) > 0
-    );
-  });
+  if (searchAll === false) {
+    targets = _.filter(targets, target => {
+      return (
+        _.size(
+          _.filter(searchTerm, term => {
+            return matchType === "exact"
+              ? term === target.name
+              : target.name.toLowerCase().indexOf(term.toLowerCase()) !== -1 ||
+                  (target.userName && target.userName.toLowerCase().indexOf(term.toLowerCase()) !== -1);
+          })
+        ) > 0
+      );
+    });
+  }
   if (targets) {
     data.data = {
       targets: targets,

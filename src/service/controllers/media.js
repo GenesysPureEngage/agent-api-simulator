@@ -112,6 +112,11 @@ exports.handleInteraction = (req, res) => {
   var userName = auth.userByCode(req);
   var interaction = interactions[req.params.id];
   if (!interaction) {
+    if (req.params.fn === 'pull') {
+      interaction = workbins.getInteraction(req.params.id);
+    }
+  }
+  if (!interaction) {
     log.error('Interaction with ' + req.params.id + ' id does not exist for ' + userName);
   } else if (req.params.fn === 'complete' || req.params.fn === 'reject') {
     interaction.state = 'Completed';
@@ -143,6 +148,7 @@ exports.handleInteraction = (req, res) => {
   } else if (req.params.fn === 'pull') {
     utils.sendOkStatus(req, res);
     workbins.pull(req, res);
+    exports.openInteraction(req, interaction);
   } else if (req.params.fn === 'place-in-queue') {
     utils.sendOkStatus(req, res);
     workbins.placeInQueue(req, res);
@@ -150,6 +156,8 @@ exports.handleInteraction = (req, res) => {
     exports.handleWorkitemInteraction(req, res, interaction);
   } else if (req.params.media === 'outboundpreview' || req.params.fn === 'publish') {
     exports.handleOutboundPreviewInteraction(req, res, interaction);
+  } else if (req.params.fn === 'add-attachment') {
+    exports.handleAttachments(req, res);
   } else {
     utils.sendFailureStatus(res, 501);
   }
@@ -227,6 +235,68 @@ exports.handleInteractionUpdateUserdata = (req, res, interaction) => {
   });
   utils.sendOkStatus(req, res);
   exports.publishInteractionEvent(req, interaction.mediatype, interaction, 'PropertiesUpdated');
+}
+
+exports.handleAttachments = (req, res) => {
+  const interaction = interactions[req.params.id];
+  switch (req.params.fn) {
+    case 'add-attachment':
+      addAttachment(req, res, interaction);
+      break;
+    case 'attachments':
+      const idx = _.findIndex(interaction.attachments, att => { return att.id === req.params.id2; });
+      if (idx !== -1) {
+        const att = interaction.attachments[idx];
+        res.set({ 'Content-Disposition': `attachment; filename= "${att.name}"` });
+        res.set({ 'Content-Length': att.size });
+        res.set({ 'Content-Type': 'application/octet-stream' });
+        res.send(new Array(att.size + 1).join('.'));
+        utils.sendOkStatus(req, res);
+      } else {
+        utils.sendFailureStatus(res, 404, 'Attachment not found');
+      }
+      break;
+    case 'remove-attachment':
+      const idxr = _.findIndex(interaction.attachments, att => { return att.id === req.params.id2; });
+      if (idxr !== -1) {
+        interaction.attachments.splice(idxr, 1);
+        exports.publishInteractionEvent(req, 'email', interaction, 'UCSPropertiesUpdated');
+      } else {
+        utils.sendFailureStatus(res, 404, 'Attachment not found');
+      }
+      break;
+  }
+}
+
+addAttachment = (req, res, interaction) => {
+  var boundary = /boundary\=(.*)/.exec(req.headers['content-type']);
+  if (boundary && boundary.length > 1) {
+    boundary = boundary[1];
+  }
+  var result = '';
+  req.on('data', chunk => { result += chunk; });
+  req.on('end', () => {
+    const resultRe = new RegExp(boundary + '[\r\n]+Content-Disposition: (.*?)[\r\n]+Content-Type: (.*?)[\r\n]+(.*)' + boundary, 's');
+    const r = resultRe.exec(result);
+    if (r && r.length >= 3) {
+      var fn = /filename\=\"(.*)\"/.exec(r[1]);
+      if (fn.length >= 1) {
+        fn = fn[1];
+      }
+      const attId = conf.id();
+      interaction.attachments = (interaction.attachments || []);
+      interaction.attachments.push({
+        id: attId,
+        isEmbedded: false,
+        mime: r[2],
+        name: fn,
+        path: `media/email/interactions/${interaction.id}/attachments/${attId}`,
+        size: r[3].length - 4
+      });
+      exports.publishInteractionEvent(req, 'email', interaction, 'UCSPropertiesUpdated');
+    }
+    utils.sendOkStatus(req, res);
+  });
 }
 
 exports.handleWorkitemInteraction = (req, res, interaction) => {
@@ -339,8 +409,9 @@ exports.publishInteractionEvent = (agent, media, interaction, notificationType) 
     interaction: interaction,
     messageType: 'InteractionStateChanged'
   }
-  if(agent.body && agent.body.operationId)
+  if (agent.body && agent.body.operationId) {
     msg.operationId = agent.body.operationId;
+  }
   messaging.publish(agent, '/workspace/v3/media/' + media, msg);
   changeAgentMediaStatus(agent, media, interaction);
 }
@@ -364,6 +435,7 @@ changeAgentMediaStatus = (agent, media, interaction) => {
           ch.available = true;
           break;
         case 'Processing':
+        case 'Composing':
           switch(interaction.interactionType) {
             case 'Inbound': ch.activity = 'HandlingInboundInteraction'; break;
             case 'Internal': ch.activity = 'HandlingInternalInteraction'; break;
@@ -371,7 +443,8 @@ changeAgentMediaStatus = (agent, media, interaction) => {
           }
           ch.available = !isMediaCapacityFilled(user, media);
           break;
-        case 'Completed': case 'InWorkbin':
+        case 'Completed':
+        case 'InWorkbin':
           deleteInteractionForAgent(user.userName, interaction.id, interaction.mediatype);
           if (interactionsHandled(user, media) === 0) {
             ch.activity = 'Idle';
@@ -657,6 +730,30 @@ exports.createOutboundPushPreview = (agent) => {
   interactions[interactionId] = interaction;
   addInteractionForAgent(agent, interaction);
   exports.publishInteractionEvent(agent, 'outboundpreview', interaction);
+}  
+
+exports.openInteraction = (req, interaction) => {
+  interaction.state = interaction.interactionType === 'Inbound' ? 'Processing' : 'Composing';
+  interaction.mediatype = interaction.mediatype ? interaction.mediatype : interaction.mediaType;
+  interaction.isInWorkflow = true;
+  if (interaction.interactionType === 'Outbound') {
+    if (interaction.mediatype === 'email') {
+      interaction.capabilities = [
+        'attach-user-data', 'delete-user-data', 'update-user-data',
+        'place-in-queue', 'transfer',
+        'send', 'cancel', 'save', 'set-comment', 'assign-contact', 'add-attachment'
+      ];
+    } else {
+      interaction.capabilities = [
+        "attach-user-data", "delete-user-data", "update-user-data",
+        "place-in-queue", "transfer",
+        "complete"
+      ];
+    }
+  }
+  interactions[interaction.id] = interaction;
+  addInteractionForAgent(auth.userByCode(req), interaction);
+  exports.publishInteractionEvent(req, interaction.mediatype, interaction);
 }
 
 addInteractionForAgent = (agent, interaction) => {

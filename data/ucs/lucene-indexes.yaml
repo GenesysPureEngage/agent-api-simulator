@@ -1,627 +1,627 @@
 - fields:
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_trainingitem
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_mms
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_sms
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_outboundpreview
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_cobrowsing
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_outboundpreview
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_facebook
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_webcallback
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_outboundpreview
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_twitter
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_smail
-    - isSearchable: true
-      isStored: true
-      fieldName: AttributeName
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_smail
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_auxwork
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_webform
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_whiteboard
-    - isSearchable: true
-      isStored: true
-      fieldName: StrValue
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_callback
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_busevent
-    - isSearchable: true
-      isStored: true
-      fieldName: EmailAddress
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_appsharing
-    - isSearchable: true
-      isStored: true
-      fieldName: Id
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_callback
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_cobrowsing
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_mmssession
-    - isSearchable: true
-      isStored: true
-      fieldName: MergeId
-    - isSearchable: true
-      isStored: true
-      fieldName: Description
-    - isSearchable: true
-      isStored: true
-      fieldName: PreferredAgent_EmployeeID
-    - isSearchable: true
-      isStored: true
-      fieldName: SubTenantId
-    - isSearchable: true
-      isStored: true
-      fieldName: AttributeId
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_twitter
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_voice
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_busevent
-    - isSearchable: true
-      isStored: true
-      fieldName: ModifiedDate
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_webform
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_facebook
-    - isSearchable: true
-      isStored: true
-      fieldName: MimeType
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_vmail
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_vmail
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_mms
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_smail
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_voice
-    - isSearchable: true
-      isStored: true
-      fieldName: DateValue
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_webform
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_vmail
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_fax
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_voice
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_survey
-    - isSearchable: true
-      isStored: true
-      fieldName: FirstName
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_appsharing
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_alert
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_any
-    - isSearchable: true
-      isStored: true
-      fieldName: TenantId
-    - isSearchable: true
-      isStored: true
-      fieldName: PIN
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_workitem
-    - isSearchable: true
-      isStored: true
-      fieldName: IsPrimary
-    - isSearchable: true
-      isStored: true
-      fieldName: PhoneNumber
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_workitem
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_imchat
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_sms
-    - isSearchable: true
-      isStored: true
-      fieldName: LastCalledAgent_EmployeeID
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_fax
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_facebooksession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_mmssession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_video
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_smssession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_mms
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_busevent
-    - isSearchable: true
-      isStored: true
-      fieldName: CompanyName
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_video
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_facebooksession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_email
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_survey
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_smssession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_alert
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_appsharing
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_survey
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_trainingitem
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_video
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_alert
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_callback
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_facebook
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_mmssession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_webcallback
-    - isSearchable: true
-      isStored: true
-      fieldName: LastCalledAgent_TimeStamp
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_email
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_voip
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_facebooksession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_any
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_any
-    - isSearchable: true
-      isStored: true
-      fieldName: CreatedDate
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_trainingitem
-    - isSearchable: true
-      isStored: true
-      fieldName: LastName
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_imchat
-    - isSearchable: true
-      isStored: true
-      fieldName: IsExternalResource
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_smssession
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_fax
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_twitter
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_sms
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_imchat
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_auxwork
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_voip
-    - isSearchable: true
-      isStored: true
-      fieldName: ContactId
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_cobrowsing
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_auxwork
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_voip
-    - isSearchable: true
-      isStored: true
-      fieldName: CustomerSegment
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_webcallback
-    - isSearchable: true
-      isStored: true
-      fieldName: Title
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_workitem
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_TimeStamp_email
-    - isSearchable: true
-      isStored: true
-      fieldName: AccountNumber
-    - isSearchable: true
-      isStored: true
-      fieldName: LCA_EmplID_whiteboard
-    - isSearchable: true
-      isStored: true
-      fieldName: Pref_EmplID_whiteboard
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_trainingitem
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_mms
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_sms
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_outboundpreview
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_cobrowsing
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_outboundpreview
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_facebook
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_webcallback
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_outboundpreview
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_twitter
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_smail
+  - isSearchable: true
+    isStored: true
+    fieldName: AttributeName
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_smail
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_auxwork
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_webform
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_whiteboard
+  - isSearchable: true
+    isStored: true
+    fieldName: StrValue
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_callback
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_busevent
+  - isSearchable: true
+    isStored: true
+    fieldName: EmailAddress
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_appsharing
+  - isSearchable: true
+    isStored: true
+    fieldName: Id
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_callback
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_cobrowsing
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_mmssession
+  - isSearchable: true
+    isStored: true
+    fieldName: MergeId
+  - isSearchable: true
+    isStored: true
+    fieldName: Description
+  - isSearchable: true
+    isStored: true
+    fieldName: PreferredAgent_EmployeeID
+  - isSearchable: true
+    isStored: true
+    fieldName: SubTenantId
+  - isSearchable: true
+    isStored: true
+    fieldName: AttributeId
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_twitter
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_voice
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_busevent
+  - isSearchable: true
+    isStored: true
+    fieldName: ModifiedDate
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_webform
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_facebook
+  - isSearchable: true
+    isStored: true
+    fieldName: MimeType
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_vmail
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_vmail
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_mms
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_smail
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_voice
+  - isSearchable: true
+    isStored: true
+    fieldName: DateValue
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_webform
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_vmail
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_fax
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_voice
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_survey
+  - isSearchable: true
+    isStored: true
+    fieldName: FirstName
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_appsharing
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_alert
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_any
+  - isSearchable: true
+    isStored: true
+    fieldName: TenantId
+  - isSearchable: true
+    isStored: true
+    fieldName: PIN
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_workitem
+  - isSearchable: true
+    isStored: true
+    fieldName: IsPrimary
+  - isSearchable: true
+    isStored: true
+    fieldName: PhoneNumber
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_workitem
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_imchat
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_sms
+  - isSearchable: true
+    isStored: true
+    fieldName: LastCalledAgent_EmployeeID
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_fax
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_facebooksession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_mmssession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_video
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_smssession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_mms
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_busevent
+  - isSearchable: true
+    isStored: true
+    fieldName: CompanyName
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_video
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_facebooksession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_email
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_survey
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_smssession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_alert
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_appsharing
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_survey
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_trainingitem
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_video
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_alert
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_callback
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_facebook
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_mmssession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_webcallback
+  - isSearchable: true
+    isStored: true
+    fieldName: LastCalledAgent_TimeStamp
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_email
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_voip
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_facebooksession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_any
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_any
+  - isSearchable: true
+    isStored: true
+    fieldName: CreatedDate
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_trainingitem
+  - isSearchable: true
+    isStored: true
+    fieldName: LastName
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_imchat
+  - isSearchable: true
+    isStored: true
+    fieldName: IsExternalResource
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_smssession
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_fax
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_twitter
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_sms
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_imchat
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_auxwork
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_voip
+  - isSearchable: true
+    isStored: true
+    fieldName: ContactId
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_cobrowsing
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_auxwork
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_voip
+  - isSearchable: true
+    isStored: true
+    fieldName: CustomerSegment
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_webcallback
+  - isSearchable: true
+    isStored: true
+    fieldName: Title
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_workitem
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_TimeStamp_email
+  - isSearchable: true
+    isStored: true
+    fieldName: AccountNumber
+  - isSearchable: true
+    isStored: true
+    fieldName: LCA_EmplID_whiteboard
+  - isSearchable: true
+    isStored: true
+    fieldName: Pref_EmplID_whiteboard
   description: Contacts
   indexName: contact
 - fields:
-    - isSearchable: true
-      isStored: true
-      fieldName: Timeshift
-    - isSearchable: true
-      isStored: true
-      fieldName: FromPersonal
-    - isSearchable: true
-      isStored: true
-      fieldName: StructTextMimeType
-    - isSearchable: true
-      isStored: true
-      fieldName: AllAttributes
-    - isSearchable: true
-      isStored: true
-      fieldName: SentDate
-    - isSearchable: true
-      isStored: true
-      fieldName: DN
-    - isSearchable: true
-      isStored: true
-      fieldName: StartDate
-    - isSearchable: true
-      isStored: true
-      fieldName: TheType
-    - isSearchable: true
-      isStored: true
-      fieldName: MediaTypeId
-    - isSearchable: true
-      isStored: true
-      fieldName: CanBeParent
-    - isSearchable: true
-      isStored: true
-      fieldName: CustomerNumber
-    - isSearchable: true
-      isStored: true
-      fieldName: BccAddresses
-    - isSearchable: true
-      isStored: true
-      fieldName: CreatorAppId
-    - isSearchable: true
-      isStored: true
-      fieldName: SubtypeId
-    - isSearchable: true
-      isStored: true
-      fieldName: Status
-    - isSearchable: true
-      isStored: true
-      fieldName: TypeId
-    - isSearchable: true
-      isStored: true
-      fieldName: IsCategoryApproved
-    - isSearchable: true
-      isStored: true
-      fieldName: StartTime
-    - isSearchable: true
-      isStored: true
-      fieldName: WhichRuleMatched
-    - isSearchable: true
-      isStored: true
-      fieldName: Lang
-    - isSearchable: true
-      isStored: true
-      fieldName: Duration
-    - isSearchable: true
-      isStored: true
-      fieldName: CallBackStatus
-    - isSearchable: true
-      isStored: true
-      fieldName: ToAddresses
-    - isSearchable: true
-      isStored: true
-      fieldName: Header
-    - isSearchable: true
-      isStored: true
-      fieldName: Id
-    - isSearchable: true
-      isStored: true
-      fieldName: IsSpam
-    - isSearchable: true
-      isStored: true
-      fieldName: CategoryId
-    - isSearchable: true
-      isStored: true
-      fieldName: ReplyToAddress
-    - isSearchable: true
-      isStored: true
-      fieldName: CallResult
-    - isSearchable: true
-      isStored: true
-      fieldName: CallbackServerID
-    - isSearchable: true
-      isStored: true
-      fieldName: EndTime
-    - isSearchable: true
-      isStored: true
-      fieldName: SubTenantId
-    - isSearchable: true
-      isStored: true
-      fieldName: ContactId
-    - isSearchable: true
-      isStored: true
-      fieldName: FromAddress
-    - isSearchable: true
-      isStored: true
-      fieldName: OwnerId
-    - isSearchable: true
-      isStored: true
-      fieldName: Mailbox
-    - isSearchable: true
-      isStored: true
-      fieldName: ReferenceId
-    - isSearchable: true
-      isStored: true
-      fieldName: ThreadId
-    - isSearchable: true
-      isStored: true
-      fieldName: TheComment
-    - isSearchable: true
-      isStored: true
-      fieldName: Attempts
-    - isSearchable: true
-      isStored: true
-      fieldName: EntityTypeId
-    - isSearchable: true
-      isStored: true
-      fieldName: CcAddresses
-    - isSearchable: true
-      isStored: true
-      fieldName: CustomData
-    - isSearchable: true
-      isStored: true
-      fieldName: StandardResponseId
-    - isSearchable: true
-      isStored: true
-      fieldName: QueueName
-    - isSearchable: true
-      isStored: true
-      fieldName: DetailedDescription
-    - isSearchable: true
-      isStored: true
-      fieldName: DesiredResponseType
-    - isSearchable: true
-      isStored: true
-      fieldName: ParentId
-    - isSearchable: true
-      isStored: true
-      fieldName: WebSafeEmailStatus
-    - isSearchable: true
-      isStored: true
-      fieldName: TConnectionId
-    - isSearchable: true
-      isStored: true
-      fieldName: ExternalId
-    - isSearchable: true
-      isStored: true
-      fieldName: EmailOutId
-    - isSearchable: true
-      isStored: true
-      fieldName: Text
-    - isSearchable: true
-      isStored: true
-      fieldName: EndDate
-    - isSearchable: true
-      isStored: true
-      fieldName: Subject
-    - isSearchable: true
-      isStored: true
-      fieldName: EstablishedDate
-    - isSearchable: true
-      isStored: true
-      fieldName: TenantId
-    - isSearchable: true
-      isStored: true
-      fieldName: ThreadHash
-    - isSearchable: true
-      isStored: true
-      fieldName: StoppedReason
-    - isSearchable: true
-      isStored: true
-      fieldName: ReviewerId
-    - isSearchable: true
-      isStored: true
-      fieldName: Outcome
-    - isSearchable: true
-      isStored: true
-      fieldName: Forward
-    - isSearchable: true
-      isStored: true
-      fieldName: PhoneNumber
-    - isSearchable: true
-      isStored: true
-      fieldName: StructuredText
-    - isSearchable: true
-      isStored: true
-      fieldName: ReleasedDate
-    - isSearchable: true
-      isStored: true
-      fieldName: Location
+  - isSearchable: true
+    isStored: true
+    fieldName: Timeshift
+  - isSearchable: true
+    isStored: true
+    fieldName: FromPersonal
+  - isSearchable: true
+    isStored: true
+    fieldName: StructTextMimeType
+  - isSearchable: true
+    isStored: true
+    fieldName: AllAttributes
+  - isSearchable: true
+    isStored: true
+    fieldName: SentDate
+  - isSearchable: true
+    isStored: true
+    fieldName: DN
+  - isSearchable: true
+    isStored: true
+    fieldName: StartDate
+  - isSearchable: true
+    isStored: true
+    fieldName: TheType
+  - isSearchable: true
+    isStored: true
+    fieldName: MediaTypeId
+  - isSearchable: true
+    isStored: true
+    fieldName: CanBeParent
+  - isSearchable: true
+    isStored: true
+    fieldName: CustomerNumber
+  - isSearchable: true
+    isStored: true
+    fieldName: BccAddresses
+  - isSearchable: true
+    isStored: true
+    fieldName: CreatorAppId
+  - isSearchable: true
+    isStored: true
+    fieldName: SubtypeId
+  - isSearchable: true
+    isStored: true
+    fieldName: Status
+  - isSearchable: true
+    isStored: true
+    fieldName: TypeId
+  - isSearchable: true
+    isStored: true
+    fieldName: IsCategoryApproved
+  - isSearchable: true
+    isStored: true
+    fieldName: StartTime
+  - isSearchable: true
+    isStored: true
+    fieldName: WhichRuleMatched
+  - isSearchable: true
+    isStored: true
+    fieldName: Lang
+  - isSearchable: true
+    isStored: true
+    fieldName: Duration
+  - isSearchable: true
+    isStored: true
+    fieldName: CallBackStatus
+  - isSearchable: true
+    isStored: true
+    fieldName: ToAddresses
+  - isSearchable: true
+    isStored: true
+    fieldName: Header
+  - isSearchable: true
+    isStored: true
+    fieldName: Id
+  - isSearchable: true
+    isStored: true
+    fieldName: IsSpam
+  - isSearchable: true
+    isStored: true
+    fieldName: CategoryId
+  - isSearchable: true
+    isStored: true
+    fieldName: ReplyToAddress
+  - isSearchable: true
+    isStored: true
+    fieldName: CallResult
+  - isSearchable: true
+    isStored: true
+    fieldName: CallbackServerID
+  - isSearchable: true
+    isStored: true
+    fieldName: EndTime
+  - isSearchable: true
+    isStored: true
+    fieldName: SubTenantId
+  - isSearchable: true
+    isStored: true
+    fieldName: ContactId
+  - isSearchable: true
+    isStored: true
+    fieldName: FromAddress
+  - isSearchable: true
+    isStored: true
+    fieldName: OwnerId
+  - isSearchable: true
+    isStored: true
+    fieldName: Mailbox
+  - isSearchable: true
+    isStored: true
+    fieldName: ReferenceId
+  - isSearchable: true
+    isStored: true
+    fieldName: ThreadId
+  - isSearchable: true
+    isStored: true
+    fieldName: TheComment
+  - isSearchable: true
+    isStored: true
+    fieldName: Attempts
+  - isSearchable: true
+    isStored: true
+    fieldName: EntityTypeId
+  - isSearchable: true
+    isStored: true
+    fieldName: CcAddresses
+  - isSearchable: true
+    isStored: true
+    fieldName: CustomData
+  - isSearchable: true
+    isStored: true
+    fieldName: StandardResponseId
+  - isSearchable: true
+    isStored: true
+    fieldName: QueueName
+  - isSearchable: true
+    isStored: true
+    fieldName: DetailedDescription
+  - isSearchable: true
+    isStored: true
+    fieldName: DesiredResponseType
+  - isSearchable: true
+    isStored: true
+    fieldName: ParentId
+  - isSearchable: true
+    isStored: true
+    fieldName: WebSafeEmailStatus
+  - isSearchable: true
+    isStored: true
+    fieldName: TConnectionId
+  - isSearchable: true
+    isStored: true
+    fieldName: ExternalId
+  - isSearchable: true
+    isStored: true
+    fieldName: EmailOutId
+  - isSearchable: true
+    isStored: true
+    fieldName: Text
+  - isSearchable: true
+    isStored: true
+    fieldName: EndDate
+  - isSearchable: true
+    isStored: true
+    fieldName: Subject
+  - isSearchable: true
+    isStored: true
+    fieldName: EstablishedDate
+  - isSearchable: true
+    isStored: true
+    fieldName: TenantId
+  - isSearchable: true
+    isStored: true
+    fieldName: ThreadHash
+  - isSearchable: true
+    isStored: true
+    fieldName: StoppedReason
+  - isSearchable: true
+    isStored: true
+    fieldName: ReviewerId
+  - isSearchable: true
+    isStored: true
+    fieldName: Outcome
+  - isSearchable: true
+    isStored: true
+    fieldName: Forward
+  - isSearchable: true
+    isStored: true
+    fieldName: PhoneNumber
+  - isSearchable: true
+    isStored: true
+    fieldName: StructuredText
+  - isSearchable: true
+    isStored: true
+    fieldName: ReleasedDate
+  - isSearchable: true
+    isStored: true
+    fieldName: Location
   description: Interactions
   indexName: interaction
 - fields:
-    - isSearchable: true
-      isStored: true
-      fieldName: Description
-    - isSearchable: true
-      isStored: true
-      fieldName: SubTenantId
-    - isSearchable: true
-      isStored: true
-      fieldName: IsActive
-    - isSearchable: true
-      isStored: true
-      fieldName: AckUsageType
-    - isSearchable: true
-      isStored: true
-      fieldName: StructuredBody
-    - isSearchable: true
-      isStored: true
-      fieldName: TheName
-    - isSearchable: true
-      isStored: true
-      fieldName: ModifiedDate
-    - isSearchable: true
-      isStored: true
-      fieldName: MimeType
-    - isSearchable: true
-      isStored: true
-      fieldName: StartDate
-    - isSearchable: true
-      isStored: true
-      fieldName: EmailOutUsageType
-    - isSearchable: true
-      isStored: true
-      fieldName: OwnerId
-    - isSearchable: true
-      isStored: true
-      fieldName: Version
-    - isSearchable: true
-      isStored: true
-      fieldName: StandardResponseId
-    - isSearchable: true
-      isStored: true
-      fieldName: AutoRespUsageType
-    - isSearchable: true
-      isStored: true
-      fieldName: Body
-    - isSearchable: true
-      isStored: true
-      fieldName: VoiceAutoRespUsageType
-    - isSearchable: true
-      isStored: true
-      fieldName: AreFieldCodesParsed
-    - isSearchable: true
-      isStored: true
-      fieldName: Status
-    - isSearchable: true
-      isStored: true
-      fieldName: Lang
-    - isSearchable: true
-      isStored: true
-      fieldName: AgentDesktopUsageType
-    - isSearchable: true
-      isStored: true
-      fieldName: Subject
-    - isSearchable: true
-      isStored: true
-      fieldName: WSSUsageType
-    - isSearchable: true
-      isStored: true
-      fieldName: TenantId
-    - isSearchable: true
-      isStored: true
-      fieldName: ExpirationDate
-    - isSearchable: true
-      isStored: true
-      fieldName: Id
-    - isSearchable: true
-      isStored: true
-      fieldName: CustomFieldCodes
+  - isSearchable: true
+    isStored: true
+    fieldName: Description
+  - isSearchable: true
+    isStored: true
+    fieldName: SubTenantId
+  - isSearchable: true
+    isStored: true
+    fieldName: IsActive
+  - isSearchable: true
+    isStored: true
+    fieldName: AckUsageType
+  - isSearchable: true
+    isStored: true
+    fieldName: StructuredBody
+  - isSearchable: true
+    isStored: true
+    fieldName: TheName
+  - isSearchable: true
+    isStored: true
+    fieldName: ModifiedDate
+  - isSearchable: true
+    isStored: true
+    fieldName: MimeType
+  - isSearchable: true
+    isStored: true
+    fieldName: StartDate
+  - isSearchable: true
+    isStored: true
+    fieldName: EmailOutUsageType
+  - isSearchable: true
+    isStored: true
+    fieldName: OwnerId
+  - isSearchable: true
+    isStored: true
+    fieldName: Version
+  - isSearchable: true
+    isStored: true
+    fieldName: StandardResponseId
+  - isSearchable: true
+    isStored: true
+    fieldName: AutoRespUsageType
+  - isSearchable: true
+    isStored: true
+    fieldName: Body
+  - isSearchable: true
+    isStored: true
+    fieldName: VoiceAutoRespUsageType
+  - isSearchable: true
+    isStored: true
+    fieldName: AreFieldCodesParsed
+  - isSearchable: true
+    isStored: true
+    fieldName: Status
+  - isSearchable: true
+    isStored: true
+    fieldName: Lang
+  - isSearchable: true
+    isStored: true
+    fieldName: AgentDesktopUsageType
+  - isSearchable: true
+    isStored: true
+    fieldName: Subject
+  - isSearchable: true
+    isStored: true
+    fieldName: WSSUsageType
+  - isSearchable: true
+    isStored: true
+    fieldName: TenantId
+  - isSearchable: true
+    isStored: true
+    fieldName: ExpirationDate
+  - isSearchable: true
+    isStored: true
+    fieldName: Id
+  - isSearchable: true
+    isStored: true
+    fieldName: CustomFieldCodes
   description: Standard Responses
   indexName: srl
