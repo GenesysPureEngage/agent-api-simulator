@@ -34,7 +34,7 @@ var capabilitiesDefinitions = utils.requireAndMonitor(
 
 var calls = {};
 
-exports.initializeDnData = user => {
+exports.initializeDnData = (user) => {
   //If user has an active session return their current DN state
   if (user.activeSession && user.activeSession.dn) {
     return user.activeSession.dn;
@@ -53,6 +53,7 @@ exports.initializeDnData = user => {
         "set-forward",
         "start-monitoring"
       ],
+      available: true,
       agentState: "Ready",
       agentWorkMode: "Unknown",
       timestamp: Date.now()
@@ -145,6 +146,7 @@ exports.changeState = (req, state, options) => {
     if (user.activeSession && user.activeSession.dn) {
       var dn = user.activeSession.dn;
       dn.agentState = state;
+      dn.available = (state === 'Ready');
       if (options) {
         dn.agentWorkMode = options.agentWorkMode;
         dn.dnd = options.dnd;
@@ -561,7 +563,7 @@ consolidateKey = (array, property) => {
   });
 };
 
-exports.publishCallEvent = call => {
+exports.publishCallEvent = (call) => {
   if (call.originUser) {
     exports.publishAgentCallEvent(call.originUser.userName, call.originCall);
   }
@@ -570,7 +572,7 @@ exports.publishCallEvent = call => {
   }
 };
 
-exports.publishAttachedDataChangeEvent = call => {
+exports.publishAttachedDataChangeEvent = (call) => {
   if (call.originUser) {
     exports.publishAgentCallEvent(
       call.originUser.userName,
@@ -592,6 +594,18 @@ exports.publishAgentCallEvent = (agent, call, notificationType) => {
     notificationType: notificationType ? notificationType : "StateChange",
     call: call,
     messageType: "CallStateChanged"
+  };
+  messaging.publish(agent, "/workspace/v3/voice", msg);
+  return msg;
+};
+
+exports.sendInvalidDN = (agent) => {
+  var msg = {
+    error: {
+      errorCode: 415,
+      errorMessage: "Invalid Destination DN"
+    },
+    messageType: "EventError"
   };
   messaging.publish(agent, "/workspace/v3/voice", msg);
   return msg;
@@ -898,7 +912,7 @@ cleanMailbox = (agent, destNumber) => {
   this.createVoiceMail(agent, 0, 0, matchingAgentGroup ? matchingAgentGroup.name : '')
 }
 
-const agentGroups = utils.requireAndMonitor(
+var agentGroups = utils.requireAndMonitor(
   "../../../data/agent-groups.yaml",
   updated => {
     agentGroups = updated;
