@@ -9,7 +9,8 @@
         v-model="campaignName"
         name="campaignName"
       >
-        <option selected value="Pull Preview Campaign">
+        <option selected
+          value="Pull Preview Campaign">
           Pull Preview Campaign
         </option>
         <option value="Push Preview Campaign">
