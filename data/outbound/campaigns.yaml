@@ -2,9 +2,7 @@
   GSW_CAMPAIGN_DESCRIPTION: Pull Preview Campaign
   GSW_CAMPAIGN_MODE: Preview
   GSW_CAMPAIGN_NAME: Pull Preview Campaign
-  GSW_USER_EVENT: CampaignStarted
 - GSW_APPLICATION_ID: '1'
   GSW_CAMPAIGN_DESCRIPTION: Push Preview Campaign
   GSW_CAMPAIGN_MODE: PushPreview
   GSW_CAMPAIGN_NAME: Push Preview Campaign
-  GSW_USER_EVENT: CampaignStarted

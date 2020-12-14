@@ -9,7 +9,7 @@ campaign:
               send_attribute: AnotherFloat
             interaction-workspace:
               read-only: 'false'
-          fieldType: 16
+          fieldType: CUSTOM
           isNullable: 'false'
           length: 1
         - type: 'int'
@@ -20,6 +20,6 @@ campaign:
               interaction-workspace:
                 read-only: 'false'
                 mandatory: 'true'
-          fieldType: 16
+          fieldType: CUSTOM
           isNullable: 'false'
           length: 10

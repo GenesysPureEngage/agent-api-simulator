@@ -130,24 +130,27 @@ router.post('/sim/manage/service-state-change-notification/create-notification',
 // send an outbound notification
 router.post('/sim/manage/outbound-notification/create-notification', (req, res) => {
   var eventName = 'CampaignStarted';
-  var campaign = voice.getOutboundCampaign(req.body.campaign.campaignName);
-  if (req.body.campaign.campaignAction === 'START') {
-    rmm.updateCampaign(req.body.agent, campaign);
-  } else if (req.body.campaign.campaignAction === 'STOP') {
+  var status = 'Running';
+  var campaign = rmm.getCampaignForAgent(req.body.agent, req.body.campaign.campaignName);
+  if (req.body.campaign.campaignAction === 'STOP') {
     eventName = 'CampaignStopped'
-    rmm.updateCampaign(req.body.agent, campaign);
+    status = 'Stopped';
   } else if (req.body.campaign.campaignAction === 'LOAD') {
     eventName = 'CampaignLoaded'
-    rmm.addCampaign(req.body.agent, campaign);
+    status = 'Active';
   } else if (req.body.campaign.campaignAction === 'UNLOAD') {
     eventName = 'CampaignUnloaded'
-    rmm.removeCampaign(req.body.agent, req.body.campaign.campaignName);
+    status = 'Inactive';
   }
+
+  rmm.updateCampaignStatus(req.body.agent, campaign.GSW_CAMPAIGN_NAME, status);
+
   const msg = {
     messageType: 'EventUserEvent'
   };
 
   campaign.GSW_USER_EVENT = eventName;
+  //delete campaign.status;
   msg.userData = campaign;
 
   messaging.publish(req.body.agent, '/workspace/v3/voice', msg);

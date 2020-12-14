@@ -12,6 +12,10 @@ const rmm = require("../common/rmm");
 const reporting = require("./reporting");
 const utils = require("../common/utils");
 
+const calingListFieldTypes = {
+  CUSTOM: 16
+};
+
 var attachedData = utils.requireAndMonitor(
   "../../../data/media/attached-data.yaml",
   updated => {
@@ -636,7 +640,16 @@ exports.sendOutboundMessage = (req, data) => {
   messaging.publish(req, "/workspace/v3/voice", msg);
 },
 
+exports.transformCallingListData = () => {
+  _.each(callingListFields.campaign.callingLists, list => {
+    _.each(list.fields, field => {
+      field.fieldType = calingListFieldTypes[field.fieldType];
+    });
+  });
+}
+
 exports.sendCampaignConfiguration = (req, res) => {
+  exports.transformCallingListData();
   const response = {
     data: callingListFields
   }
@@ -644,13 +657,20 @@ exports.sendCampaignConfiguration = (req, res) => {
 }
 
 exports.sendCampaigns = req => {
-  _.each(campaigns, campaign => {
-    var msg = {
-      userData: campaign,
-      messageType: "EventUserEvent"
-    };
-    messaging.publish(req, "/workspace/v3/voice", msg);
-    rmm.addCampaign(auth.userByCode(req), campaign);
+  let agent = auth.userByCode(req);
+  rmm.addCampaigns(agent, campaigns);
+
+  _.each(rmm.getCampaignsForAgent(agent), campaign => {
+    if (campaign.status !== 'Inactive') {
+      const event = campaign.status === 'Running' ? 'CampaignStarted' : 'CampaignLoaded';
+      var msg = {
+        userData: campaign,
+        messageType: "EventUserEvent"
+      };
+      msg.userData.GSW_USER_EVENT = event;
+      //delete msg.userData.status;
+      messaging.publish(req, "/workspace/v3/voice", msg);
+    }
   });
 };
 
