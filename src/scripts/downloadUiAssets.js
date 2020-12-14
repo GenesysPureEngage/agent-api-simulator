@@ -9,6 +9,12 @@ const unzipper = require('unzipper');
 const path = require('path');
 const fs = require('fs-extra');
 
+const requestOptions = {
+  agentOptions: {
+    rejectUnauthorized: false
+  }
+};
+
 const isUnitTest = process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'test-light';
 
 const errorMessageVersion = '\n\nIf you can’t upgrade the GWS with a minimum version referenced in the "Compatibility table" \
@@ -74,7 +80,7 @@ function getCompatibilityFile() {
     // add 'raw' at the begining of the url
     const rawGithubUrl = packageJson.repository.url.replace('github.com', 'raw.github.com');
     // get the file
-    request.get(rawGithubUrl + '/master/compatibility-versions.json', (err, response, body) => {
+    request.get(rawGithubUrl + '/master/compatibility-versions.json', requestOptions, (err, response, body) => {
       // on failure
       if (err || !body || response.statusCode !== 200) {
         if (!isUnitTest) {
@@ -171,7 +177,7 @@ exports.checkCompatibility = function checkCompatibility(versions, url) {
 function getVersion(url) {
   return (new Promise((resolve, reject) => {
     console.log("Getting version file from: ", url + 'version.json')
-    request.get(url + 'version.json', (err, data, body) => {
+    request.get(url + 'version.json', requestOptions, (err, data, body) => {
       if (err) {
         reject("Version file not found.");
         return;
@@ -213,7 +219,7 @@ function downloadAndUnzip(url, dest) {
   let totalDownloaded = 0;
   let total_bytes = 0;
   return (new Promise((resolve, reject) => {
-    request.get(url)
+    request.get(url, requestOptions)
       // on error
       .on('error', () => {
         resolve(false);
@@ -266,7 +272,7 @@ function getFile(url, toFile) {
   let file = fs.createWriteStream(toFile);
   return new Promise((resolve, reject) => {
     console.log('Getting file from: ', url);
-    request.get(url)
+    request.get(url, requestOptions)
       .pipe(file)
       .on('finish', () => {
         console.log('File downloaded and installed to ', toFile);
