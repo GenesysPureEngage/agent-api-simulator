@@ -15,6 +15,9 @@ const mediaManagement = require('./media-management');
 
 let workbins = utils.requireAndMonitor('../../../data/open-media/workbins.yaml', updated => { workbins = updated });
 
+var subscribersByWorkbins = {};
+
+
 exports.getWorkbinById = (workbinId) => {
   return _.find(workbins, (workbin) => {
 		return workbinId === workbin.id;
@@ -74,6 +77,22 @@ exports.getWorkbinByIdAndOwnerId = (workbinId, ownerId) => {
   return wb;
 }
 
+exports.addWorkbinSubscriber = (workbin, ownerId, subscriberId) => {
+  if (!subscribersByWorkbins[workbin.workbinName]) {
+    subscribersByWorkbins[workbin.workbinName] = {};
+  }
+  if (!subscribersByWorkbins[workbin.workbinName][ownerId]) {
+    subscribersByWorkbins[workbin.workbinName][ownerId] = [];
+  }
+  subscribersByWorkbins[workbin.workbinName][ownerId].push(subscriberId);
+}
+
+exports.removeWorkbinSubscriber = (workbin, ownerId, subscriberId) => {
+  if (subscribersByWorkbins[workbin.workbinName] && subscribersByWorkbins[workbin.workbinName][ownerId]) {
+    subscribersByWorkbins[workbin.workbinName][ownerId] = _.without(subscribersByWorkbins[workbin.workbinName][ownerId], subscriberId);
+  }
+}
+
 exports.pull = (req, res) => {
 	this.removeFromWorkbinId(req, req.params.id, req.body.data.sourceId);
 }
@@ -111,20 +130,11 @@ exports.updateInteractionWorkbinContainerProperties = (req, interaction, workbin
   return interaction;
 }
 
-exports.publishEventWorkbinContentChangedInteractionAdded = (req, interaction, workbinId, ownerId) => {
-  this.publishWorkbinEvent(req, 'EventWorkbinContentChanged', {
-    interaction: interaction,
-    operation: 'PlaceInWorkbin',
-    workbin: { id: workbinId, owner: ownerId },
-    workbinContentOperation: 'Add'
-  });
-}
-
 exports.addToWorkbin = (req, interaction, workbin, ownerId) => {
   var userName = ownerId ? ownerId : this.getReqOwnerId(req);
   interaction = this.updateInteractionWorkbinContainerProperties(req, interaction, workbin, ownerId);
   workbin.interactions.push(this.adjustInteraction(interaction));
-  this.publishEventWorkbinContentChangedInteractionAdded(req, interaction, workbin.id, userName);
+  this.publishEventWorkbinContentChangedToSubscribers('PlaceInWorkbin', 'Add', interaction, workbin, userName)
   media.publishInteractionEvent(req, interaction.mediatype, interaction);
 }
 
@@ -141,24 +151,9 @@ exports.addToWorkbinId = (req, interactionId, workbinId, ownerId) => {
   }
 }
 
-exports.publishEventWorkbinContentChangedInteractionRemoved = (req, interaction, workbinId, ownerId) => {
-  this.publishWorkbinEvent(req, 'EventWorkbinContentChanged', {
-    interaction: interaction,
-    operation: 'Pull',
-    workbin: { id: workbinId, owner: ownerId },
-    workbinContentOperation: 'Remove'
-  });
-}
-
 exports.removeFromWorkbin = (req, interaction, workbin) => {
   workbin.interactions = _.without(workbin.interactions, interaction);
-  this.publishEventWorkbinContentChangedInteractionRemoved(req, interaction, workbin.id, interaction.agentId);
-    // media.openInteraction(req, wbInteraction);
-  // } else {
-  //   const mediaInteraction = media.getInteraction(interactionId);
-  //   if (mediaInteraction) {
-  //     media.openInteraction(req, mediaInteraction);
-  //   }
+  this.publishEventWorkbinContentChangedToSubscribers('Pull', 'Remove', interaction, workbin, interaction.agentId)
 }
 
 exports.removeFromWorkbinId = (req, interactionId, workbinId) => {
@@ -189,9 +184,9 @@ exports.moveToWorkbin = (req, interactionId, workbinId, ownerId) => {
           } else {
             // Source and target workbin have same name not same owner
             // => only update OwnerId and publish WorkbinContentChanged events (removed + added)
-            this.publishEventWorkbinContentChangedInteractionRemoved(req, interaction, wbSource.id, interaction.agentId);
+            this.publishEventWorkbinContentChangedToSubscribers('Pull', 'Remove', interaction, wbSource, interaction.agentId)
             interaction = this.updateInteractionWorkbinContainerProperties(req, interaction, wbTarget, ownerId);
-            this.publishEventWorkbinContentChangedInteractionAdded(req, interaction, wbTarget.id, ownerId);
+            this.publishEventWorkbinContentChangedToSubscribers('PlaceInWorkbin', 'Add', interaction, wbTarget, ownerId)
           }
         }
       } else {
@@ -261,10 +256,21 @@ exports.handleWorkbins = (req, res) => {
 }
 
 exports.handleWorkbin = (req, res) => {
-	res.set({ 'Content-type': 'application/json' });
+  res.set({ 'Content-type': 'application/json' });
 	if (req.params.fn === 'subscribe' || req.params.fn === 'unsubscribe') {
-		utils.sendOkStatus(req, res);
-		this.publishWorkbinEvent(req, 'EventAck', { operation: 'SubscribeWorkbinEvents', workbinId: req.params.id });
+    var ownerId = this.getReqOwnerId(req);
+    var wb = this.getWorkbinByIdAndOwnerId(req.params.id, ownerId);
+    if (wb) {
+      utils.sendOkStatus(req, res);
+      if (req.params.fn === 'subscribe') {
+        this.addWorkbinSubscriber(wb, ownerId, auth.userByCode(req));
+      } else {
+        this.removeWorkbinSubscriber(wb, ownerId, auth.userByCode(req));
+      }
+      this.publishWorkbinEvent(req, 'EventAck', { operation: 'SubscribeWorkbinEvents', workbinId: req.params.id });
+    } else {
+      utils.sendFailureStatus(res, 500);
+    }
 	} else if (req.params.fn === 'get-content') {
     var ownerId = this.getReqOwnerId(req);
     var wb = this.getWorkbinByIdAndOwnerId(req.params.id, ownerId);
@@ -290,7 +296,7 @@ exports.handleWorkbinInteraction = (req, res) => {
 	}
 }
 
-exports.publishWorkbinEvent = (req, eventName, opts) => {
+getWorkbinMessage = (eventName, opts, req) => {
 	var msg = {
 		name: eventName,
 		messageType: 'WorkbinsMessage'
@@ -301,5 +307,26 @@ exports.publishWorkbinEvent = (req, eventName, opts) => {
 	_.each(_.keys(opts), (opt) => {
 		msg[opt] = opts[opt];
 	});
-	messaging.publish(req, '/workspace/v3/workbins', msg);
+  return msg;
+}
+
+exports.publishWorkbinEvent = (req, eventName, opts) => {
+  messaging.publish(req, '/workspace/v3/workbins', getWorkbinMessage(eventName, opts, req));
+}
+
+exports.publishEventWorkbinContentChangedToSubscribers = (operationName, workbinContentOperationName, interaction, workbin, ownerId) => {
+  if (subscribersByWorkbins[workbin.workbinName] && subscribersByWorkbins[workbin.workbinName][ownerId]) {
+    _.each(subscribersByWorkbins[workbin.workbinName][ownerId], (userName) => {
+      messaging.publishToUserNameSession(
+        userName,
+        '/workspace/v3/workbins',
+        getWorkbinMessage('EventWorkbinContentChanged', {
+          interaction: interaction,
+          operation: operationName,
+          workbin: { id: workbin.id, owner: ownerId },
+          workbinContentOperation: workbinContentOperationName
+        })
+      );
+    });
+  }
 }
