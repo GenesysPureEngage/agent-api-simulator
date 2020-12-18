@@ -18,6 +18,7 @@ const workbins = require('./workbins');
 
 var emailAttachedData = utils.requireAndMonitor('../../../data/media/attached-data.yaml', (updated) => { emailAttachedData = updated; });
 var workitemAttachedData = utils.requireAndMonitor('../../../data/media/attached-data.yaml', (updated) => { workitemAttachedData = updated; });
+var pushPreviewAttachedData = utils.requireAndMonitor('../../../data/media/attached-data.yaml', (updated) => { pushPreviewAttachedData = updated; });
 
 var interactions = {};
 var interactionsByAgent = {};
@@ -36,7 +37,8 @@ exports.activateChannels = (req, res) => {
       channels: [
         'voice',
         'email',
-        'workitem'
+        'workitem',
+        'outboundpreview'
       ]
     }
   };
@@ -64,6 +66,12 @@ exports.initializeMediaData = (user) => {
         dnd: false,
         reasons: [],
         timestamp: Date.now()
+      }, {
+        name: 'outboundpreview',
+        state: 'NotReady',
+        dnd: false,
+        reasons: [],
+        timestamp: Date.now()
       }]
     };
   }
@@ -82,11 +90,15 @@ exports.handle = (req, res) => {
     exports.changeState(req, 'NotReady', { dnd: true });
     req.params.media = 'workitem';
     exports.changeState(req, 'NotReady', { dnd: true });
+    req.params.media = 'outboundpreview';
+    exports.changeState(req, 'NotReady', { dnd: true });
     utils.sendOkStatus(req, res);
   } else if (req.params.fn === 'dnd-off') {
     req.params.media = 'email';
     exports.changeState(req, 'NotReady', { dnd: false });
     req.params.media = 'workitem';
+    exports.changeState(req, 'NotReady', { dnd: false });
+    req.params.media = 'outboundpreview';
     exports.changeState(req, 'NotReady', { dnd: false });
     utils.sendOkStatus(req, res);
   } else if (req.params.fn === 'logout') {
@@ -144,11 +156,18 @@ exports.handleInteraction = (req, res) => {
     workbins.placeInQueue(req, res);
   } else if (req.params.media === 'workitem') {
     exports.handleWorkitemInteraction(req, res, interaction);
+  } else if (req.params.media === 'outboundpreview' || req.params.fn === 'publish') {
+    exports.handleOutboundPreviewInteraction(req, res, interaction);
   } else if (req.params.fn === 'add-attachment') {
     exports.handleAttachments(req, res);
   } else {
     utils.sendFailureStatus(res, 501);
   }
+}
+
+exports.handleTopics = (req, res) => {
+  res.set({ 'Content-type': 'application/json' });
+  exports.handleOutboundPreviewInteraction(req, res);
 }
 
 exports.handleInteractionWithoutId = (req, res) => {
@@ -295,6 +314,53 @@ exports.handleWorkitemInteraction = (req, res, interaction) => {
     ];
     utils.sendOkStatus(req, res);
     exports.publishInteractionEvent(req, interaction.mediatype, interaction);
+  }
+}
+
+exports.handleOutboundPreviewInteraction = (req, res, interaction) => {
+  if (req.params.fn === 'accept') {
+    interaction.state = 'Processing';
+    interaction.capabilities = [
+      "attach-user-data",
+      "delete-user-data",
+      "update-user-data",
+      "place-in-queue",
+      "transfer",
+      "complete"
+    ];
+    utils.sendOkStatus(req, res);
+    exports.publishInteractionEvent(req, interaction.mediatype, interaction);
+  } else if (req.body.data.eventContent) {
+    request = _.find(req.body.data.eventContent, evt => {
+      return evt.key === 'GSW_AGENT_REQ_TYPE';
+    });
+    recordHandle = _.find(req.body.data.eventContent, evt => {
+      return evt.key === 'GSW_RECORD_HANDLE';
+    });
+    var userEvent;
+    if (request.value === 'RecordReject') {
+      userEvent = 'RecordRejectAcknowledge';
+    } else if (request.value === 'RecordProcessed') {
+      userEvent = 'RecordProcessedAcknowledge';
+      //delete interaction[recordHandle.value];
+    } else {
+      userEvent = 'RecordCancelAcknowledge';
+    }
+
+    const filteredContent = _.filter(req.body.data.eventContent, evt => {
+      return evt.key !== 'GSW_AGENT_REQ_TYPE';
+    });
+    filteredContent.push({
+      'key': 'GSW_USER_EVENT',
+      'type': 'str',
+      'value': userEvent
+    });
+    const msg = {
+      eventContent: filteredContent,
+      messageType: 'EventUserEvent'
+    };
+    utils.sendOkStatus(req, res);
+    messaging.publish(req, '/workspace/v3/media/topics', msg);
   }
 }
 
@@ -598,6 +664,76 @@ exports.createWorkitem = (agent, fn, ln, email, subject) => {
   addInteractionForAgent(agent, interaction);
   exports.publishInteractionEvent(agent, 'workitem', interaction);
 }
+
+exports.createOutboundPushPreview = (agent) => {
+  var interactionId = conf.id();
+  var now = '' + new Date();
+  var interaction = {
+    capabilities: ["accept", "reject"],
+    ticketId: 5,
+    proxyClientId: 11,
+    submittedToRouterAt: '2019-01-21T10:42:26Z',
+    inQueues: [],
+    interactionType: 'Internal',
+    id: interactionId,
+    receivedAt: now,
+    isHeld: false,
+    submittedBy: 'OCS',
+    mediatype: 'outboundpreview',
+    tenantId: 1,
+    queue: 'outboundpreview-queue',
+    submitSeq: '203534919',
+    movedToQueueAt: now,
+    workflowState: 'Routing',
+    submittedAt: now,
+    placedInQueueAt: now,
+    userData: pushPreviewAttachedData,
+    interactionSubtype: 'OutboundNew',
+    isLocked: false,
+    isOnline: false,
+    placeInQueueSeq: '203536922',
+    state: 'Invited',
+    isInWorkflow: false
+  };
+
+  interaction.userData.push({
+    key: 'GSW_PHONE',
+    type: 'str',
+    value: '+33647000'
+  }, {
+    key: "GSW_FROM",
+    type: "int",
+    value: 0
+  }, {
+    key: "GSW_UNTIL",
+    type: "int",
+    value: 86340
+  }, {
+    key: "GSW_CALLING_LIST",
+    type: "str",
+    value: "Calling List SIP 2"
+  }, {
+    key: "GSW_CAMPAIGN_NAME",
+    type: "str",
+    value: "CampaignSIP2"
+  }, {
+    key: "GSW_RECORD_HANDLE",
+    type: "int",
+    value: interactionId
+  }, {
+    key: "GSW_APPLICATION_ID",
+    type: "int",
+    value: 139
+  }, {
+    key: "GSW_CHAIN_ID",
+    type: "int",
+    value: 2
+  });
+
+  interactions[interactionId] = interaction;
+  addInteractionForAgent(agent, interaction);
+  exports.publishInteractionEvent(agent, 'outboundpreview', interaction);
+}  
 
 exports.openInteraction = (req, interaction) => {
   interaction.state = interaction.interactionType === 'Inbound' ? 'Processing' : 'Composing';

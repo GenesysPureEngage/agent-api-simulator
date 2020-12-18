@@ -8,6 +8,7 @@ const notifications = require('./notifications');
 
 var interactionsByAgent = {};
 var interactionsById = {};
+var campaignsByAgent = {};
 
 exports.updateUserData = (id, userData) => {
 	notifications.notifyUserDataUpdate(id, userData);
@@ -20,6 +21,31 @@ exports.recordInteraction = (agent, interaction) => {
 	interactionsByAgent[agent].push(interaction);
 	interactionsById[interaction.id] = interaction;
 	notifications.notifyInteractions(agent);
+}
+
+exports.addCampaign = (agent, campaign) => {
+	if(!campaignsByAgent[agent]) {
+		campaignsByAgent[agent] = [];
+	}
+	campaignToUpdate = campaignsByAgent[agent].find(c => { return c.name === campaign.GSW_CAMPAIGN_NAME; });
+	if (campaignToUpdate) {
+		campaignToUpdate = campaign;
+	} else {
+		campaignsByAgent[agent].push(campaign);
+	}
+}
+
+exports.removeCampaign = (agent, campaignName) => {
+	campaignsByAgent[agent] = _.filter(campaignsByAgent[agent], (campaign) => { return campaign.name !== campaignName; });
+}
+
+exports.getCampaignsForAgent = agent => {
+	return campaignsByAgent[agent];
+}
+
+exports.updateCampaign = (agent, campaign) => {
+	campaignToUpdate = campaignsByAgent[agent].find(c => { return c.name === campaign.GSW_CAMPAIGN_NAME; });
+	campaignToUpdate = campaign;
 }
 
 exports.recordInteractionComplete = (agent, id) => {

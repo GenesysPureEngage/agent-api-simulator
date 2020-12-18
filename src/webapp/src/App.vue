@@ -11,6 +11,10 @@
       <VoiceMails />
       <div class="separator" />
       <ServiceNotifications />
+      <div class="separator" />
+      <OutboundNotifications />
+      <br>
+      <br>
     </div>
   </main>
 </template>
@@ -20,6 +24,7 @@ import Header from "./components/Header";
 import VoiceMails from "./components/VoiceMails";
 import Interactions from "./components/interactions/Interactions";
 import ServiceNotifications from "./components/ServiceNotifications";
+import OutboundNotifications from "./components/OutboundNotifications";
 import {mapGetters} from 'vuex'
 
 export default {
@@ -28,7 +33,8 @@ export default {
     VoiceMails,
     Interactions,
     Header,
-    ServiceNotifications
+    ServiceNotifications,
+    OutboundNotifications
   },
   computed:{
     ...mapGetters(['selectedInteraction'])

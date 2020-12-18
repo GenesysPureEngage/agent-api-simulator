@@ -2683,6 +2683,8 @@
             - display-type: int
             - mandatory: "false"
             - read-only: "false"
+            - int.min-value: "1"
+            - int.max-value: "10"
     - name: AnotherFloat
       id: 1158
       displayName: Another Float
@@ -2724,9 +2726,9 @@
       id: 1168
       displayName: Other 1
       default: false
-  userProperties:
-    - interaction-workspace:
-        - interaction.case-data.order: Priority,Reason,Comment
+      userProperties:
+        - interaction-workspace:
+            - interaction.case-data.order: Priority,Reason,Comment
 - name: ToastData
   displayName: Toast Data
   id: 1002

@@ -1,0 +1,25 @@
+campaign:
+  callingLists:
+    - name: Custom Calling List
+      fields:
+        - type: 'float'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: AnotherFloat
+            interaction-workspace:
+              read-only: 'false'
+          fieldType: 16
+          isNullable: 'false'
+          length: 1
+        - type: 'int'
+          isCustomField: 'true'
+          userProperties:
+            OCServer:
+              send_attribute: AnotherInt
+              interaction-workspace:
+                read-only: 'false'
+                mandatory: 'true'
+          fieldType: 16
+          isNullable: 'false'
+          length: 10

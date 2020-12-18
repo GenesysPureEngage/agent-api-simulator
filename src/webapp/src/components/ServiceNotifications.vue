@@ -66,7 +66,7 @@ export default {
     ])
   },
   methods:{
-    createServStateChangeNotif() { 
+    createServStateChangeNotif() {
       axios.post('/sim/manage/service-state-change-notification/create-notification',
         {
           agent: this.selectedSession,
@@ -85,4 +85,7 @@ export default {
 </script>
 
 <style>
+  #notifications {
+    margin-bottom: 20px;
+  }
 </style>

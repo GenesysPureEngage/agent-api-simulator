@@ -16,7 +16,7 @@ var filesListeners = {};
  * Monitors the given file for changes (fileModulePath).
  * When updated will update the require cache and execute the provided onUpdate function
  * so the caller can update references or perform any other necessary updates.
- * 
+ *
  * Can also apply handle file transformations. For example, some files are more easily used in yaml format.
  * This method will automatically generate these converted/transformed files if they don't already exist. It
  * will also handle reading these transformed contents and converting them back to their expected formats.
@@ -26,14 +26,14 @@ exports.requireAndMonitor = (fileModulePath, onUpdate, modulePath = __dirname) =
     var file = path.resolve(modulePath, fileModulePath);
 
     //debounce update handler - a single update can trigger multiple events
-    var update = _.debounce(function(filename, watchedFile) { 
+    var update = _.debounce(function(filename, watchedFile) {
         log.info(`file ${filename} changed`);
         if(require.resolve(watchedFile)) {
             try {
                 delete require.cache[require.resolve(watchedFile)];
                 //Invoke all file change listeners
                 for(var listener of filesListeners[file]) {
-                    listener(requireFile(watchedFile));                   
+                    listener(requireFile(watchedFile));
                 }
               } catch(error) {
                 log.error(`Error loading changes in ${filename}: ${error}`);
@@ -115,4 +115,19 @@ exports.sendFailureStatus = (res, status, msg) => {
   } else {
     res.sendStatus(status);
   }
+}
+
+exports.flattenKVListData = (data) => {
+  var dataObject = {};
+  for(var item of data) {
+
+      //Base case: a simple "key": "value" pair
+      if(item.type === "str" || item.type === "int") {
+        dataObject[item.key] = item.value;
+      } else if(item.type === "kvlist") {
+          //Otherwise recursively expand kvlist values
+          dataObject[item.key] = flattenKVListData(item.value);
+      }
+  }
+  return dataObject;
 }

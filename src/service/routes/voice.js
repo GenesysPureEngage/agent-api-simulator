@@ -57,6 +57,20 @@ router.use('/workspace/v3/voice/logout', (req, res) => {
   res.send(defaultResponse());
 });
 
+// send user event
+router.use('/workspace/v3/voice/send-user-event', (req, res) => {
+  // handle outbound request
+  voice.handleOutboundRequest(req);
+  // respond with default response
+  res.send(defaultResponse());
+});
+
+// send user event
+router.use('/workspace/v3/campaigns/:campaignName/configuration', (req, res) => {
+  // send campaign configuration
+  voice.sendCampaignConfiguration(req, res);
+});
+
 // make a call
 router.use('/workspace/v3/voice/make-call', (req, res) => {
   // check for parameters
