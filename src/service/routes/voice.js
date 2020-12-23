@@ -83,7 +83,7 @@ router.use('/workspace/v3/voice/make-call', (req, res) => {
   // get dest user
   const destUser = conf.userByDestination(req.body.data.destination);
   // Cannot call self
-  if (userName === destUser.userName) {
+  if (destUser && userName === destUser.userName) {
     res.send(defaultResponse());
     voice.sendInvalidDN(userName);
     return;
