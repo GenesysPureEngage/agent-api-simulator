@@ -83,6 +83,15 @@ exports.publish = (req, channel, msg) => {
   }
 }
 
+exports.publishToUserNameSession = (userName, channel, msg) => {
+	var session = sessions[userName];
+	if (session) {
+		publish2(session, channel, msg);
+	}else{
+    log.error("Publish failed, session not found for user", userName)
+  }
+}
+
 publish2 = (session, channel, msg) => {
 	if (session) {
 		session.deliver(null, channel, msg);

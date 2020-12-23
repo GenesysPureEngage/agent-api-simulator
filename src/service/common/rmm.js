@@ -23,46 +23,30 @@ exports.recordInteraction = (agent, interaction) => {
 	notifications.notifyInteractions(agent);
 }
 
-exports.addCampaigns = (agent, campaigns) => {
+exports.addCampaign = (agent, campaign) => {
 	if(!campaignsByAgent[agent]) {
 		campaignsByAgent[agent] = [];
 	}
-	_.each(campaigns, campaign => {
-		campaignToUpdate = campaignsByAgent[agent].find(c => c.GSW_CAMPAIGN_NAME === campaign.GSW_CAMPAIGN_NAME);
-		if (campaignToUpdate) {
-			campaignToUpdate.GSW_CAMPAIGN_DESCRIPTION = campaign.GSW_CAMPAIGN_DESCRIPTION;
-			campaignToUpdate.GSW_CAMPAIGN_NAME = campaign.GSW_CAMPAIGN_NAME;
-			campaignToUpdate.GSW_CAMPAIGN_MODE = campaign.GSW_CAMPAIGN_MODE;
-		} else {
-			campaign.status = 'Running';
-			campaignsByAgent[agent].push(campaign);
-		}
-	});
+	campaignToUpdate = campaignsByAgent[agent].find(c => { return c.name === campaign.GSW_CAMPAIGN_NAME; });
+	if (campaignToUpdate) {
+		campaignToUpdate = campaign;
+	} else {
+		campaignsByAgent[agent].push(campaign);
+	}
 }
 
-exports.updateCampaignStatus = (agent, campaignName, status) => {
-	campaignToUpdate = campaignsByAgent[agent].find(c => c.GSW_CAMPAIGN_NAME === campaignName);
-	campaignToUpdate.status = status;
+exports.removeCampaign = (agent, campaignName) => {
+	campaignsByAgent[agent] = _.filter(campaignsByAgent[agent], (campaign) => { return campaign.name !== campaignName; });
 }
 
 exports.getCampaignsForAgent = agent => {
-	return campaignsByAgent[agent] ? campaignsByAgent[agent] : [];
-}
-
-exports.getCampaignForAgent = (agent, campaignName) => {
-	return campaignsByAgent[agent].find(c => c.GSW_CAMPAIGN_NAME === campaignName);;
-}
-
-/*
-exports.removeCampaign = (agent, campaignName) => {
-	campaignsByAgent[agent] = _.filter(campaignsByAgent[agent], campaign => campaign.GSW_CAMPAIGN_NAME !== campaignName);
+	return campaignsByAgent[agent];
 }
 
 exports.updateCampaign = (agent, campaign) => {
-	campaignToUpdate = campaignsByAgent[agent].find(c => c.GSW_CAMPAIGN_NAME === campaign.GSW_CAMPAIGN_NAME);
+	campaignToUpdate = campaignsByAgent[agent].find(c => { return c.name === campaign.GSW_CAMPAIGN_NAME; });
 	campaignToUpdate = campaign;
 }
-*/
 
 exports.recordInteractionComplete = (agent, id) => {
 	//Remove all interactions for the agent with the specified id
