@@ -53,6 +53,7 @@ var callingListFields = utils.requireAndMonitor(
 );
 
 var calls = {};
+var recordHandle = 1;
 
 exports.initializeDnData = (user) => {
   //If user has an active session return their current DN state
@@ -598,19 +599,21 @@ exports.handleOutboundRequest = req => {
   switch (userData.GSW_AGENT_REQ_TYPE) {
     case 'CampaignStatusRequest':
       exports.sendCampaigns(req);
+      rmm.addPreviewRecords(pullPreviewRecord);
       break;
     case 'PreviewRecordRequest':
-      responseData = {
-        userData: pullPreviewRecord,
-        messageType: "EventUserEvent"
+      // Get the next preview record
+      const record = rmm.getPreviewRecord(recordHandle);
+      if (record) {
+        exports.sendOutboundMessage(req, record);
       }
-      exports.sendOutboundMessage(req, pullPreviewRecord);
       break;
     case 'RequestRecordCancel':
       responseData = {
         GSW_USER_EVENT: 'RecordCancelAcknowledge',
         GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
       }
+      rmm.removePreviewRecord(userData.GSW_RECORD_HANDLE); 
       exports.sendOutboundMessage(req, responseData);
       break;
     case 'RecordReject':
