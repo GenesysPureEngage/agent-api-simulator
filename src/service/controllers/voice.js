@@ -290,7 +290,7 @@ exports.handleCall = (req, res) => {
       reportCallStateForAgent(userName, agentCall);
       rmm.recordInteractionComplete(userName, agentCall.id);
       utils.sendOkStatus(req, res);
-      exports.publishAgentCallEvent(userName, agentCall);
+      exports.publishAgentCallEvent(userName, agentCall, '', req.body ? req.body.operationId : '');
     }
     break;
   case "start-recording": case "resume-recording":
@@ -679,12 +679,15 @@ exports.publishAttachedDataChangeEvent = call => {
   }
 };
 
-exports.publishAgentCallEvent = (agent, call, notificationType) => {
+exports.publishAgentCallEvent = (agent, call, notificationType, operationId) => {
   var msg = {
     notificationType: notificationType ? notificationType : "StateChange",
     call: call,
     messageType: "CallStateChanged"
   };
+  if (operationId) {
+    msg.operationId = operationId;
+  }
   messaging.publish(agent, "/workspace/v3/voice", msg);
   return msg;
 };
