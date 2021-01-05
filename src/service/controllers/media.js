@@ -143,6 +143,8 @@ exports.handleInteraction = (req, res) => {
     exports.handleInteractionForward(req, res, interaction);
   } else if (req.params.fn === 'update-user-data') {
     exports.handleInteractionUpdateUserdata(req, res, interaction);
+  } else if (req.params.fn === 'delete-user-data') {
+    exports.handleInteractionDeleteUserdata(req, res, interaction);
   } else if (req.params.fn === 'set-comment') {
     utils.sendOkStatus(req, res);
     interaction.comment = req.body.data.comment;
@@ -233,6 +235,17 @@ exports.handleInteractionUpdateUserdata = (req, res, interaction) => {
     }
     if (ktv.key === 'Subject') {
       interaction.subject = ktv.value;
+    }
+  });
+  utils.sendOkStatus(req, res);
+  exports.publishInteractionEvent(req, interaction.mediatype, interaction, 'PropertiesUpdated');
+}
+
+exports.handleInteractionDeleteUserdata = (req, res, interaction) => {
+  _.each(req.body.data.userData, (ktv) => {
+    var idx = interaction.userData.findIndex(ktv2 => ktv2.key === ktv.key);
+    if (idx !== -1)  {
+      interaction.userData.splice(idx, 1);
     }
   });
   utils.sendOkStatus(req, res);
@@ -733,7 +746,7 @@ exports.createOutboundPushPreview = (agent) => {
   interactions[interactionId] = interaction;
   addInteractionForAgent(agent, interaction);
   exports.publishInteractionEvent(agent, 'outboundpreview', interaction);
-}  
+}
 
 exports.openInteraction = (req, interaction) => {
   interaction.state = interaction.interactionType === 'Inbound' ? 'Processing' : 'Composing';
