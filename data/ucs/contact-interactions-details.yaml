@@ -66,7 +66,7 @@
         value: 0000BaCJQQH30052
       - key: FromAddress
         type: str
-        value: emailserver2@mail.dom
+        value: emailserver@mail.dom
       - key: ToAddress
         type: str
         value: john.doe@mail.dom
@@ -305,7 +305,7 @@
         value: 0000BaCJQQH30052
       - key: FromAddress
         type: str
-        value: "CS <emailserver@mail.dom>"
+        value: "webmail2@mail.dom"
       - key: Subject
         type: str
         value: "Re: More info on one of your product ?"
@@ -343,7 +343,7 @@
     isOnline: false
     parentInteractionId: 0000DaFU51GM001D
     email:
-      from: webmail@mail.dom
+      from: webmail2@mail.dom
       to: [ katie.bishop@mail.dom ]
       bodyAsPlainText: "\n\nOn 11/26/2020 2:46:22 PM, Client WebMail wrote:\n> Hi,\n> \n> could you give me more information about the product with the ref R062A328.\n> \n> Thanks."
     subject: "Re: More info on one of your product ?"
@@ -732,7 +732,7 @@
     isOnline: false
     parentInteractionId: 0000DaFU51GM0017
     email:
-      from: webmail@mail.dom
+      from: webmail2@mail.dom
       to: [ katie.bishop@mail.dom ]
       bodyAsPlainText: "\n\nOn 11/26/2020 2:43:30 PM, Client WebMail wrote:\n> Hi,\n> \n> I don't manage to login into your web site, can you help me ?\n> \n> Thanks."
     subject: "Re: Login account Issue"

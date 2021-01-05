@@ -175,7 +175,7 @@
       isOnline: false,
       parentInteractionId: '0000DaFU51GM001D',
       email: {
-        from: 'webmail@mail.dom',
+        from: 'webmail2@mail.dom',
         to: [
           'katie.bishop@mail.dom'
         ],
@@ -373,7 +373,7 @@
       isOnline: false,
       parentInteractionId: '0000DaFU51GM0017',
       email: {
-        from: 'webmail@mail.dom',
+        from: 'webmail2@mail.dom',
         to: [
           'katie.bishop@mail.dom'
         ],
