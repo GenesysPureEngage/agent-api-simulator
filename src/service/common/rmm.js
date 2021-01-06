@@ -9,6 +9,7 @@ const notifications = require('./notifications');
 var interactionsByAgent = {};
 var interactionsById = {};
 var campaignsByAgent = {};
+var previewRecords = {};
 
 exports.updateUserData = (id, userData) => {
 	notifications.notifyUserDataUpdate(id, userData);
@@ -46,6 +47,20 @@ exports.getCampaignsForAgent = agent => {
 exports.updateCampaign = (agent, campaign) => {
 	campaignToUpdate = campaignsByAgent[agent].find(c => { return c.name === campaign.GSW_CAMPAIGN_NAME; });
 	campaignToUpdate = campaign;
+}
+
+exports.addPreviewRecords = records => {
+	records.forEach(record => {
+		previewRecords[record.GSW_RECORD_HANDLE] = record;
+	});	
+}
+
+exports.removePreviewRecord = recordHandle => {
+	delete previewRecords[recordHandle];
+}
+
+exports.getPreviewRecord = recordHandle => {
+	return previewRecords[recordHandle];
 }
 
 exports.recordInteractionComplete = (agent, id) => {
