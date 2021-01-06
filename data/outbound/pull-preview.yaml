@@ -1,12 +1,12 @@
-GSW_APPLICATION_ID: '1'
-GSW_CHAIN_ID: 1
-GSW_PHONE: '+33647000'
-GSW_RECORD_HANDLE: 1234
-GSW_USER_EVENT: PreviewRecord
-GSW_CAMPAIGN_NAME: Pull Preview Campaign
-GSW_CALLING_LIST: Custom Calling List
-Segment: 'Private'
-Prioprity: 1
-CallType: 'Call Type'
-AnotherFloat: '2.2'
-AnotherInt: 19
+- GSW_APPLICATION_ID: '1'
+  GSW_CHAIN_ID: 1
+  GSW_PHONE: '+33647000'
+  GSW_RECORD_HANDLE: 1
+  GSW_USER_EVENT: PreviewRecord
+  GSW_CAMPAIGN_NAME: Pull Preview Campaign
+  GSW_CALLING_LIST: Custom Calling List
+  Segment: 'Private'
+  Prioprity: 1
+  CallType: 'Call Type'
+  AnotherFloat: '2.2'
+  AnotherInt: 19

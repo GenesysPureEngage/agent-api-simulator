@@ -53,6 +53,7 @@ var callingListFields = utils.requireAndMonitor(
 );
 
 var calls = {};
+var recordHandle = 1;
 
 exports.initializeDnData = (user) => {
   //If user has an active session return their current DN state
@@ -290,7 +291,7 @@ exports.handleCall = (req, res) => {
       reportCallStateForAgent(userName, agentCall);
       rmm.recordInteractionComplete(userName, agentCall.id);
       utils.sendOkStatus(req, res);
-      exports.publishAgentCallEvent(userName, agentCall);
+      exports.publishAgentCallEvent(userName, agentCall, '', req.body ? req.body.operationId : '');
     }
     break;
   case "start-recording": case "resume-recording":
@@ -598,19 +599,21 @@ exports.handleOutboundRequest = req => {
   switch (userData.GSW_AGENT_REQ_TYPE) {
     case 'CampaignStatusRequest':
       exports.sendCampaigns(req);
+      rmm.addPreviewRecords(pullPreviewRecord);
       break;
     case 'PreviewRecordRequest':
-      responseData = {
-        userData: pullPreviewRecord,
-        messageType: "EventUserEvent"
+      // Get the next preview record
+      const record = rmm.getPreviewRecord(recordHandle);
+      if (record) {
+        exports.sendOutboundMessage(req, record);
       }
-      exports.sendOutboundMessage(req, pullPreviewRecord);
       break;
     case 'RequestRecordCancel':
       responseData = {
         GSW_USER_EVENT: 'RecordCancelAcknowledge',
         GSW_REFERENCE_ID: userData.GSW_REFERENCE_ID
       }
+      rmm.removePreviewRecord(userData.GSW_RECORD_HANDLE); 
       exports.sendOutboundMessage(req, responseData);
       break;
     case 'RecordReject':
@@ -679,12 +682,15 @@ exports.publishAttachedDataChangeEvent = call => {
   }
 };
 
-exports.publishAgentCallEvent = (agent, call, notificationType) => {
+exports.publishAgentCallEvent = (agent, call, notificationType, operationId) => {
   var msg = {
     notificationType: notificationType ? notificationType : "StateChange",
     call: call,
     messageType: "CallStateChanged"
   };
+  if (operationId) {
+    msg.operationId = operationId;
+  }
   messaging.publish(agent, "/workspace/v3/voice", msg);
   return msg;
 };
