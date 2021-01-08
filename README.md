@@ -198,4 +198,4 @@ For questions and support please use [Genesys DevFoundry](https://developer.gene
 ## License
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © [Genesys](https://www.genesys.com/).
+- Copyright 2021 © [Genesys](https://www.genesys.com/).
