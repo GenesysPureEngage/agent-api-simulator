@@ -1,0 +1,30 @@
+- DBID: 500
+  name: Place_5000
+  devices:
+    - number: "+33298025000"
+      switchName: SIP_Switch
+      userProperties:
+        - TServer:
+          - contact: ""
+          - sip-cti-control: "talk, hold, dtmf"
+- DBID: 501
+  name: Place_5001
+  devices: []
+- DBID: 502
+  name: Place_5002
+  devices: []
+- DBID: 503
+  name: Place_JohnSmith
+  devices:
+    - number: "+33298025003"
+      switchName: SIP_Switch
+      userProperties:
+        - TServer:
+          - contact: ""
+          - sip-cti-control: "talk, hold, dtmf"
+- DBID: 504
+  name: Place_MelissaMorel
+  devices: []
+- DBID: 511
+  name: Place_ThomasWatson
+  devices: []

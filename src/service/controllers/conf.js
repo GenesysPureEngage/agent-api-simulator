@@ -26,6 +26,12 @@ var agents = utils.requireAndMonitor(
     exports.handleUserUpdate(agents, updated);
   }
 );
+var places = utils.requireAndMonitor(
+  "../../../data/places.yaml",
+  updated => {
+    exports.handleUserUpdate(places, updated);
+  }
+);
 var businessAttributes = utils.requireAndMonitor(
   "../../../data/business-attributes.yaml",
   updated => {
@@ -69,6 +75,41 @@ var personalFavorites = utils.requireAndMonitor(
   }
 );
 
+var optimizeConfigByUser = {};
+
+exports.flattenKVListDataIfOptimizeConfig = (req, data) => {
+  if (!isOptimizeConfig(req)) {
+    return data;
+  }
+  return flattenUserPropertiesKVListData(data);
+}
+
+flattenUserPropertiesKVListData = (data) => {
+  return Array.isArray(data) ? flattenUserPropertiesKVListArray(data) : flattenUserPropertiesKVListObject(data);
+}
+
+flattenUserPropertiesKVListArray = (array) => {
+  var flatArray = [];
+  _.each(array, (itemArray) => {
+    flatArray.push(flattenUserPropertiesKVListData(itemArray));
+  });
+  return flatArray;
+}
+
+flattenUserPropertiesKVListObject = (object) => {
+  var flatObject = {};
+  for (let key in object) {
+    if (key === 'userProperties') {
+      flatObject[key] = utils.flattenKVListData(object[key]);
+    } else if (Array.isArray(object[key])) {
+      flatObject[key] = flattenUserPropertiesKVListArray(object[key]);
+    } else {
+      flatObject[key] = object[key];
+    }
+  };
+  return flatObject;
+}
+
 exports.handleUserUpdate = (currUsers, updatedUsers) => {
   Object.keys(updatedUsers).forEach(user => {
     if (currUsers[user]) {
@@ -93,7 +134,13 @@ exports.id = () => {
   ).toLowerCase();
 };
 
+isOptimizeConfig = (req) => {
+  return (optimizeConfigByUser[auth.userByCode(req)] === true);
+};
+
 exports.initialize = (req, res) => {
+  optimizeConfigByUser[auth.userByCode(req)] = (req.url.indexOf("optimize_config=true") !== -1) ? true : false;
+
   res.cookie("WWE_CODE", req.query.code, {
     httpOnly: true,
     secure: req.protocol === 'https',
@@ -108,66 +155,146 @@ exports.initialize = (req, res) => {
   res.send(JSON.stringify(data));
 };
 
+exports.configurationSettings = (req, res) => {
+  res.set({ "Content-type": "application/json" });
+  res.send(JSON.stringify({
+    status: {
+      code: 0
+    },
+    data: isOptimizeConfig(req) ? utils.flattenKVListData(settings) : settings
+  }));
+};
+
+exports.configurationActionCodes = (req, res) => {
+  res.set({ "Content-type": "application/json" });
+  res.send(JSON.stringify({
+    status: {
+      code: 0
+    },
+    data: this.flattenKVListDataIfOptimizeConfig(req, actionCodes)
+  }));
+};
+
+exports.configurationBusinessAttributes = (req, res) => {
+  res.set({ "Content-type": "application/json" });
+  res.send(JSON.stringify( {
+    status: {
+      code: 0
+    },
+    data: this.flattenKVListDataIfOptimizeConfig(req, businessAttributes)
+  }));
+};
+
+exports.configurationBusinessAttribute = (req, res) => {
+  res.set({ "Content-type": "application/json" });
+  var ba = _.find(businessAttributes, (a) => {
+		return req.params.id === a.id;
+  });
+  if (ba) {
+    res.send(JSON.stringify( {
+      status: {
+        code: 0
+      },
+      data: this.flattenKVListDataIfOptimizeConfig(req, ba)
+    }));
+  } else {
+    utils.sendFailureStatus(res, 500);
+  }
+};
+
+exports.configurationTransactions = (req, res) => {
+  res.set({ "Content-type": "application/json" });
+  res.send(JSON.stringify( {
+    status: {
+      code: 0
+    },
+    data: this.flattenKVListDataIfOptimizeConfig(req, transactions)
+  }));
+};
+
+exports.configurationPlacesDnsWithId = (req, res) => {
+  res.set({ "Content-type": "application/json" });
+  var place = _.find(places, (p) => {
+		return req.params.placename === p.name;
+  });
+  if (place) {
+    res.send(JSON.stringify( {
+      status: {
+        code: 0
+      },
+      data: { devices: this.flattenKVListDataIfOptimizeConfig(req, place.devices) }
+    }));
+  } else {
+    utils.sendFailureStatus(res, 500);
+  }
+};
+
 exports.configuration = (req, res) => {
   res.set({ "Content-type": "application/json" });
-  var data = {};
-  if (req.path.indexOf("business-attribute") > 0) {
-    var businessAttributeId = parseInt(
-      req.path.substring(req.path.lastIndexOf("/") + 1)
-    );
-    var businessAttribute = businessAttributes.filter(
-      businessAttribute => businessAttribute.id === businessAttributeId
-    );
+  var configOptimize = isOptimizeConfig(req);
 
-    if (businessAttribute && businessAttribute[0]) {
-      data = {
-        status: {
-          code: 0
-        },
-        data: {
-          name: businessAttribute[0].name,
-          displayName: businessAttribute[0].displayName,
-          id: businessAttribute[0].id,
-          values: [],
-          groups: []
+  var data = {};
+  var types = req.query.types ? req.query.types.split(",") : [];
+  if ( (types.length > 0) || (req.url === "/") ) {
+    _.each(types, type => {
+      if (type === "agentGroups") {
+        data.agentGroups = agentGroups;
+      } else if (type === "monitorableAgentGroups") {
+        const user = exports.userByCode(req);
+        data.monitorableAgentGroups =  _.filter(agentGroups, (agentGroup) => {
+          return agentGroup.managerDBIDs && user ? agentGroup.managerDBIDs.indexOf(user.DBID) !== -1 : false;
+        });
+      } else if (!configOptimize) {
+        if (type === "actionCodes") {
+          data.actionCodes = actionCodes;
+        } else if (type === "settings") {
+          data.settings = settings;
+        } else if (type === "workspaceTransactions") {
+          data.workspaceTransactions = transactions;
+        } else if (type === "businessAttributes") {
+          data.businessAttributes = businessAttributes;
         }
-      };
-      businessAttribute[0].values.forEach(element => {
-        var businessAttributeValue = {
-          id: element.id,
-          name: element.name,
-          displayName: element.displayName
-        };
-        data.data.values.push(businessAttributeValue);
-      });
-    }
-  } else {
-    //TODO: This part as before returning monitorableAgentGroups for everything else, which needs to amended to
-    //return others as needed.
-    const user = exports.userByCode(req);
+      }
+    });
+
     data = {
       status: {
         code: 0
       },
-      data: {
-        monitorableAgentGroups: _.filter(agentGroups, (agentGroup) => {
-          return agentGroup.managerDBIDs && user ? agentGroup.managerDBIDs.indexOf(user.DBID) !== -1 : false;
-        })
-      }
+      data: data
     };
+
+    res.send(JSON.stringify(data));
   }
-  res.send(JSON.stringify(data));
 };
 
-exports.conf = () => {
-  return {
-    actionCodes: actionCodes,
-    agentGroups: agentGroups,
-    businessAttributes: businessAttributes,
-    environment: environment,
-    settings: settings,
-    transactions: transactions
-  };
+exports.conf = (userName) => {
+  if (optimizeConfigByUser[userName] === true) {
+    var agtGrpsWithoutAgtDbids = [];
+    _.each(agentGroups, (agtGrp) => {
+      var agtGrpWithoutAgtDbids = {};
+      for (let key in agtGrp) {
+        if (key !== 'agentDBIDs') {
+          agtGrpWithoutAgtDbids[key] = agtGrp[key];
+        }
+      };
+      agtGrpsWithoutAgtDbids.push(agtGrpWithoutAgtDbids);
+    });
+
+    return {
+      agentGroups: agtGrpsWithoutAgtDbids,
+      environment: environment,
+    };
+  } else {
+    return {
+      actionCodes: actionCodes,
+      agentGroups: agentGroups,
+      businessAttributes: businessAttributes,
+      environment: environment,
+      settings: settings,
+      transactions: transactions
+    };
+  }
 };
 
 exports.userByCode = (req) => {
