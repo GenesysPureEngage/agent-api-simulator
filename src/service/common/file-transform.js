@@ -236,6 +236,7 @@ var fileTransformers = [
     new YamlTransformer('../../../data/statistic-profiles.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/transactions.yaml', [writeToYaml], [simplifyKvlists]),
     new YamlTransformer('../../../data/agents.yaml', [writeToYaml], [simplifyKvlists]),
+    new YamlTransformer('../../../data/places.yaml', [writeToYaml], [simplifyKvlists]),
     new YamlTransformer('../../../data/personal-favorites.yaml', [writeToYaml], [simplifyKvlists]),
     new YamlTransformer('../../../data/ucs/standard-responses-root.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/ucs/standard-responses-category-details.yaml', [writeToYaml]),

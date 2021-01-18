@@ -36,7 +36,7 @@ exports.getCurrentSession = (req, res) => {
 	var userName = auth.userByCode(req);
 	if (userName) {
 		var session = sessions[userName];
-		var configuration = conf.conf();
+		var configuration = conf.conf(userName);
 		var user = conf.userByName(userName);
 
     if (!user.activeSession) {
@@ -59,7 +59,7 @@ exports.getCurrentSession = (req, res) => {
 			},
 			data: {
 				configuration: configuration,
-				user: user
+				user: conf.flattenKVListDataIfOptimizeConfig(req, user)
 			}
 		};
 		res.send(JSON.stringify(data));
@@ -155,8 +155,8 @@ sessionAdded = (session, timeout) => {
 	var userName = auth.userByCode(req, req.cookies.WWE_CODE);
 	if (userName) {
     sessions[userName] = session;
-    var configuration = conf.conf();
-    var user = conf.userByName(userName);
+    var configuration = conf.conf(userName);
+    var user = conf.flattenKVListDataIfOptimizeConfig(req, conf.userByName(userName));
     publishWorkspaceInitializationProgress(session, 50);
     publishWorkspaceInitializationProgress(session, 100, user, configuration);
     publishWorkspaceInitializationComplete(session, user, configuration);

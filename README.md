@@ -110,12 +110,26 @@ See the `data` directory for the configuration, settings, agents, agent groups, 
 | agent-groups.yaml  | Agent groups with their agents, and group mailbox  |
 | agents.yaml | Agents and their default settings  |
 | business-attributes.yaml  | Media types, service types, customer segments, interaction types, disposition codes and other business attributes |
+| interaction-queues.yaml  | Interaction queues |
+| personal-favorites.yaml  | Personal favorites |
+| places.yaml  | Places |
 | route-points.yaml  | Route points |
-| contacts.yaml | Contacts |
-| settings.yaml  | WWE settings |
+| cluster-options.yaml  | WWE settings |
 | statistic-profiles.yaml  | Statistics randomization/simulation settings |
 | transactions.yaml | Transaction settings  |
 | media/attached-data.yaml | Default attached data  |
+| open-media/media-management.yaml | Interactions Queues (snapshots) content |
+| open-media/workbins.yaml | Workbins content  |
+| outbound/calling-list.yaml | Outbound Calling Lists  |
+| outbound/campaigns.yaml | Outbound Campaigns  |
+| outbound/pull-preview.yaml | Outbound Pull Preview  |
+| ucs/contact-interactions-details.yaml | Contact Interactions Details  |
+| ucs/contact-interactions.yaml | Contact Interactions  |
+| ucs/contacts.yaml | Contacts  |
+| ucs/lucene-indexes.yaml | Lucene Indexes  |
+| ucs/standard-responses-category-details.yaml | Standard Responses Category Details  |
+| ucs/standard-responses-details.yaml | Standard Responses Details  |
+| ucs/standard-responses-root.yaml | Standard Responses Category Roots  |
 | voice/capabilities.yaml | Capabilities per state of voice calls |
 | voice/extensions.yaml | Extensions part of voice calls |
 

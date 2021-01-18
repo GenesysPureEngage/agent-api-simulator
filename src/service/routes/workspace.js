@@ -171,6 +171,30 @@ router.use('/workspace/v3/activate-channels', (req, res) => {
   media.activateChannels(req, res);
 });
 
+router.use('/workspace/v3/configuration/settings', (req, res) => {
+  conf.configurationSettings(req, res);
+});
+
+router.use('/workspace/v3/configuration/action-codes', (req, res) => {
+  conf.configurationActionCodes(req, res);
+});
+
+router.use('/workspace/v3/configuration/business-attributes', (req, res) => {
+  conf.configurationBusinessAttributes(req, res);
+});
+
+router.use('/workspace/v3/configuration/business-attributes/:id', (req, res) => {
+  conf.configurationBusinessAttribute(req, res);
+});
+
+router.use('/workspace/v3/configuration/transactions', (req, res) => {
+  conf.configurationTransactions(req, res);
+});
+
+router.use('/workspace/v3/configuration/places/:placename/dns', (req, res) => {
+  conf.configurationPlacesDnsWithId(req, res);
+});
+
 router.use('/workspace/v3/configuration', (req, res) => {
   conf.configuration(req, res);
 });
