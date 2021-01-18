@@ -26,7 +26,7 @@
   ]
   settings:
     TServer:
-      gvm_mailbox: '8888'
+      gvm_mailbox: '9876'
 - DBID: 107
   tenantDBID: 1
   name: 'Agent Group Test'
