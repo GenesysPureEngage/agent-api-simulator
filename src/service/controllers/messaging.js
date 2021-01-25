@@ -156,17 +156,17 @@ sessionAdded = (session, timeout) => {
 	if (userName) {
     sessions[userName] = session;
     var configuration = conf.conf(userName);
-    var user = conf.flattenKVListDataIfOptimizeConfig(req, conf.userByName(userName));
+    var user = conf.userByName(userName);
+    var userForInitializeMsg = conf.flattenKVListDataIfOptimizeConfig(req, user);
     publishWorkspaceInitializationProgress(session, 50);
-    publishWorkspaceInitializationProgress(session, 100, user, configuration);
-    publishWorkspaceInitializationComplete(session, user, configuration);
+    publishWorkspaceInitializationProgress(session, 100, userForInitializeMsg, configuration);
+    publishWorkspaceInitializationComplete(session, userForInitializeMsg, configuration);
     publishInitialMediaMessage(session, user);
     session.addListener('removed', sessionClosed);
 	} else {
 		session.addListener('removed', sessionClosed);
 		session.disconnect();
 	}
-
 }
 
 exports.removeSession = (code) => {
