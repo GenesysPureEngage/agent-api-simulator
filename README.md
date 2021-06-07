@@ -96,7 +96,7 @@ You can use these credentials to login to the Workspace UI:
 - Username: **\JohnSmith**
 - Password: **JohnSmith**
 
-Note: a '\' has to be used as prefix for the username as this agent has no associated tenant in settings.
+Note: a '\\' has to be used as prefix for the username as this agent has no associated tenant in settings.
 
 ## Configuration
 
