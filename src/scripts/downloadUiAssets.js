@@ -76,6 +76,7 @@ function getCompatibilityFile() {
         return;
       }
       resolve(file);
+      return;
     }
     // add 'raw' at the begining of the url
     const rawGithubUrl = packageJson.repository.url.replace('github.com', 'raw.github.com');
@@ -107,7 +108,7 @@ function versionAsNumber(version) {
 }
 
 // check if dependencies versions are compatible with the simulator
-exports.checkCompatibility = function checkCompatibility(versions, url) {
+exports.checkCompatibility = function checkCompatibility(versions) {
   return new Promise(async (resolve, reject) => {
     if (!versions || !versions.simulator || !versions.wwe || !versions.authUi) {
       reject("Versions object invalid")
@@ -115,46 +116,36 @@ exports.checkCompatibility = function checkCompatibility(versions, url) {
     }
     // get the compatibility file
     let compatibility = await getCompatibilityFile();
-
     // convert versions to numbers
     versions.simulator = versionAsNumber(versions.simulator);
-    versions.wweRaw = versions.wwe;
-    versions.authUiRaw = versions.authUi;
-    versions.wwe = versionAsNumber(versions.wwe);
-    versions.authUi = versionAsNumber(versions.authUi);
-    compatibility.map((c) => {
-      for (let key in c) {
-        c[`${key}Raw`] = c[key];
-        c[key] = versionAsNumber(c[key]);
-      }
-    })
+    compatibility.forEach(c => {
+      c.AgentApiSimulator = versionAsNumber(c.AgentApiSimulator);
+    });
 
     // sort the compatibilities by version of the simulator
     // it should already be the case, but this is an extra security
     compatibility = compatibility.sort((a, b) => {
       if (a.AgentApiSimulator > b.AgentApiSimulator) {
-        return (1);
+        return 1;
       }
-      else if (a.AgentApiSimulator < b.AgentApiSimulator) {
-        return (-1);
+      if (a.AgentApiSimulator < b.AgentApiSimulator) {
+        return -1;
       }
-      else {
-        return (0);
-      }
+      return 0;
     })
     // get the index of the current version of the simulator
-    let i = compatibility.findIndex((c) => c.AgentApiSimulator === versions.simulator);
+    let i = compatibility.findIndex(c => c.AgentApiSimulator === versions.simulator);
     if (i < 0) {
       reject("Simulator version not found in the compatibility table.");
       return;
     }
     // if this versions are older than the minimum required versions
-    if (versions.wwe < compatibility[i].WWE) {
-      reject(getOutdatedVersionError('WWE', versions.wweRaw, compatibility[i].WWERaw));
+    if (!checkVersion(versions.wwe, compatibility[i].WWE)) {
+      reject(getOutdatedVersionError('WWE', versions.wwe, compatibility[i].WWE));
       return;
     }
-    if (versions.authUi < compatibility[i].AuthUi) {
-      reject(getOutdatedVersionError('AuthUI', versions.authUiRaw, compatibility[i].AuthUiRaw));
+    if (!checkVersion(versions.authUi, compatibility[i].AuthUi)) {
+      reject(getOutdatedVersionError('AuthUI', versions.authUi, compatibility[i].AuthUi));
       return;
     }
     // while the simulator version stays the same
@@ -163,8 +154,8 @@ exports.checkCompatibility = function checkCompatibility(versions, url) {
       // OR if WWE and AuthUI versions are superior or equal to this element
       //    AND WWE and AuthUI versions are inferio to the next element
       if (i + 1 >= compatibility.length
-        || (versions.wwe >= compatibility[i].WWE && versions.authUi >= compatibility[i].AuthUi
-          && versions.wwe < compatibility[i + 1].WWE && versions.authUi < compatibility[i + 1].AuthUi)) {
+        || (checkVersion(versions.wwe, compatibility[i].WWE) && checkVersion(versions.authUi, compatibility[i].AuthUi)
+          && !checkVersion(versions.wwe, compatibility[i + 1].WWE) && !checkVersion(versions.authUi, compatibility[i + 1].AuthUi))) {
         resolve();
       }
       i++;
@@ -192,8 +183,32 @@ function getVersion(url) {
   }))
 }
 
+function checkVersion(version, compatibilityVersion) {
+  const versionsSplitted = version.split('.');
+  const compatibilityVersionSplitted = compatibilityVersion.split('.');
+  let i = 0;
+  while(i < versionsSplitted.length) {
+    if (i > compatibilityVersionSplitted.length) {
+      return true;
+    }
+    const versionNumber = +versionsSplitted[i];
+    const compatibilityVersionNumber = +compatibilityVersionSplitted[i];
+    if (versionNumber > compatibilityVersionNumber) {
+      return true;
+    }
+    if (versionNumber < compatibilityVersionNumber) {
+      return false;
+    }
+    i++;
+  }
+  if (i < compatibilityVersionSplitted.length) {
+    return false;
+  }
+  return true;
+}
+
 function getUserInput() {
-  return (new Promise((resolve, reject) => {
+  return (new Promise(resolve => {
     process.stdin.once('data', (chunk) => { resolve(chunk.toString().trim()) });
   }))
 }
