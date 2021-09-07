@@ -1,0 +1,6 @@
+DNGroup1:
+- name: DNGroup1
+  DBID: 122
+  tenantDBID: 1
+  type: acd queues
+  DNs: []
