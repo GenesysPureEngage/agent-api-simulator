@@ -162,6 +162,8 @@ exports.handleInteraction = (req, res) => {
     exports.handleOutboundPreviewInteraction(req, res, interaction);
   } else if (req.params.fn === 'add-attachment') {
     exports.handleAttachments(req, res);
+  } else if(req.params.media === 'email'){ 
+    exports.handleEmailInteraction(req, res, interaction)
   } else {
     utils.sendFailureStatus(res, 501);
   }
@@ -330,6 +332,14 @@ exports.handleWorkitemInteraction = (req, res, interaction) => {
   }
 }
 
+exports.handleEmailInteraction = (req, res, interaction) => {
+  if (req.params.fn === 'accept') {    
+    interaction.state = 'Processing';
+    utils.sendOkStatus(req, res);
+    exports.publishInteractionEvent(req, interaction.mediatype, interaction);
+  }
+}
+
 exports.handleOutboundPreviewInteraction = (req, res, interaction) => {
   if (req.params.fn === 'accept') {
     interaction.state = 'Processing';
@@ -489,7 +499,7 @@ exports.createEmail = (agent, from, to, subject, content) => {
   var now = '' + new Date();
   var email = {
     capabilities: [
-      'attach-user-data', 'delete-user-data', 'update-user-data',
+      'accept', 'reject', 'attach-user-data', 'delete-user-data', 'update-user-data',
       'place-in-queue', 'transfer', 'complete',
       'reply', 'reply-all'
     ], //[ 'accept', 'reject' ],
@@ -533,7 +543,7 @@ exports.createEmail = (agent, from, to, subject, content) => {
       to: [to]
     },
     subject: subject,
-    state: 'Processing', // Invited
+    state: 'Invited', // Processing
     isInWorkflow: true // false
   };
   var htmlBody = content || conf.readDynConf('email/html-body');
