@@ -74,18 +74,6 @@ var personalFavorites = utils.requireAndMonitor(
     personalFavorites = updated;
   }
 );
-var dnGroup = utils.requireAndMonitor(
-  "../../../data/dn-group.yaml",
-  updated => {
-    exports.handleUserUpdate(dnGroup, updated);
-  }
-);
-var virtualQueue = utils.requireAndMonitor(
-  "../../../data/virtual-queue.yaml",
-  updated => {
-    exports.handleUserUpdate(virtualQueue, updated);
-  }
-);
 
 var optimizeConfigByUser = {};
 
@@ -268,28 +256,18 @@ exports.configuration = (req, res) => {
         }
       }
     });
-
-    data = {
-      status: {
-        code: 0
-      },
-      data: data
-    };
-
-    res.send(JSON.stringify(data));
   }
+
+  data = {
+    status: {
+      code: 0
+    },
+    data: data
+  };
+
+  res.send(JSON.stringify(data));
 };
 
-exports.configurationQueuegroup = (req, res) => {
-  res.set({ "Content-type": "application/json" });
-  if (req.params.queuename === 'dn-group') {
-    res.send(JSON.stringify({status: {code: 0}, data: dnGroup}));
-  } else if (req.params.queuename === 'virtual-queue') {
-    res.send(JSON.stringify({status: {code: 0}, data: virtualQueue}));
-  } else {
-    this.configuration(req, res);
-  }
-};
 
 exports.conf = (userName) => {
   if (optimizeConfigByUser[userName] === true) {

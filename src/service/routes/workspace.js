@@ -195,10 +195,6 @@ router.use('/workspace/v3/configuration/places/:placename/dns', (req, res) => {
   conf.configurationPlacesDnsWithId(req, res);
 });
 
-router.use('/workspace/v3/configuration/:queuename', (req, res) => {
-  conf.configurationQueuegroup(req, res);
-});
-
 router.use('/workspace/v3/configuration', (req, res) => {
   conf.configuration(req, res);
 });

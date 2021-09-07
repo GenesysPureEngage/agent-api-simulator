@@ -246,9 +246,7 @@ var fileTransformers = [
     new YamlTransformer('../../../data/outbound/pull-preview.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/outbound/calling-list.yaml', [writeToYaml]),
     new YamlTransformer('../../../data/open-media/workbins.yaml', [writeToYaml]),
-    new YamlTransformer('../../../data/open-media/media-management.yaml', [writeToYaml]),
-    new YamlTransformer('../../../data/dn-group.yaml', [writeToYaml]),
-    new YamlTransformer('../../../data/virtual-queue.yaml', [writeToYaml])
+    new YamlTransformer('../../../data/open-media/media-management.yaml', [writeToYaml])
 ];
 
 exports.getFileTransformer = (file) => {
