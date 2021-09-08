@@ -10,16 +10,21 @@
   },
   "workspace-development-kit": {
     "scapi-samples": {
-      "dir": "https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/api-overview/",
+      "dir": "https://genesyspureengage.github.io/workspace-development-kit/wwe-service-client-api/",
       "files": [
         "sample.html",
         "wwe-service-client-api.js"
+      ]
+    },
+    "toolkit-samples": {
+      "dir": "https://genesyspureengage.github.io/workspace-development-kit/workspace-toolkit/",
+      "files": [
+        "components.html"
       ]
     }
   },
   "dependencies": {
     "cli-progress": "3.8.2",
-    "concurrently": "5.2.0",
     "fs-extra": "9.0.0",
     "request": "2.88.2",
     "rimraf": "3.0.2",
@@ -28,11 +33,12 @@
   },
   "devDependencies": {
     "ava": "3.8.1",
-    "cross-env": "7.0.2"
+    "cross-env": "7.0.2",
+    "npm-run-all": "4.1.5"
   },
   "scripts": {
     "install": "npm run install:webapp && npm run install:service  && npm run install:samples",
-    "start": "./node_modules/.bin/concurrently \"npm run start:simulator\" \"npm run start:samples\"",
+    "start": "run-p start:simulator start:samples",
     "build": "cd src/webapp && npm run build",
     "clean": "rimraf target && rimraf ui-assets/*",
     "import-ui-assets": "node src/scripts/downloadUiAssets.js",

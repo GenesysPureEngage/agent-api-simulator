@@ -15,6 +15,13 @@
         >
           Workspace
         </button>
+        <button
+          v-tooltip="'Open Toolkit'"
+          type="button"
+          @click="openToolkit"
+        >
+          Toolkit
+        </button>
         <select v-model="selectedSession">
           <option
             v-if="!sessions || sessions.length === 0"
@@ -70,7 +77,7 @@ export default {
       window.open("/sim/workspace-ui", "_blank");
     },
     openToolkit() {
-      window.open(window.location.protocol + "//localhost:8080", "_blank");
+      window.open(window.location.protocol + "//localhost:8080/toolkit/components.html", "_blank");
     }
   }
 };

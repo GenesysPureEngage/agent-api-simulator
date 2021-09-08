@@ -20,7 +20,6 @@
     "yaml": "1.9.2"
   },
   "devDependencies": {
-    "concurrently": "5.2.0",
     "nodemon": "2.0.3"
   },
   "scripts": {
