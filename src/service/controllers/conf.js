@@ -256,17 +256,18 @@ exports.configuration = (req, res) => {
         }
       }
     });
-
-    data = {
-      status: {
-        code: 0
-      },
-      data: data
-    };
-
-    res.send(JSON.stringify(data));
   }
+
+  data = {
+    status: {
+      code: 0
+    },
+    data: data
+  };
+
+  res.send(JSON.stringify(data));
 };
+
 
 exports.conf = (userName) => {
   if (optimizeConfigByUser[userName] === true) {
