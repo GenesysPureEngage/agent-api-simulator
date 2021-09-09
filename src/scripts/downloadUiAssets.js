@@ -334,6 +334,12 @@ async function main() {
     await Promise.all(scapiSampleFiles.map(async (scapiFile) => {
       await getFile(scapiSampleDir + scapiFile, `./ui-assets/samples/scapi/${scapiFile}`);
     }));
+    // Get Toolkit samples from workspace-development-kit Github repository
+    const toolkitSampleDir = packageJson['workspace-development-kit']['toolkit-samples']['dir'];
+    const toolkitSampleFiles = packageJson['workspace-development-kit']['toolkit-samples']['files'];
+    await Promise.all(toolkitSampleFiles.map(async (toolkitFile) => {
+      await getFile(toolkitSampleDir + toolkitFile, `./ui-assets/samples/toolkit/${toolkitFile}`);
+    }));
   } catch (err) {
     console.error("=====\nERROR:", err);
     process.exit(1);
