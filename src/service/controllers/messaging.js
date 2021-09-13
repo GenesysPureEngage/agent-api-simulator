@@ -135,19 +135,23 @@ publishWorkspaceInitializationComplete = (session, user, configuration) => {
 
 publishInitialMediaMessage = (session, user) => {
 	var dnData = voice.initializeDnData(user);
-	publish2(session, '/workspace/v3/voice', {
-		dn: dnData,
-		messageType: 'DnStateChanged'
-	});
 	var mediaData = media.initializeMediaData(user);
-	publish2(session, '/workspace/v3/media', {
-		media: mediaData,
-		messageType: 'ChannelStateChanged'
-	});
-	user.activeSession = {
-		dn: dnData,
-		media: mediaData
-	};
+  setTimeout(() => {
+    publish2(session, '/workspace/v3/voice', {
+      dn: dnData,
+      messageType: 'DnStateChanged'
+    });
+    setTimeout(() => {
+      publish2(session, '/workspace/v3/media', {
+        media: mediaData,
+        messageType: 'ChannelStateChanged'
+      });
+      user.activeSession = {
+        dn: dnData,
+        media: mediaData
+      };
+    }, 500);
+  }, 1000);
 }
 
 sessionAdded = (session, timeout) => {
@@ -161,8 +165,10 @@ sessionAdded = (session, timeout) => {
     publishWorkspaceInitializationProgress(session, 50);
     publishWorkspaceInitializationProgress(session, 100, userForInitializeMsg, configuration);
     publishWorkspaceInitializationComplete(session, userForInitializeMsg, configuration);
-    publishInitialMediaMessage(session, user);
-    session.addListener('removed', sessionClosed);
+    setTimeout(() => {
+      publishInitialMediaMessage(session, user);
+      session.addListener('removed', sessionClosed);
+    }, 500);
 	} else {
 		session.addListener('removed', sessionClosed);
 		session.disconnect();
