@@ -134,8 +134,8 @@ publishWorkspaceInitializationComplete = (session, user, configuration) => {
 }
 
 publishInitialMediaMessage = (session, user) => {
-	var dnData = voice.initializeDnData(user);
-	var mediaData = media.initializeMediaData(user);
+  var dnData = voice.initializeDnData(user);
+  var mediaData = media.initializeMediaData(user);
   setTimeout(() => {
     publish2(session, '/workspace/v3/voice', {
       dn: dnData,
@@ -150,8 +150,8 @@ publishInitialMediaMessage = (session, user) => {
         dn: dnData,
         media: mediaData
       };
-    }, 500);
-  }, 1000);
+    }, 250);
+  }, 1500);
 }
 
 sessionAdded = (session, timeout) => {
