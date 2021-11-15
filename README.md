@@ -68,7 +68,7 @@ npm run gen-certs
 Download the UI assets for the Workspace and Authentication UIs:
 
   ```shell
-  npm run import-ui-assets [{GWS url}]
+  npm run import-ui-assets [{WWE url}]
   ```
 
   Run the simulator:
