@@ -105,6 +105,13 @@ exports.handleInteractionSetComment = (req, res) => {
 	});
 }
 
+exports.getContact = (id = 0) => {
+	const matchingContact = _.find(contacts, (contact) => {
+		return contact.id === id;
+	});
+	return matchingContact || false;
+}
+
 getLuceneIndexes = (req, res) => {
 	utils.sendOkStatus(req, res);
 	this.publishUcsEvent(req, 'EventGetIndexProperties', { indexes: luceneIndexes });
