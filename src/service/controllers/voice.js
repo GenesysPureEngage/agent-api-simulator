@@ -11,6 +11,9 @@ const messaging = require("./messaging");
 const rmm = require("../common/rmm");
 const reporting = require("./reporting");
 const utils = require("../common/utils");
+const { isUndefined, object } = require("underscore");
+const { handleInteractionDeleteUserdata } = require("./media");
+const ucs = require("../controllers/ucs");
 
 var attachedData = utils.requireAndMonitor(
   "../../../data/media/attached-data.yaml",
@@ -53,6 +56,7 @@ var callingListFields = utils.requireAndMonitor(
 );
 
 var calls = {};
+const transferedCalls = {};
 var recordHandle = 1;
 
 exports.initializeDnData = (user) => {
@@ -206,6 +210,18 @@ exports.handleCall = (req, res) => {
     utils.sendFailureStatus(res, 500, msg);
     return;
   }
+  let originContact;
+  let participantAdded = {}
+  if (req.params.fn === 'single-step-conference' || req.params.fn === 'complete-conference') {
+    if (call.originCall.parentConnId) {
+      calls[call.originCall.parentConnId].isConference = true;
+      originContact = ucs.getContact(calls[call.originCall.parentConnId].userData[6].value)
+    }
+    else {
+      call.isConference = true;
+      originContact = ucs.getContact(call.userData[6].value)
+    }
+  }
   switch (req.params.fn) {
   case "answer":
   	if (!checkIfCallMonitored(req, res, call, user, 'Established')) {
@@ -252,42 +268,110 @@ exports.handleCall = (req, res) => {
     break;
   case "single-step-conference":
     call.state = "Established";
-
-    var participantAdded = {};
+    const newAgent = conf.userByDestination(req.body.data.destination);
+    call.callByUserName[newAgent.userName] = call.callByUserName[call.destUser.userName];
     if (destUser) {
       participantAdded.number = destUser.activeSession.dn.number;
     } else {
       participantAdded.number = req.body.data.destination;
     }
     participantAdded.role = "RoleNewParty";
-    call.onEstablished(participantAdded);
-
-    reportCallState(call);
-    utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call, userName);
+    call.onEstablished(participantAdded, req.params.fn);   
+    call.originCall.participants[0].number = originContact.phoneNumbers[0];
+    call.destCall.participants[0].number = originContact.phoneNumbers[0];
+    exports.publishAgentCallEvent(newAgent.userName, call.originCall)
     break;
   case "single-step-transfer":
-    /**
-     * Not actually transferring a call. For now just complete the call so that
-     * it appears to be transferred from this agent's perspective.
-     */
-    call.state = "Completed";
+    const newDestination = conf.userByDestination(req.body.data.destination);
+    const newDestUserName = newDestination ? newDestination.userName : null;
     reportCallState(call);
     rmm.recordInteractionComplete(userName, agentCall.id);
     utils.sendOkStatus(req, res);
     exports.publishCallEvent(call, userName);
+    call.callByUserName[newDestUserName] = call.callByUserName[call.destUser.userName];
+    call.state = "Released";
+    exports.publishAgentCallEvent(call.destUser.userName, call.originCall);
+    call.destUser = newDestination;
+    call.destUserName = newDestUserName;
+    call.state = "Established";
+    transferedCalls[call.id] = {};
+    Object.assign(transferedCalls[call.id], agentCall);
+    exports.publishAgentCallEvent(newDestUserName, call.originCall);
+    break;
+  case "complete-transfer":
+    const parentCall = calls[call.originCall.parentConnId];
+    call.state = "Completed";
+    parentCall.state = "Released";
+    exports.publishAgentCallEvent(parentCall.destUser.userName, parentCall.originCall);
+    exports.publishCallEvent(call); 
+    parentCall.destUser = call.destUser;
+    parentCall.callByUserName[call.destUser.userName] = parentCall.callByUserName[parentCall.destUserName];
+    parentCall.destUserName = call.destUserName;
+    parentCall.state = "Established";
+    exports.publishAgentCallEvent(parentCall.destUserName,parentCall.originCall);
+    break; 
+  case "complete-conference":
+    const parent = calls[call.originCall.parentConnId];
+    call.state = "Completed";
+    exports.publishCallEvent(call);
+    participantAdded.number = call.originCall.participants[0].number;
+    participantAdded.role = "RoleNewParty";
+    parent.state = "Established";
+    parent.onEstablished(participantAdded, req.params.fn);
+    parent.originCall.participants[0].number = originContact.phoneNumbers[0];
+    parent.destCall.participants[0].number = originContact.phoneNumbers[0];    
+    parent.callByUserName[call.destUserName] = parent.callByUserName[parent.destUser.userName];
+    exports.publishAgentCallEvent(call.originUser.userName, parent.originCall);
+    exports.publishAgentCallEvent(call.destUser.userName, parent.originCall);
+   break;
   case "release":
   	if (!checkIfCallMonitored(req, res, call, user, 'Released', [ 'complete' ])) {
       call.state = "Released";
       reportCallState(call);
       utils.sendOkStatus(req, res);
-      exports.publishCallEvent(call);
+      if (userName !== call.destUserName && Object.keys(call.callByUserName).length > 2) {      
+          exports.publishAgentCallEvent(user.userName, call.originCall);
+          call.state = 'Established';
+          if (call.hasOwnProperty('isConference')) {
+            if (call.isConference) {
+              call.destCall.participants.splice(1,1); 
+              call.isConference = false;
+            }
+            else {
+              exports.publishAgentCallEvent(user.userName, call.originCall);
+              exports.publishAgentCallEvent(call.destUserName, call.destCall);
+            }
+          exports.publishAgentCallEvent(call.destUserName, call.destCall);
+          }
+      }
+      else {
+        if (call.isConference) {
+          const leftUserNumber = call.destCall.participants[1].number;
+          const leftUser = conf.userByDestination(leftUserNumber);
+          exports.publishAgentCallEvent(call.destUserName, call.destCall);
+          call.originCall.participants.splice(1,1);  
+          call.state = 'Established';
+          exports.publishAgentCallEvent(leftUser.userName, call.originCall);  
+          call.isConference = false;          
+        }
+        else {
+          exports.publishCallEvent(call);
+        }
+      }
+      
     }
     break;
   case "complete":
   	if (!checkIfCallMonitored(req, res, call, user, 'Completed')) {
-      agentCall.state = "Completed";
-      call.deleteCall();
+      if (!agentCall && call.callByUserName.length != 0) {
+        agentCall = call.callByUserName[0];
+        agentCall.state = "Completed";
+        call.deleteCall(agentCall.userName);
+      }
+      else{
+        agentCall.state = "Completed";
+        call.deleteCall();
+      }
       reportCallStateForAgent(userName, agentCall);
       rmm.recordInteractionComplete(userName, agentCall.id);
       utils.sendOkStatus(req, res);
@@ -875,7 +959,12 @@ class Call {
     this.callByNumber[this.destNumber] = this.destCall;
   }
 
-  deleteCall() {
+  deleteCall (userName) {
+    delete this.callByUserName[userName];
+  }
+
+  deleteCall () {
+
   	delete this.callByUserName[this.originUserName];
     delete this.callByUserName[this.destUserName];
     delete this.callByUser[this.originUser];
@@ -924,17 +1013,23 @@ class Call {
     dest.parentConnId = connId;
   }
 
-  addParticipant(participant) {
+  addParticipant(participant, callType) {
     var origin = this.originCall;
     var dest = this.destCall;
-    origin.participants.push(participant);
+    if(callType === 'single-step-conference' || callType === 'complete-conference'){
+      origin.participants.unshift(dest.participants[0]);
+    }
+    else{
+      origin.participants.push(participant);
+    }
+    
     dest.participants.push(participant);
   }
 
-  onEstablished(participant) {
+  onEstablished(participant, callType) {
   	checkIfParticipantsMonitored(this);
   	if (participant) {
-  		this.addParticipant(participant);
+  		this.addParticipant(participant, callType);
   	}
   }
 

@@ -162,9 +162,22 @@ exports.handleInteraction = (req, res) => {
     exports.handleOutboundPreviewInteraction(req, res, interaction);
   } else if (req.params.fn === 'add-attachment') {
     exports.handleAttachments(req, res);
-  } else if(req.params.media === 'email'){ 
+  } else if(req.params.fn === "transfer-agent"){
+    let originAgent = "";
+    for(dataObject of interaction.userData){
+      if(dataObject.key === "IW_RoutingBasedOriginalEmployeeId"){
+        originAgent = dataObject.value;
+      }
+    }
+    interaction.state = "Completed";
+    exports.publishInteractionEvent(originAgent, 'email', interaction)
+    interaction.state = "Processing";
+    addInteractionForAgent(req.body.data.agentId, interaction);
+    exports.publishInteractionEvent(req.body.data.agentId, 'email', interaction)
+  } else if (req.params.media === 'email') { 
     exports.handleEmailInteraction(req, res, interaction)
-  } else {
+  }
+  else {
     utils.sendFailureStatus(res, 501);
   }
 }
