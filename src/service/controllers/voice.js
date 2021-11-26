@@ -56,6 +56,7 @@ var callingListFields = utils.requireAndMonitor(
 );
 
 var calls = {};
+const transferedCalls = {};
 var recordHandle = 1;
 
 exports.initializeDnData = (user) => {
@@ -212,12 +213,13 @@ exports.handleCall = (req, res) => {
   let originContact;
   let participantAdded = {}
   if (req.params.fn === 'single-step-conference' || req.params.fn === 'complete-conference') {
-      originContact = ucs.getContact(call.userData[6]?.value) || (ucs.getContact(calls[call.originCall.parentConnId].userData[6].value));
     if (call.originCall.parentConnId) {
       calls[call.originCall.parentConnId].isConference = true;
+      originContact = ucs.getContact(calls[call.originCall.parentConnId].userData[6].value)
     }
     else {
       call.isConference = true;
+      originContact = ucs.getContact(call.userData[6].value)
     }
   }
   switch (req.params.fn) {
@@ -282,6 +284,10 @@ exports.handleCall = (req, res) => {
   case "single-step-transfer":
     const newDestination = conf.userByDestination(req.body.data.destination);
     const newDestUserName = newDestination ? newDestination.userName : null;
+    reportCallState(call);
+    rmm.recordInteractionComplete(userName, agentCall.id);
+    utils.sendOkStatus(req, res);
+    exports.publishCallEvent(call, userName);
     call.callByUserName[newDestUserName] = call.callByUserName[call.destUser.userName];
     call.state = "Released";
     exports.publishAgentCallEvent(call.destUser.userName, call.originCall);
@@ -313,9 +319,9 @@ exports.handleCall = (req, res) => {
     parent.state = "Established";
     parent.onEstablished(participantAdded, req.params.fn);
     parent.originCall.participants[0].number = originContact.phoneNumbers[0];
-    parent.destCall.participants[0].number = originContact.phoneNumbers[0];
-    exports.publishAgentCallEvent(call.originUser.userName, parent.originCall);
+    parent.destCall.participants[0].number = originContact.phoneNumbers[0];    
     parent.callByUserName[call.destUserName] = parent.callByUserName[parent.destUser.userName];
+    exports.publishAgentCallEvent(call.originUser.userName, parent.originCall);
     exports.publishAgentCallEvent(call.destUser.userName, parent.originCall);
    break;
   case "release":
@@ -323,18 +329,20 @@ exports.handleCall = (req, res) => {
       call.state = "Released";
       reportCallState(call);
       utils.sendOkStatus(req, res);
-      if (userName !== call.destUserName && Object.keys(call.callByUserName).length > 2) {
-        if (call.isConference) {
+      if (userName !== call.destUserName && Object.keys(call.callByUserName).length > 2) {      
           exports.publishAgentCallEvent(user.userName, call.originCall);
-          call.destCall.participants.splice(1,1);  
           call.state = 'Established';
+          if (call.hasOwnProperty('isConference')) {
+            if (call.isConference) {
+              call.destCall.participants.splice(1,1); 
+              call.isConference = false;
+            }
+            else {
+              exports.publishAgentCallEvent(user.userName, call.originCall);
+              exports.publishAgentCallEvent(call.destUserName, call.destCall);
+            }
           exports.publishAgentCallEvent(call.destUserName, call.destCall);
-          call.isConference = false;
-        }
-        else {
-          exports.publishAgentCallEvent(user.userName, call.originCall);
-          exports.publishAgentCallEvent(call.destUserName, call.destCall);
-        }
+          }
       }
       else {
         if (call.isConference) {
@@ -360,14 +368,14 @@ exports.handleCall = (req, res) => {
         agentCall.state = "Completed";
         call.deleteCall(agentCall.userName);
       }
-      else {
-        call.state = "Completed";
+      else{
+        agentCall.state = "Completed";
         call.deleteCall();
       }
-       exports.publishAgentCallEvent(userName, agentCall, '', req.body ? req.body.operationId : '');
-       reportCallStateForAgent(userName, agentCall);
-       rmm.recordInteractionComplete(userName, agentCall.id);
-       utils.sendOkStatus(req, res);
+      reportCallStateForAgent(userName, agentCall);
+      rmm.recordInteractionComplete(userName, agentCall.id);
+      utils.sendOkStatus(req, res);
+      exports.publishAgentCallEvent(userName, agentCall, '', req.body ? req.body.operationId : '');
     }
     break;
   case "start-recording": case "resume-recording":
@@ -951,7 +959,12 @@ class Call {
     this.callByNumber[this.destNumber] = this.destCall;
   }
 
-  deleteCall() {
+  deleteCall (userName) {
+    delete this.callByUserName[userName];
+  }
+
+  deleteCall () {
+
   	delete this.callByUserName[this.originUserName];
     delete this.callByUserName[this.destUserName];
     delete this.callByUser[this.originUser];
