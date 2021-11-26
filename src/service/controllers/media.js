@@ -174,7 +174,9 @@ exports.handleInteraction = (req, res) => {
     interaction.state = "Processing";
     addInteractionForAgent(req.body.data.agentId, interaction);
     exports.publishInteractionEvent(req.body.data.agentId, 'email', interaction)
-  } 
+  } else if (req.params.media === 'email') { 
+    exports.handleEmailInteraction(req, res, interaction)
+  }
   else {
     utils.sendFailureStatus(res, 501);
   }
