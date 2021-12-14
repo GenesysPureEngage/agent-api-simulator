@@ -187,9 +187,8 @@ exports.configurationBusinessAttributes = (req, res) => {
 
 exports.configurationBusinessAttribute = (req, res) => {
   res.set({ "Content-type": "application/json" });
-  var ba = _.find(businessAttributes, (a) => {
-		return req.params.id === a.id;
-  });
+  const searchedId = +req.params.id;
+  var ba = _.find(businessAttributes, a => searchedId === a.id);
   if (ba) {
     res.send(JSON.stringify( {
       status: {

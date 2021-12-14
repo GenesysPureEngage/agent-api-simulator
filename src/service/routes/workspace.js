@@ -183,7 +183,7 @@ router.use('/workspace/v3/configuration/business-attributes', (req, res) => {
   conf.configurationBusinessAttributes(req, res);
 });
 
-router.use('/workspace/v3/configuration/business-attributes/:id', (req, res) => {
+router.use('/workspace/v3/configuration/business-attribute/:id', (req, res) => {
   conf.configurationBusinessAttribute(req, res);
 });
 
