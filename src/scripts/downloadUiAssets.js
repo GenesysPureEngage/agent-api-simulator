@@ -54,6 +54,28 @@ async function getVersions(baseUrl) {
   return (null);
 }
 
+async function getVersionsForAzure(wweUrl, authUrl) {
+  try {
+    // get incoming wwe version
+    const wweVersion = await getVersion(wweUrl);
+    // get incoming auth ui version
+    const authVersion = await getVersion(authUrl);
+    // get local Simulator version from package.json
+    const simulatorVersion = packageJson.version;
+    console.log(' ');
+    console.log("Versions: Agent API Simulator", simulatorVersion, ", WWE", wweVersion, ", AuthUi", authVersion);
+    return {
+      simulator: simulatorVersion,
+      wwe: wweVersion,
+      authUi: authVersion
+    };
+  }
+  catch (err) {
+    console.error("ERROR:", err);
+  }
+  return (null);
+}
+
 function getCompatibilityFile() {
   // load the local compatibilities file
   function loadLocalCompatibilityFile() {
@@ -183,6 +205,48 @@ function getVersion(url) {
   }))
 }
 
+function checkUrls(baseUrl, path) {
+  console.log("Getting profile.js file from: ", baseUrl);
+  return (new Promise((resolve, reject) => {
+    request.get(baseUrl + path + 'profile.js', requestOptions, (err, data, body) => {
+      if (err) {
+        reject("profile.js file not found.");
+        return;
+      }
+      if (data.statusCode !== 200) {
+        console.log('Wrong path. Can not get the profile.js');
+       resolve('retry');
+      }
+      let profile = body;
+      resolve((profile && profile.includes('window.genesys.wwe.env.GWS_SERVICE_URL')));
+    })
+  }));
+}
+
+function getAuthURL(url) {
+  return (new Promise((resolve, reject) => {
+    console.log("Getting auth url from: ", url)
+    const redirect = url.replace('wwe-','gws.api01-');
+    return request.get(`${redirect}workspace/v3/login?type=workspace&locale=en-us&include_state=true&redirect_uri=${url}index.html`, requestOptions, (err, data) => {
+      if (err) {
+        reject("auth url not found.");
+        return;
+      }
+      if (data.statusCode !== 200) {
+        reject("Failed to get the auth url, response code: " + data.statusCode);
+        return;
+      }
+      const redirects = data.request._redirect.redirects;
+      if(!redirects.length) {
+        reject('Error: no url from redirect');
+      }
+      else {
+        resolve(redirects[redirects.length-1].redirectUri);
+      }
+    })
+  }))
+}
+
 function checkVersion(version, compatibilityVersion) {
   const versionsSplitted = version.split('.');
   const compatibilityVersionSplitted = compatibilityVersion.split('.');
@@ -306,6 +370,8 @@ function getFile(url, toFile) {
 async function main() {
   // get the user's input
   let url;
+  let authUrl;
+  let wweUrl;
   // if the url is not specified in the arguments
   // ask it
   if (process.argv.length <= 2) {
@@ -322,12 +388,32 @@ async function main() {
   console.log("Downloading from", url);
 
   try {
-    // Check versions compatibility
-    await exports.checkCompatibility(await getVersions(url), url);
-    // Get Workspace Web Edition archive
-    await getArchive(url + 'ui/wwe/', './ui-assets/wwe');
-    // Get GWS Auth UI archive
-    await getArchive(url + 'ui/auth/', './ui-assets/auth');
+    let isAzurePlatform;   
+    isAzurePlatform = await checkUrls(url);
+    console.log('result profile', isAzurePlatform);
+    if(isAzurePlatform === 'retry') {
+      isAzurePlatform = await checkUrls(url, 'ui/wwe/');
+      console.log('result profile 2', isAzurePlatform);
+    }
+    if (isAzurePlatform) {
+      authUrl = await getAuthURL(url);
+      authUrl = authUrl.substr(0, authUrl.lastIndexOf('/')+1);
+      wweUrl = url;
+      await exports.checkCompatibility(await getVersionsForAzure(wweUrl, authUrl), url);
+      await getArchive(wweUrl, './ui-assets/wwe');
+      await getArchive(authUrl, './ui-assets/auth');
+    }
+    else {
+      console.log('You are here');
+      // Check versions compatibility
+      await exports.checkCompatibility(await getVersions(url), url);
+      // Get Workspace Web Edition archive
+      await getArchive(url + 'ui/wwe/', './ui-assets/wwe');
+      // Get GWS Auth UI archive
+      await getArchive(url + 'ui/auth/', './ui-assets/auth');
+    }
+
+
     // Get SCAPI samples from workspace-development-kit Github repository
     const scapiSampleDir = packageJson['workspace-development-kit']['scapi-samples']['dir'];
     const scapiSampleFiles = packageJson['workspace-development-kit']['scapi-samples']['files'];
