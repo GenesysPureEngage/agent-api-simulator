@@ -205,8 +205,8 @@ function getVersion(url) {
   }))
 }
 
-function checkUrls(baseUrl, path) {
-  console.log("Getting profile.js file from: ", baseUrl);
+function checkUrls(baseUrl, path = '') {
+  console.log("Getting profile.js file from: ", baseUrl + path);
   return (new Promise((resolve, reject) => {
     request.get(baseUrl + path + 'profile.js', requestOptions, (err, data, body) => {
       if (err) {
@@ -215,19 +215,18 @@ function checkUrls(baseUrl, path) {
       }
       if (data.statusCode !== 200) {
         console.log('Wrong path. Can not get the profile.js');
-       resolve('retry');
+        resolve('retry');
       }
-      let profile = body;
+      const profile = body;
       resolve((profile && profile.includes('window.genesys.wwe.env.GWS_SERVICE_URL')));
     })
   }));
 }
 
-function getAuthURL(url) {
+function getGwsApiUri(baseUrl) {
   return (new Promise((resolve, reject) => {
-    console.log("Getting auth url from: ", url)
-    const redirect = url.replace('wwe-','gws.api01-');
-    return request.get(`${redirect}workspace/v3/login?type=workspace&locale=en-us&include_state=true&redirect_uri=${url}index.html`, requestOptions, (err, data) => {
+    console.log("Getting auth url from: ", baseUrl)
+    return request.get(baseUrl +'profile.js', requestOptions, (err, data, body) => {
       if (err) {
         reject("auth url not found.");
         return;
@@ -236,13 +235,29 @@ function getAuthURL(url) {
         reject("Failed to get the auth url, response code: " + data.statusCode);
         return;
       }
-      const redirects = data.request._redirect.redirects;
-      if(!redirects.length) {
-        reject('Error: no url from redirect');
+      const profile = body;
+      const capturingGroupsRegex = /window.genesys.wwe.env.EXPRESSION_WWE_URL_CAPTURING_GROUPS(_[0-9]+)*='/g;
+      const serviceUrlRegex = /window.genesys.wwe.env.GWS_SERVICE_URL(_[0-9]+)*='/g;
+      const wweMasks = profile.match(capturingGroupsRegex);
+      const authMasks = profile.match(serviceUrlRegex);
+      let gwsApiUri;
+      for(let i = 0; i < wweMasks.length; i++) {
+        const startIndex = profile.indexOf(wweMasks[i]) + wweMasks[i].length;
+        const endIndex = profile.indexOf("'", startIndex);
+        const wweUriMask = profile.substring(startIndex, endIndex);
+        const startIndexAuth = profile.indexOf(authMasks[i]) + authMasks[i].length;
+        const endIndexAuth = profile.indexOf("'", startIndexAuth);
+        gwsApiUri = profile.substring(startIndexAuth, endIndexAuth);
+        const regex2 = new RegExp(wweUriMask);
+        const hostData = regex2.exec(baseUrl);
+        if (hostData && hostData.length > 2) {
+          gwsApiUri = gwsApiUri.replace('$WWE_URL_GROUP_1$', hostData[1]);
+          gwsApiUri = gwsApiUri.replace('$WWE_URL_GROUP_2$', hostData[2]);
+          break;
+        }
       }
-      else {
-        resolve(redirects[redirects.length-1].redirectUri);
-      }
+      resolve(gwsApiUri);
+      
     })
   }))
 }
@@ -390,21 +405,17 @@ async function main() {
   try {
     let isAzurePlatform;   
     isAzurePlatform = await checkUrls(url);
-    console.log('result profile', isAzurePlatform);
     if(isAzurePlatform === 'retry') {
       isAzurePlatform = await checkUrls(url, 'ui/wwe/');
-      console.log('result profile 2', isAzurePlatform);
     }
-    if (isAzurePlatform) {
-      authUrl = await getAuthURL(url);
-      authUrl = authUrl.substr(0, authUrl.lastIndexOf('/')+1);
+    if (isAzurePlatform === true) {
+      authUrl = await getGwsApiUri(url)+'/ui/auth/';
       wweUrl = url;
       await exports.checkCompatibility(await getVersionsForAzure(wweUrl, authUrl), url);
       await getArchive(wweUrl, './ui-assets/wwe');
       await getArchive(authUrl, './ui-assets/auth');
     }
     else {
-      console.log('You are here');
       // Check versions compatibility
       await exports.checkCompatibility(await getVersions(url), url);
       // Get Workspace Web Edition archive
