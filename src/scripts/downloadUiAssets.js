@@ -225,7 +225,7 @@ function checkUrls(baseUrl, path = '') {
 
 function getGwsApiUri(baseUrl) {
   return (new Promise((resolve, reject) => {
-    console.log("Getting auth url from: ", baseUrl)
+    console.log("Getting GWS url from: ", baseUrl)
     return request.get(baseUrl +'profile.js', requestOptions, (err, data, body) => {
       if (err) {
         reject("auth url not found.");
@@ -261,6 +261,22 @@ function getGwsApiUri(baseUrl) {
     })
   }))
 }
+function getAuthURL(gws, url) {
+  return (new Promise((resolve, reject) => {
+    console.log("Getting auth url from: ", gws);
+    return request.get(`${gws}/workspace/v3/login?type=workspace&locale=en-us&include_state=true&redirect_uri=${url}index.html`, requestOptions, (err, data) => {
+    const redirects = data.request._redirect.redirects;
+    if(!redirects.length) {
+      reject('Error: no url from redirect');
+    }
+    else {
+      const authURI = redirects[redirects.length-1].redirectUri.substring(0, redirects[redirects.length-1].redirectUri.indexOf('sign-in.html'));
+      resolve(authURI);
+    }
+  })
+  }))
+}
+
 
 function checkVersion(version, compatibilityVersion) {
   const versionsSplitted = version.split('.');
@@ -385,6 +401,7 @@ function getFile(url, toFile) {
 async function main() {
   // get the user's input
   let url;
+  let gwsUrl;
   let authUrl;
   let wweUrl;
   // if the url is not specified in the arguments
@@ -403,13 +420,14 @@ async function main() {
   console.log("Downloading from", url);
 
   try {
-    let isAzurePlatform;   
-    isAzurePlatform = await checkUrls(url);
-    if(isAzurePlatform === 'retry') {
-      isAzurePlatform = await checkUrls(url, 'ui/wwe/');
+    let isSeparatedUIAndServicePlatform;   
+    isSeparatedUIAndServicePlatform = await checkUrls(url);
+    if(isSeparatedUIAndServicePlatform === 'retry') {
+      isSeparatedUIAndServicePlatform= await checkUrls(url, 'ui/wwe/');
     }
-    if (isAzurePlatform === true) {
-      authUrl = await getGwsApiUri(url)+'/ui/auth/';
+    if (isSeparatedUIAndServicePlatform === true) {
+      gwsUrl = await getGwsApiUri(url);
+      authUrl = await getAuthURL(gwsUrl, url);
       wweUrl = url;
       await exports.checkCompatibility(await getVersionsForAzure(wweUrl, authUrl), url);
       await getArchive(wweUrl, './ui-assets/wwe');
