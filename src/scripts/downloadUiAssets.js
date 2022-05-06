@@ -54,6 +54,28 @@ async function getVersions(baseUrl) {
   return (null);
 }
 
+async function getVersionsForSeparatedUIAndServicePlatform(wweUrl, authUrl) {
+  try {
+    // get incoming wwe version
+    const wweVersion = await getVersion(wweUrl);
+    // get incoming auth ui version
+    const authVersion = await getVersion(authUrl);
+    // get local Simulator version from package.json
+    const simulatorVersion = packageJson.version;
+    console.log(' ');
+    console.log("Versions: Agent API Simulator", simulatorVersion, ", WWE", wweVersion, ", AuthUi", authVersion);
+    return {
+      simulator: simulatorVersion,
+      wwe: wweVersion,
+      authUi: authVersion
+    };
+  }
+  catch (err) {
+    console.error("ERROR:", err);
+  }
+  return (null);
+}
+
 function getCompatibilityFile() {
   // load the local compatibilities file
   function loadLocalCompatibilityFile() {
@@ -183,6 +205,79 @@ function getVersion(url) {
   }))
 }
 
+function checkUrls(baseUrl, path = '') {
+  console.log("Getting profile.js file from: ", baseUrl + path);
+  return (new Promise((resolve, reject) => {
+    request.get(baseUrl + path + 'profile.js', requestOptions, (err, data, body) => {
+      if (err) {
+        reject("profile.js file not found.");
+        return;
+      }
+      if (data.statusCode !== 200) {
+        console.log('Wrong path. Can not get the profile.js');
+        resolve('retry');
+      }
+      const profile = body;
+      resolve((profile && profile.includes('window.genesys.wwe.env.GWS_SERVICE_URL')));
+    })
+  }));
+}
+
+function getGwsApiUri(baseUrl) {
+  return (new Promise((resolve, reject) => {
+    console.log("Getting GWS url from: ", baseUrl)
+    return request.get(baseUrl +'profile.js', requestOptions, (err, data, body) => {
+      if (err) {
+        reject("auth url not found.");
+        return;
+      }
+      if (data.statusCode !== 200) {
+        reject("Failed to get the auth url, response code: " + data.statusCode);
+        return;
+      }
+      const profile = body;
+      const capturingGroupsRegex = /window.genesys.wwe.env.EXPRESSION_WWE_URL_CAPTURING_GROUPS(_[0-9]+)*='/g;
+      const serviceUrlRegex = /window.genesys.wwe.env.GWS_SERVICE_URL(_[0-9]+)*='/g;
+      const wweMasks = profile.match(capturingGroupsRegex);
+      const authMasks = profile.match(serviceUrlRegex);
+      let gwsApiUri;
+      for(let i = 0; i < wweMasks.length; i++) {
+        const startIndex = profile.indexOf(wweMasks[i]) + wweMasks[i].length;
+        const endIndex = profile.indexOf("'", startIndex);
+        const wweUriMask = profile.substring(startIndex, endIndex);
+        const startIndexAuth = profile.indexOf(authMasks[i]) + authMasks[i].length;
+        const endIndexAuth = profile.indexOf("'", startIndexAuth);
+        gwsApiUri = profile.substring(startIndexAuth, endIndexAuth);
+        const regex2 = new RegExp(wweUriMask);
+        const hostData = regex2.exec(baseUrl);
+        if (hostData && hostData.length > 2) {
+          gwsApiUri = gwsApiUri.replace('$WWE_URL_GROUP_1$', hostData[1]);
+          gwsApiUri = gwsApiUri.replace('$WWE_URL_GROUP_2$', hostData[2]);
+          break;
+        }
+      }
+      resolve(gwsApiUri);
+      
+    })
+  }))
+}
+function getAuthURL(gws, url) {
+  return (new Promise((resolve, reject) => {
+    console.log("Getting auth url from: ", gws);
+    return request.get(`${gws}/workspace/v3/login?type=workspace&locale=en-us&include_state=true&redirect_uri=${url}index.html`, requestOptions, (err, data) => {
+    const redirects = data.request._redirect.redirects;
+    if(!redirects.length) {
+      reject('Error: no url from redirect');
+    }
+    else {
+      const authURI = redirects[redirects.length-1].redirectUri.substring(0, redirects[redirects.length-1].redirectUri.indexOf('sign-in.html'));
+      resolve(authURI);
+    }
+  })
+  }))
+}
+
+
 function checkVersion(version, compatibilityVersion) {
   const versionsSplitted = version.split('.');
   const compatibilityVersionSplitted = compatibilityVersion.split('.');
@@ -306,6 +401,9 @@ function getFile(url, toFile) {
 async function main() {
   // get the user's input
   let url;
+  let gwsUrl;
+  let authUrl;
+  let wweUrl;
   // if the url is not specified in the arguments
   // ask it
   if (process.argv.length <= 2) {
@@ -322,12 +420,29 @@ async function main() {
   console.log("Downloading from", url);
 
   try {
-    // Check versions compatibility
-    await exports.checkCompatibility(await getVersions(url), url);
-    // Get Workspace Web Edition archive
-    await getArchive(url + 'ui/wwe/', './ui-assets/wwe');
-    // Get GWS Auth UI archive
-    await getArchive(url + 'ui/auth/', './ui-assets/auth');
+    let isSeparatedUIAndServicePlatform;   
+    isSeparatedUIAndServicePlatform = await checkUrls(url);
+    if(isSeparatedUIAndServicePlatform === 'retry') {
+      isSeparatedUIAndServicePlatform= await checkUrls(url, 'ui/wwe/');
+    }
+    if (isSeparatedUIAndServicePlatform === true) {
+      gwsUrl = await getGwsApiUri(url);
+      authUrl = await getAuthURL(gwsUrl, url);
+      wweUrl = url;
+      await exports.checkCompatibility(await getVersionsForSeparatedUIAndServicePlatform(wweUrl, authUrl), url);
+      await getArchive(wweUrl, './ui-assets/wwe');
+      await getArchive(authUrl, './ui-assets/auth');
+    }
+    else {
+      // Check versions compatibility
+      await exports.checkCompatibility(await getVersions(url), url);
+      // Get Workspace Web Edition archive
+      await getArchive(url + 'ui/wwe/', './ui-assets/wwe');
+      // Get GWS Auth UI archive
+      await getArchive(url + 'ui/auth/', './ui-assets/auth');
+    }
+
+
     // Get SCAPI samples from workspace-development-kit Github repository
     const scapiSampleDir = packageJson['workspace-development-kit']['scapi-samples']['dir'];
     const scapiSampleFiles = packageJson['workspace-development-kit']['scapi-samples']['files'];
