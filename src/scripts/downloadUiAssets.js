@@ -54,7 +54,7 @@ async function getVersions(baseUrl) {
   return (null);
 }
 
-async function getVersionsForAzure(wweUrl, authUrl) {
+async function getVersionsForSeparatedUIAndServicePlatform(wweUrl, authUrl) {
   try {
     // get incoming wwe version
     const wweVersion = await getVersion(wweUrl);
@@ -429,7 +429,7 @@ async function main() {
       gwsUrl = await getGwsApiUri(url);
       authUrl = await getAuthURL(gwsUrl, url);
       wweUrl = url;
-      await exports.checkCompatibility(await getVersionsForAzure(wweUrl, authUrl), url);
+      await exports.checkCompatibility(await getVersionsForSeparatedUIAndServicePlatform(wweUrl, authUrl), url);
       await getArchive(wweUrl, './ui-assets/wwe');
       await getArchive(authUrl, './ui-assets/auth');
     }
