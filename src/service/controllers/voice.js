@@ -293,7 +293,7 @@ exports.handleCall = (req, res) => {
     exports.publishAgentCallEvent(call.destUser.userName, call.originCall);
     call.destUser = newDestination;
     call.destUserName = newDestUserName;
-    call.state = "Established";
+    call.state = "Ringing";
     transferedCalls[call.id] = {};
     Object.assign(transferedCalls[call.id], agentCall);
     exports.publishAgentCallEvent(newDestUserName, call.originCall);
