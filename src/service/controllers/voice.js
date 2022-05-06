@@ -363,13 +363,13 @@ exports.handleCall = (req, res) => {
     break;
   case "complete":
   	if (!checkIfCallMonitored(req, res, call, user, 'Completed')) {
-      if (!agentCall && call.callByUserName.length != 0) {
-        agentCall = call.callByUserName[0];
+      if (!agentCall || Object.keys(call.callByUserName).length != 0) {
+        agentCall = call.callByUserName[userName];
         agentCall.state = "Completed";
-        call.deleteCall(agentCall.userName);
+        call.deleteCall(user);
       }
       else{
-        agentCall.state = "Completed";
+        call.state = 'Completed';
         call.deleteCall();
       }
       reportCallStateForAgent(userName, agentCall);
@@ -959,18 +959,21 @@ class Call {
     this.callByNumber[this.destNumber] = this.destCall;
   }
 
-  deleteCall (userName) {
-    delete this.callByUserName[userName];
-  }
 
-  deleteCall () {
-
-  	delete this.callByUserName[this.originUserName];
-    delete this.callByUserName[this.destUserName];
-    delete this.callByUser[this.originUser];
-    delete this.callByUser[this.destUser];
-    delete this.callByNumber[this.originNumber];
-    delete this.callByNumber[this.destNumber];
+  deleteCall (user) {
+    if (user) {
+      delete this.callByUserName[user.userName];
+      delete this.callByUser[user];
+      delete this.callByNumber[user.agentLogin];
+    }
+    else {
+      delete this.callByUserName[this.originUserName];
+      delete this.callByUserName[this.destUserName];
+      delete this.callByUser[this.originUser];
+      delete this.callByUser[this.destUser];
+      delete this.callByNumber[this.originNumber];
+      delete this.callByNumber[this.destNumber];
+    }
   }
 
   getCallByUserName(userName) {
