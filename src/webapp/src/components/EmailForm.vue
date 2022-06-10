@@ -11,11 +11,10 @@
     </div>
     <div>
       <label>From : </label>
-      <input
-        v-model="from"
-        type="email"
-        placeholder="From"
-      >
+        <select v-model="from">
+          <option v-for="(contact) in contacts" :value="contact.email"
+          :key="contact.name">{{contact.name}}</option>
+        </select>
     </div>
     <textarea
       v-model="content"
@@ -32,6 +31,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: "EmailForm",
@@ -45,6 +45,11 @@ export default {
       from: "genesys@mail.dom"
     };
   },
+      computed:{
+      ...mapGetters([
+        'contactEmail', 'contacts'
+      ])
+    },
   methods: {
     createEmail() {
       axios

@@ -28,6 +28,8 @@ new Vue({
     this.$store.dispatch('loadToolkitSampleStatus')
     // load the session a first time (if there is a session change, we will know by cometd)
     this.$store.dispatch('loadSessions')
+
+    this.$store.dispatch('loadContacts');
     // init cometd
     this.$store.dispatch('initCometD', 'https://localhost:7777/simulator/notifications')
   },
