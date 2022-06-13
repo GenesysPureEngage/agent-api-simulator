@@ -75,7 +75,7 @@ router.get('/sim/monitor/get-sessions', (req, res) => {
   res.send(messaging.getSessions());
 });
 
-router.get('/sim/monitor/get-contacts', (req, res) =>{
+router.get('/sim/monitor/get-contacts', (req, res) => {
   res.send(contacts);
 })
 

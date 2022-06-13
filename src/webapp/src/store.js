@@ -8,7 +8,6 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 import axios from 'axios'
 import * as CometD from 'cometd'
-//import * as utils from '../../service/common/utils'
 
 
 function buildInteractionsList({ commit, state, dispatch }, data) {

@@ -11,8 +11,6 @@ const messaging = require("./messaging");
 const rmm = require("../common/rmm");
 const reporting = require("./reporting");
 const utils = require("../common/utils");
-const { isUndefined, object } = require("underscore");
-const { handleInteractionDeleteUserdata } = require("./media");
 const ucs = require("../controllers/ucs");
 
 var attachedData = utils.requireAndMonitor(

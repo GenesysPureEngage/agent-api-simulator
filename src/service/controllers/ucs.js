@@ -268,7 +268,6 @@ retrieveContactHistory = (req, res) => {
 identifyContact = (req, res) => {
 	utils.sendOkStatus(req, res);
 	let interaction = voice.getCallById(req.params.id);
-	
 	let contactId;
 	if(interaction) {
 		for(let i = 0; i < contacts.length; i++) {
@@ -277,7 +276,6 @@ identifyContact = (req, res) => {
 			}
 		}
 	}
-
 	else {
 		interaction = media.getInteraction(req.params.id);
 		for(let i = 0; i < contacts.length; i++) {

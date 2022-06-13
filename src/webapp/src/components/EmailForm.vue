@@ -12,8 +12,11 @@
     <div>
       <label>From : </label>
         <select v-model="from">
-          <option v-for="(contact) in contacts" :value="contact.email"
-          :key="contact.name">{{contact.name}}</option>
+          <option v-for="(contact) in contacts" 
+            :value="contact.email"
+            :key="contact.name">
+           {{contact.name}}
+          </option>
         </select>
     </div>
     <textarea
@@ -47,7 +50,8 @@ export default {
   },
       computed:{
       ...mapGetters([
-        'contactEmail', 'contacts'
+        'contactEmail', 
+        'contacts'
       ])
     },
   methods: {
