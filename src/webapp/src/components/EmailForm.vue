@@ -11,13 +11,15 @@
     </div>
     <div>
       <label>From : </label>
-        <select v-model="from">
-          <option v-for="(contact) in contacts" 
-            :value="contact.email"
-            :key="contact.name">
-           {{contact.name}}
-          </option>
-        </select>
+      <select v-model="from">
+        <option 
+          v-for="(contact) in contacts"
+          :key="contact.name"
+          :value="contact.email"
+          >
+          {{ contact.name }}
+        </option>
+      </select>
     </div>
     <textarea
       v-model="content"
