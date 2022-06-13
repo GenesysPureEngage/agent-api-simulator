@@ -3,10 +3,13 @@
     <div class="actions">
       <label>Caller : </label>
       <select v-model="selectedContact">
-        <option v-for="(contact) in contacts" 
-          :value="contact.phoneNumber"
-          :key="contact.name">
-          {{contact.name}}
+        <option 
+          v-for="(contact) in contacts" 
+                :key="contact.name"
+                :value="contact.phoneNumber"
+                
+                >
+          {{ contact.name }}
         </option>
       </select>
       <button
