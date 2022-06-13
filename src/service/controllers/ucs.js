@@ -8,6 +8,7 @@ const conf = require('./conf');
 const media = require('./media');
 const messaging = require('./messaging');
 const utils = require('../common/utils');
+const voice = require('./voice');
 
 let luceneIndexes = utils.requireAndMonitor('../../../data/ucs/lucene-indexes.yaml', (updated) => { luceneIndexes = updated; });
 let standardResponsesRoot = utils.requireAndMonitor('../../../data/ucs/standard-responses-root.yaml', updated => { standardResponsesRoot = updated });
@@ -266,8 +267,23 @@ retrieveContactHistory = (req, res) => {
 
 identifyContact = (req, res) => {
 	utils.sendOkStatus(req, res);
-	const randomContactIndex = Math.floor(Math.random() * contacts.length);
-	const contactId = contacts[randomContactIndex].id;
+	let interaction = voice.getCallById(req.params.id);
+	let contactId;
+	if(interaction) {
+		for(let i = 0; i < contacts.length; i++) {
+			if(contacts[i].phoneNumbers.some(elem => elem === interaction.originNumber)) {
+				contactId = contacts[i].id;
+			}
+		}
+	}
+	else {
+		interaction = media.getInteraction(req.params.id);
+		for(let i = 0; i < contacts.length; i++) {
+			if(contacts[i].emailAddresses.some(elem => elem === interaction.email.from)) {
+				contactId = contacts[i].id;
+			}
+		}
+	}
 	this.publishUcsEvent(req, 'EventIdentifiedContact', {
 		contactId: contactId,
 		contactIds: [ contactId ],

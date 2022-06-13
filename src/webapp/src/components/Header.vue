@@ -62,6 +62,7 @@ export default {
   },
   computed: {
     ...mapGetters(["sessions", "isToolkitSampleSet"]),
+
     selectedSession: {
       set(val) {
         // change the selected session
@@ -70,7 +71,9 @@ export default {
       get() {
         return this.$store.getters.selectedSession;
       }
-    }
+      
+    },
+
   },
   methods: {
     openWorkspace() {

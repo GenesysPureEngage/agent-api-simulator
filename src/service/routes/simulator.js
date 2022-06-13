@@ -15,6 +15,7 @@ const notifications = require('../common/notifications');
 
 // get agent groups
 var agentGroups = utils.requireAndMonitor('../../../data/agent-groups.yaml', (updated) => { agentGroups = updated; });
+const contacts = utils.requireAndMonitor('../../../data/ucs/contacts.yaml');
 
 // access workspace
 router.get('/sim/workspace-ui', (req, res) => {
@@ -73,6 +74,10 @@ router.post('/sim/manage/workitem/create-workitem', (req, res) => {
 router.get('/sim/monitor/get-sessions', (req, res) => {
   res.send(messaging.getSessions());
 });
+
+router.get('/sim/monitor/get-contacts', (req, res) => {
+  res.send(contacts);
+})
 
 // get session interactions
 router.get('/sim/monitor/get-interactions', (req, res) => {

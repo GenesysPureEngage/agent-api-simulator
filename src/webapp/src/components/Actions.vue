@@ -1,11 +1,21 @@
 <template>
   <section>
     <div class="actions">
+      <label>Caller : </label>
+      <select v-model="selectedContact">
+        <option 
+          v-for="(contact) in contacts" 
+          :key="contact.name"
+          :value="contact.phoneNumber"
+        >
+          {{ contact.name }}
+        </option>
+      </select>
       <button
         id="new-inbound-call"
         :disabled="!selectedSession"
         type="button"
-        @click="() => createCall('Inbound', '+332980255555')"
+        @click="() => createCall('Inbound', contactNumber)"
       >
         New inbound call
       </button>
@@ -55,6 +65,8 @@ import axios from 'axios'
 import {mapGetters} from 'vuex'
 import EmailForm from './EmailForm'
 
+
+
 export default {
     name: 'Actions',
     components:{
@@ -68,8 +80,21 @@ export default {
     computed:{
       ...mapGetters([
         'selectedSession',
-        'defaultAttachedData'
-      ])
+        'contactNumber',
+        'defaultAttachedData',
+        'contacts'
+      ]),
+      selectedContact: {
+        set(val) {
+        // change the selected session
+        
+        this.$store.dispatch("changeContactNumber", val);
+        },
+        get() {
+         return this.$store.getters.contactNumber;
+      }
+      
+    }
     },
     methods:{
       createCall(callType, orig) {
@@ -77,7 +102,8 @@ export default {
           agent: this.selectedSession,
           callType: callType,
           orig: orig,
-          defaultAttachedData: this.defaultAttachedData
+          defaultAttachedData: this.defaultAttachedData,
+          callNumber: 'orig'
         }).then(() => {
           this.$snotify.success(null, 'Call sent', {timeout: 2000});
         }).catch((err) => {

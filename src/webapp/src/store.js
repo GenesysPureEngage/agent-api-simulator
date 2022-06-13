@@ -26,9 +26,13 @@ function buildInteractionsList({ commit, state, dispatch }, data) {
 Vue.use(Vuex)
 // Set the store
 export default new Vuex.Store({
+  
   state: {
     sessions: [],
+    contacts: [],
     selectedSession: null,
+    contactNumber: null,
+    contactEmail: null,
     isToolkitSampleSet: false,
     cometd: null,
     cometdSubscriptions: {
@@ -46,11 +50,20 @@ export default new Vuex.Store({
     sessions(state) {
       return (state.sessions)
     },
+    contacts(state) {
+      return (state.contacts)
+    },
     isToolkitSampleSet(state) {
       return (state.isToolkitSampleSet)
     },
     selectedSession(state) {
       return (state.selectedSession)
+    },
+    contactNumber(state) {
+      return(state.contactNumber)
+    },
+    contactEmail(state) {
+      return(state.contactEmail)
     },
     cometd(state) {
       return (state.cometd)
@@ -75,12 +88,23 @@ export default new Vuex.Store({
     setSelectedSession(state, session) {
       state.selectedSession = session
     },
+    setContactNumber(state, contactNumber) {
+      state.contactNumber = contactNumber
+    },
+    setContactEmail(state, contactEmail) {
+      state.contactEmail = contactEmail
+    },
     setIsToolkitSampleSet(state, status) {
       state.isToolkitSampleSet = status
     },
     setSessions(state, users) {
       // add the session
       state.sessions = users.map(user => { return ({ name: user }) })
+    },
+    setContacts(state, users) {
+      state.contacts = users.map(user => {return ({name:user.firstName + ' ' + user.lastName, 
+        phoneNumber: user.phoneNumbers[0],
+        email: user.emailAddresses[0]})});
     },
     setCometd(state, cometd) {
       state.cometd = cometd
@@ -135,6 +159,12 @@ export default new Vuex.Store({
       // set a callback using cometd to get the future interactions
       state.cometdSubscriptions.agentInteractions = state.cometd.subscribe(`/interactions/${session}`,
         (m) => buildInteractionsList({ state: state, commit: commit, dispatch: dispatch }, m.data));
+    },
+    async changeContactNumber({ state, commit, dispatch }, contactNumber) {
+      commit('setContactNumber', contactNumber)
+    },
+    async changeContactEmail({ state, commit, dispatch }, email) {
+      commit('setContactEmail', email)
     },
     selectInteraction({ state, getters, commit }, interaction) {
       commit('setSelectedInteraction', interaction)
@@ -205,6 +235,16 @@ export default new Vuex.Store({
         }
       }).catch((err) => {
         // eslint-disable-next-line no-console
+        console.error(err)
+      })
+    },
+    loadContacts({commit, dispatch, getters}) {
+      axios.get('/sim/monitor/get-contacts').then((response) => {
+        commit('setContacts', response.data)
+        if (response.data.length > 0 && !getters.contactNumber) {
+          dispatch('changeContactNumber', response.data[0])
+        }
+      }).catch((err) => {
         console.error(err)
       })
     },
