@@ -35,7 +35,7 @@ exports.handle = (req, res) => {
 exports.getCurrentSession = (req, res) => {
 	var userName = auth.userByCode(req);
 	if (userName) {
-		var session = sessions[userName];
+		var session = sessions[userName] && sessions[userName].length && sessions[userName][0];
 		var configuration = conf.conf(userName);
 		var user = conf.userByName(userName);
 
@@ -75,21 +75,23 @@ exports.getSessions = (req, res) => {
 
 exports.publish = (req, channel, msg) => {
 	var userName = _.isString(req) ? req : auth.userByCode(req);
-	var session = sessions[userName];
-	if (session) {
-		publish2(session, channel, msg);
-	}else{
-    log.error("Publish failed, session not found for user", userName)
-  }
+	sessions[userName].forEach(session => {
+		if (session) {
+			publish2(session, channel, msg);
+		}else{
+			log.error("Publish failed, session not found for user", userName)
+		  }
+	})
 }
 
 exports.publishToUserNameSession = (userName, channel, msg) => {
-	var session = sessions[userName];
-	if (session) {
-		publish2(session, channel, msg);
-	}else{
-    log.error("Publish failed, session not found for user", userName)
-  }
+	sessions[userName].forEach(session => {
+		if (session) {
+			publish2(session, channel, msg);
+		}else{
+		log.error("Publish failed, session not found for user", userName)
+	  }
+	})
 }
 
 publish2 = (session, channel, msg) => {
@@ -158,7 +160,10 @@ sessionAdded = (session, timeout) => {
 	var req = cometdServer.context.request;
 	var userName = auth.userByCode(req, req.cookies.WWE_CODE);
 	if (userName) {
-    sessions[userName] = session;
+		if(!sessions[userName]) {
+			sessions[userName] = [];
+		}
+	sessions[userName].push(session);
     var configuration = conf.conf(userName);
     var user = conf.userByName(userName);
     var userForInitializeMsg = conf.flattenKVListDataIfOptimizeConfig(req, user);
