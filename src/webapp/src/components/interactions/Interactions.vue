@@ -6,19 +6,6 @@
         id="current-interaction-control"
         class="container"
       >
-        <h4>
-          <button
-            type="button"
-            @click="showInteractionUserData = !showInteractionUserData"
-          >
-            <span v-if="showInteractionUserData">
-              Show Interaction Details
-            </span>
-            <span v-else>
-              Show Interaction Data
-            </span>
-          </button>
-        </h4>
         <select
           id="interaction-list"
           v-model="selectedInteraction"
