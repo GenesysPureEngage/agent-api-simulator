@@ -6,20 +6,6 @@
         id="current-interaction-control"
         class="container"
       >
-      <!--Temporaly unsude code due to not supported chat functionality -->
-        <!-- <h4>
-          <button
-            type="button"
-            @click="showInteractionUserData = !showInteractionUserData"
-          >
-            <span v-if="showInteractionUserData">
-              Show Interaction Details
-            </span>
-            <span v-else>
-              Show Interaction Data
-            </span>
-          </button>
-        </h4> -->
         <select
           id="interaction-list"
           v-model="selectedInteraction"
@@ -54,10 +40,6 @@
         </ul>
         <div class="panel panel-info" />
       </div>
-      <InteractionDetails
-        v-else-if="!showInteractionUserData"
-        class="interaction-details"
-      />
       <DefaultInteractionData v-if="!selectedInteraction" />
     </div>
   </section>
@@ -67,7 +49,6 @@
 import { mapGetters } from "vuex";
 import axios from "axios";
 import InteractionData from "./InteractionData";
-import InteractionDetails from "./interactionDetails.vue/InteractionDetails";
 import AddInteraction from "./AddInteraction";
 import DefaultInteractionData from "./DefaultInteractionData";
 
@@ -75,7 +56,6 @@ export default {
   name: "Interactions",
   components: {
     InteractionData,
-    InteractionDetails,
     AddInteraction,
     DefaultInteractionData
   },
