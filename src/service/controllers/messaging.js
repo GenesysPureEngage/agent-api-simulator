@@ -23,6 +23,7 @@ if (config.protocol === 'https') {
 const cometdServer = cometd.createCometDServer(cometdOptions);
 
 var sessions = {}; // user name -> session
+const secondaryTabsSessions = {}; //object with arrays of sessions to support multi-tabs
 
 exports.start = () => {
 	cometdServer.addListener('sessionAdded', sessionAdded);
@@ -73,32 +74,47 @@ exports.getSessions = (req, res) => {
 	return _.keys(sessions);
 }
 
+
 exports.publish = (req, channel, msg) => {
 	var userName = _.isString(req) ? req : auth.userByCode(req);
-	sessions[userName].forEach(session => {
-		if (session) {
-			publish2(session, channel, msg);
-		}else{
-			log.error("Publish failed, session not found for user", userName)
-		  }
-	})
+	var session = sessions[userName];
+	if (session) {
+		publish2(session, channel, msg);
+	}else{
+    log.error("Publish failed, session not found for user", userName)
+  }
+  	publishToSecondaryTabs(userName, channel, msg);
 }
 
 exports.publishToUserNameSession = (userName, channel, msg) => {
-	sessions[userName].forEach(session => {
-		if (session) {
-			publish2(session, channel, msg);
-		}else{
-		log.error("Publish failed, session not found for user", userName)
+	var session = sessions[userName];
+	if (session) {
+		publish2(session, channel, msg);
+	}else{
+    log.error("Publish failed, session not found for user", userName)
+  }
+  	publishToSecondaryTabs(userName, channel, msg);
+}
+
+publishToSecondaryTabs = (userName, channel, msg) => {
+	if(secondaryTabsSessions[userName]) {
+		secondaryTabsSessions[userName].forEach(session => {
+			if (session) {
+				publish2(session, channel, msg);
+			}else{
+				log.error("Publish failed, session not found for user", userName)
+			  }
+		})
 	  }
-	})
 }
 
 publish2 = (session, channel, msg) => {
 	if (session) {
 		session.deliver(null, channel, msg);
 	}
+	
 }
+
 
 publishWorkspaceInitializationProgress = (session, percentComplete, user, configuration) => {
 	var msg = {
@@ -160,10 +176,13 @@ sessionAdded = (session, timeout) => {
 	var req = cometdServer.context.request;
 	var userName = auth.userByCode(req, req.cookies.WWE_CODE);
 	if (userName) {
-		if(!sessions[userName]) {
-			sessions[userName] = [];
+		if (sessions[userName]) {
+			if (!secondaryTabsSessions[userName]) {					
+				secondaryTabsSessions[userName] = [];
+			}
+			secondaryTabsSessions[userName].push(sessions[userName]);
 		}
-	sessions[userName].push(session);
+    sessions[userName] = session;
     var configuration = conf.conf(userName);
     var user = conf.userByName(userName);
     var userForInitializeMsg = conf.flattenKVListDataIfOptimizeConfig(req, user);
@@ -193,6 +212,7 @@ sessionClosed = (session, req) => {
 	var userName = auth.userByCode(req);
 	if (userName) {
 		delete sessions[userName];
+		secondaryTabsSessions[userName] = [];
 		reporting.unsubscribe(userName);
 	}
 }
