@@ -74,7 +74,6 @@ exports.getSessions = (req, res) => {
 	return _.keys(sessions);
 }
 
-
 exports.publish = (req, channel, msg) => {
 	var userName = _.isString(req) ? req : auth.userByCode(req);
 	var session = sessions[userName];
@@ -112,9 +111,7 @@ publish2 = (session, channel, msg) => {
 	if (session) {
 		session.deliver(null, channel, msg);
 	}
-	
 }
-
 
 publishWorkspaceInitializationProgress = (session, percentComplete, user, configuration) => {
 	var msg = {
