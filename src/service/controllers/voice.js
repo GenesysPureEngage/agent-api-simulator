@@ -246,7 +246,7 @@ exports.handleCall = (req, res) => {
     agentCall.state = "Held";
     reportCallStateForAgent(userName, agentCall);
     utils.sendOkStatus(req, res);
-    exports.publishCallEvent(agentCall, userName);
+    exports.publishCallEvent(call, userName);
 
     if (req.body.data && req.body.data.destination) {
       var destUser = conf.userByDestination(req.body.data.destination);
