@@ -7,11 +7,10 @@ WORKDIR /app/agent-api-simulator
 COPY . .
 
 # Install dependencies
-
 RUN npm install
+RUN npm run install
 
 # Build
-
 RUN npm run build
 
 # Expose the ports
