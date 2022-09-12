@@ -288,12 +288,16 @@ exports.handleCall = (req, res) => {
     exports.publishCallEvent(call, userName);
     call.callByUserName[newDestUserName] = call.callByUserName[call.destUser.userName];
     call.state = "Released";
-    exports.publishAgentCallEvent(call.destUser.userName, call.originCall);
+    exports.publishAgentCallEvent(call.destUser.userName, call.destCall);
+    exports.publishAgentCallEvent(call.originUser.userName, call.originCall);
     call.destUser = newDestination;
     call.destUserName = newDestUserName;
     call.state = "Ringing";
     transferedCalls[call.id] = {};
     Object.assign(transferedCalls[call.id], agentCall);
+    call.originCall.dnis = newDestination.agentLogin;
+    call.originCall.participants[0].number = newDestination.agentLogin;
+
     exports.publishAgentCallEvent(newDestUserName, call.originCall);
     break;
   case "complete-transfer":
