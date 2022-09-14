@@ -227,6 +227,9 @@ exports.handleCall = (req, res) => {
       call.onEstablished();
       reportCallState(call);
       utils.sendOkStatus(req, res);
+      if (call.isConference) {
+        exports.publishAgentCallEvent(user.userName, call.destCall);
+      }
       exports.publishCallEvent(call);
     }
     break;
@@ -265,7 +268,7 @@ exports.handleCall = (req, res) => {
     }
     break;
   case "single-step-conference":
-    call.state = "Established";
+    call.state = "Ringing";
     const newAgent = conf.userByDestination(req.body.data.destination);
     call.callByUserName[newAgent.userName] = call.callByUserName[call.destUser.userName];
     if (destUser) {
@@ -274,7 +277,8 @@ exports.handleCall = (req, res) => {
       participantAdded.number = req.body.data.destination;
     }
     participantAdded.role = "RoleNewParty";
-    call.onEstablished(participantAdded, req.params.fn);   
+    call.originCall.participants.push(participantAdded);
+    call.destCall.participants.push(participantAdded);
     call.originCall.participants[0].number = originContact.phoneNumbers[0];
     call.destCall.participants[0].number = originContact.phoneNumbers[0];
     exports.publishAgentCallEvent(newAgent.userName, call.originCall)
@@ -297,7 +301,6 @@ exports.handleCall = (req, res) => {
     Object.assign(transferedCalls[call.id], agentCall);
     call.originCall.dnis = newDestination.agentLogin;
     call.originCall.participants[0].number = newDestination.agentLogin;
-
     exports.publishAgentCallEvent(newDestUserName, call.originCall);
     break;
   case "complete-transfer":
