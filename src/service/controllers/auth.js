@@ -216,7 +216,7 @@ exports.version = (req, res) => {
 	var userName = userByCode(req, req.body.code);
 	if (userName) {
 		// fetch workspace version from the ui-assets
-		fs.readFile(path.join(__dirname, "../../../ui-assets/wwe/version.json"), { encoding: 'utf8' }, (err, data) => {
+		fs.readFile(path.join(__dirname, "../../../GWS-version.json"), { encoding: 'utf8' }, (err, data) => {
 			if (err) {
 				res.status(500).json({ message: 'Unknown version' });
 			} else {
