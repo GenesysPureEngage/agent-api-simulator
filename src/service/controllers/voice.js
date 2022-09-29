@@ -293,7 +293,9 @@ exports.handleCall = (req, res) => {
     call.callByUserName[newDestUserName] = call.callByUserName[call.destUser.userName];
     call.state = "Released";
     exports.publishAgentCallEvent(call.destUser.userName, call.destCall);
-    exports.publishAgentCallEvent(call.originUser.userName, call.originCall);
+    if(call.originUser && call.originUser.userName) {
+      exports.publishAgentCallEvent(call.originUser.userName, call.originCall);
+    }
     call.destUser = newDestination;
     call.destUserName = newDestUserName;
     call.state = "Ringing";
