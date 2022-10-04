@@ -49,6 +49,7 @@ Install dependencies:
 
 ```shell
 npm install
+npm run install
 ```
 
 Build the front end:
