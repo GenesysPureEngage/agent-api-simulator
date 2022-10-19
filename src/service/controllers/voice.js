@@ -286,24 +286,39 @@ exports.handleCall = (req, res) => {
   case "single-step-transfer":
     const newDestination = conf.userByDestination(req.body.data.destination);
     const newDestUserName = newDestination ? newDestination.userName : null;
+    let isOutboundCall = false;
     reportCallState(call);
     rmm.recordInteractionComplete(userName, agentCall.id);
     utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call, userName);
-    call.callByUserName[newDestUserName] = call.callByUserName[call.destUser.userName];
     call.state = "Released";
-    exports.publishAgentCallEvent(call.destUser.userName, call.destCall);
+    if(call.destUser && call.destUser.userName) {
+      call.callByUserName[newDestUserName] = call.callByUserName[call.destUser.userName];
+      exports.publishAgentCallEvent(call.destUser.userName, call.destCall);
+      call.originCall.dnis = newDestination.agentLogin;
+      call.originCall.participants[0].number = newDestination.agentLogin;
+    }
     if(call.originUser && call.originUser.userName) {
       exports.publishAgentCallEvent(call.originUser.userName, call.originCall);
+      exports.publishAgentCallEvent(call.originUser.userName, call.destCall);
     }
+    if(!call.destUser) {
+      isOutboundCall = true;
+      call.destCall.phoneNumber = call.originCall.participants[0].number;
+      call.destCall.participants[0] = call.originCall.participants[0];
+    }  
+    exports.publishCallEvent(call, userName);
     call.destUser = newDestination;
     call.destUserName = newDestUserName;
     call.state = "Ringing";
     transferedCalls[call.id] = {};
     Object.assign(transferedCalls[call.id], agentCall);
-    call.originCall.dnis = newDestination.agentLogin;
-    call.originCall.participants[0].number = newDestination.agentLogin;
-    exports.publishAgentCallEvent(newDestUserName, call.originCall);
+    if(isOutboundCall) {
+      call.callByNumber[call.originCall.participants[0].number] = call.callByNumber[call.originUser.agentLogin]
+      call.destCall.phoneNumber = call.originCall.participants[0].number;
+      call.originNumber = newDestination.agentLogin;
+      call.originUser = undefined;
+    }
+    exports.publishAgentCallEvent(newDestUserName, call.destCall);
     break;
   case "complete-transfer":
     const parentCall = calls[call.originCall.parentConnId];
@@ -370,8 +385,11 @@ exports.handleCall = (req, res) => {
     break;
   case "complete":
   	if (!checkIfCallMonitored(req, res, call, user, 'Completed')) {
-      if (!agentCall || Object.keys(call.callByUserName).length != 0) {
+      if ((!agentCall || Object.keys(call.callByUserName).length != 0)) {
         agentCall = call.callByUserName[userName];
+        if(!agentCall) {
+          agentCall = call.callByNumber[call.destCall.phoneNumber];
+        }
         agentCall.state = "Completed";
         call.deleteCall(user);
       }
