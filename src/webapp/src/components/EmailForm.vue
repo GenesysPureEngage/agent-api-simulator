@@ -46,15 +46,33 @@ export default {
   data: () => {
     return {
       content: "Hello, world",
-      subject: "Hello world",
-      from: "genesys@mail.dom"
+      subject: "Hello world"
     };
   },
       computed:{
       ...mapGetters([
         'contactEmail', 
         'contacts'
-      ])
+      ]),
+      from: {
+        set(val) {
+          this.$store.dispatch("changeContactEmail", val);
+        },
+        get() {
+          if (!this.$store.getters.contactEmail) {
+              return this.defaultContact;
+          }
+          return this.$store.getters.contactEmail;
+        }
+      },
+      defaultContact: {
+        get() {
+          if (this.contacts && this.contacts.length) {
+              return this.contacts[1].email;
+          }
+          return "genesys@mail.dom";
+        }
+    }
     },
   methods: {
     createEmail() {

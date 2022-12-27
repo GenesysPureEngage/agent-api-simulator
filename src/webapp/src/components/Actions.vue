@@ -15,7 +15,7 @@
         id="new-inbound-call"
         :disabled="!selectedSession"
         type="button"
-        @click="() => createCall('Inbound', contactNumber)"
+        @click="() => createCall('Inbound', contactNumber, this.defaultContact)"
       >
         New inbound call
       </button>
@@ -91,17 +91,29 @@ export default {
         this.$store.dispatch("changeContactNumber", val);
         },
         get() {
+          if (!this.$store.getters.contactNumber){
+            return this.defaultContact;
+          }
          return this.$store.getters.contactNumber;
       }
       
+    },
+    defaultContact: {
+      get() {
+        if (this.contacts && this.contacts.length){
+            return this.contacts[0].phoneNumber;
+          }
+          return null;
+      }
     }
+
     },
     methods:{
-      createCall(callType, orig) {
+      createCall(callType, orig, defaultOrig) {
         axios.post('/sim/manage/voice/create-call',{
           agent: this.selectedSession,
           callType: callType,
-          orig: orig,
+          orig: orig || defaultOrig,
           defaultAttachedData: this.defaultAttachedData,
           callNumber: 'orig'
         }).then(() => {
