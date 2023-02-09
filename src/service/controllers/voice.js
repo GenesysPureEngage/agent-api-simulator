@@ -230,7 +230,13 @@ exports.handleCall = (req, res) => {
       if (call.isConference) {
         exports.publishAgentCallEvent(user.userName, call.destCall);
       }
-      exports.publishCallEvent(call);
+      const operationId = req.body ? req.body.operationId : '';
+      if (call.originUser) {
+        exports.publishAgentCallEvent(call.originUser.userName, call.originCall, null, operationId);
+      }
+      if (call.destUser) {
+        exports.publishAgentCallEvent(call.destUser.userName, call.destCall, null, operationId);
+      }
     }
     break;
   case "hold":
