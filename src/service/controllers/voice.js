@@ -230,7 +230,8 @@ exports.handleCall = (req, res) => {
       if (call.isConference) {
         exports.publishAgentCallEvent(user.userName, call.destCall);
       }
-      exports.publishCallEvent(call);
+      const operationId = req.body ? req.body.operationId : '';
+      exports.publishCallEvent(call, operationId);
     }
     break;
   case "hold":
@@ -249,7 +250,7 @@ exports.handleCall = (req, res) => {
     agentCall.state = "Held";
     reportCallStateForAgent(userName, agentCall);
     utils.sendOkStatus(req, res);
-    exports.publishCallEvent(call, userName);
+    exports.publishCallEvent(call);
 
     if (req.body.data && req.body.data.destination) {
       var destUser = conf.userByDestination(req.body.data.destination);
@@ -306,7 +307,7 @@ exports.handleCall = (req, res) => {
       call.destCall.phoneNumber = call.originCall.participants[0].number;
       call.destCall.participants[0] = call.originCall.participants[0];
     }  
-    exports.publishCallEvent(call, userName);
+    exports.publishCallEvent(call);
     call.destUser = newDestination;
     call.destUserName = newDestUserName;
     call.state = "Ringing";
@@ -693,12 +694,12 @@ consolidateKey = (array, property) => {
   });
 };
 
-exports.publishCallEvent = (call) => {
+exports.publishCallEvent = (call, operationId) => {
   if (call.originUser) {
-    exports.publishAgentCallEvent(call.originUser.userName, call.originCall);
+    exports.publishAgentCallEvent(call.originUser.userName, call.originCall, null, operationId);
   }
   if (call.destUser) {
-    exports.publishAgentCallEvent(call.destUser.userName, call.destCall);
+    exports.publishAgentCallEvent(call.destUser.userName, call.destCall, null, operationId);
   }
 };
 
