@@ -104,7 +104,7 @@ router.use('/workspace/v3/voice/make-call', (req, res) => {
       req.body.data.extensions
     );
   }
-  voice.makeCall(call);
+  voice.publishCallEvent(call);
   // respond with default response
   res.send(defaultResponse());
 });

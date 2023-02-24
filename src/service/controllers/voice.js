@@ -84,28 +84,6 @@ exports.initializeDnData = (user) => {
   }
 };
 
-exports.makeCall = call => {
-  exports.publishCallEvent(call);
-
-  //Wait 5 seconds (5000ms) after making call for answer
-  setTimeout(() => {
-    /**
-     * If call hasn't been answered and entered 'Established' state then set state to
-     * 'Established' to simulate answering of call by recpient/destination party.
-     */
-    if (
-      calls[call.id].state &&
-      ["Ringing", "Dialing"].includes(calls[call.id].state)
-    ) {
-      call.state = "Established";
-      call.onEstablished();
-      reportCallState(call);
-      exports.publishCallEvent(call);
-    }
-  }, 5000);
-  return call;
-};
-
 reportCallState = call => {
   if (call.originUser) {
     reportCallStateForAgent(call.originUserName, call.originCall);
@@ -263,7 +241,7 @@ exports.handleCall = (req, res) => {
         req.body.data.destination
       );
       consultCall.parentConnId = call.id; //associate consult with the parent call
-      exports.makeCall(consultCall); //make the Consult call
+      exports.publishCallEvent(consultCall); //make the Consult call
       reportCallState(consultCall);
     }
     break;
