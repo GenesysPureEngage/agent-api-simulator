@@ -84,9 +84,11 @@ exports.initializeDnData = (user) => {
   }
 };
 
-exports.makeCall = call => {
+exports.makeCall = (call, autoAnswer = true) => {
   exports.publishCallEvent(call);
-
+  if(!autoAnswer) {
+    return call;
+  }
   //Wait 5 seconds (5000ms) after making call for answer
   setTimeout(() => {
     /**
@@ -264,7 +266,7 @@ exports.handleCall = (req, res) => {
         req.body.data.destination
       );
       consultCall.parentConnId = call.id; //associate consult with the parent call
-      exports.makeCall(consultCall); //make the Consult call
+      exports.makeCall(consultCall, false); //make the Consult call
       reportCallState(consultCall);
     }
     break;
