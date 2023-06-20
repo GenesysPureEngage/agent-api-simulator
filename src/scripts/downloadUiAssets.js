@@ -218,7 +218,9 @@ function checkUrls(baseUrl, path = '') {
         resolve('retry');
       }
       const profile = body;
-      resolve((profile && profile.includes('window.genesys.wwe.env.GWS_SERVICE_URL')));
+      // Comment present only on Azure: "Service Discovery Expression and Service URL"
+      // Comment present only for AWS: "Service Discovery AWS test"
+      resolve((profile && profile.includes('Service Discovery Expression and Service URL')));
     })
   }));
 }
@@ -257,7 +259,7 @@ function getGwsApiUri(baseUrl) {
         }
       }
       resolve(gwsApiUri);
-      
+
     })
   }))
 }
@@ -420,11 +422,12 @@ async function main() {
   console.log("Downloading from", url);
 
   try {
-    let isSeparatedUIAndServicePlatform;   
+    let isSeparatedUIAndServicePlatform;
     isSeparatedUIAndServicePlatform = await checkUrls(url);
     if(isSeparatedUIAndServicePlatform === 'retry') {
       isSeparatedUIAndServicePlatform= await checkUrls(url, 'ui/wwe/');
     }
+    console.log(`isSeparatedUIAndServicePlatform = ${isSeparatedUIAndServicePlatform}`);
     if (isSeparatedUIAndServicePlatform === true) {
       gwsUrl = await getGwsApiUri(url);
       authUrl = await getAuthURL(gwsUrl, url);
